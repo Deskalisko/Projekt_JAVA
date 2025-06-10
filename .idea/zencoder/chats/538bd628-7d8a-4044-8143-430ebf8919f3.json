@@ -1,0 +1,164 @@
+{
+    "checksum": "4cfc361ed06738ee42357b3d12a67ecc98a5547a7a37c151f17729a7ed755aa9",
+    "data": {
+    "id": "538bd628-7d8a-4044-8143-430ebf8919f3",
+    "createdAt": 1748603197268,
+    "updatedAt": 1748603220155,
+    "title": "Java Code Error Resolution",
+    "messages": [
+        {
+            "id": "6b835189-ab3c-49bb-8934-afe6f6e6a63b",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "<WarehouseOrder>",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "Cannot resolve symbol 'WarehouseOrder'"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\DAO\\WarehouseOrderDAO.java",
+                    "fsPath": "C:/Users/Dominik/IdeaProjects/Projekt/src/DAO/WarehouseOrderDAO.java",
+                    "content": "package DAO;\nimport java.sql.*;\nimport java.util.ArrayList;\nimport java.util.List;\nimport model.WarehouseOrder;\npublic class WarehouseOrderDAO {\n    public void createWarehouseOrder(int productId, int quantity, String supplier) throws SQLException {\n        String sql = \"INSERT INTO zamowienia_magazynowe (produkt_id, ilosc, dostawca, data_zamowienia, zrealizowano) VALUES (?, ?, ?, NOW(), false)\";\n\n        try (Connection conn = DatabaseConnection.getConnection();\n             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {\n\n            stmt.setInt(1, productId);\n            stmt.setInt(2, quantity);\n            stmt.setString(3, supplier);\n            stmt.executeUpdate();\n        }\n    }\n\n    public List<WarehouseOrder> getAllWarehouseOrders() throws SQLException {\n        List<WarehouseOrder> orders = new ArrayList<>();\n        String sql = \"SELECT * FROM zamowienia_magazynowe ORDER BY data_zamowienia DESC\";\n\n        try (Connection conn = DatabaseConnection.getConnection();\n             PreparedStatement stmt = conn.prepareStatement(sql);\n             ResultSet rs = stmt.executeQuery()) {\n\n            while (rs.next()) {\n                WarehouseOrder order = new WarehouseOrder(\n                        rs.getInt(\"id\"),\n                        rs.getInt(\"produkt_id\"),\n                        rs.getInt(\"ilosc\"),\n                        rs.getTimestamp(\"data_zamowienia\"),\n                        rs.getString(\"dostawca\"),\n                        rs.getBoolean(\"zrealizowano\")\n                );\n                orders.add(order);\n            }\n        }\n        return orders;\n    }\n\n    public void markOrderAsCompleted(int orderId) throws SQLException {\n        String sql = \"UPDATE zamowienia_magazynowe SET zrealizowano = true WHERE id = ?\";\n\n        try (Connection conn = DatabaseConnection.getConnection();\n             PreparedStatement stmt = conn.prepareStatement(sql)) {\n\n            stmt.setInt(1, orderId);\n            stmt.executeUpdate();\n        }\n    }\n}",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748603197268,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "<WarehouseOrder>"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "Cannot resolve symbol 'WarehouseOrder'"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "88a38284-6632-4c12-bf4b-84c775e9cce8",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I'll help you fix the \"Cannot resolve symbol 'WarehouseOrder'\" error. This error typically occurs when the Java class is not found or imported correctly.\n\nFirst, let's check if the `WarehouseOrder` model class exists in your project:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01RTtYXU3yXwd7Uqd9N7yFwm",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I found the `WarehouseOrder.java` file, but it's located in the `src` directory, not in the `model` package as your import statement suggests. Let's examine the `WarehouseOrder.java` file to understand its package declaration:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01QkGn1osksEDVMqfX9nGSVU",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/WarehouseOrder.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\WarehouseOrder.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I understand the issue. The `WarehouseOrder` class is in the `src` package, but in your `WarehouseOrderDAO.java` file, you're trying to import it from the `model` package.\n\nLet's fix the import statement in the `WarehouseOrderDAO.java` file:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01A1x3VzvQfd63iQ9mQuaXLr",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/DAO/WarehouseOrderDAO.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\DAO\\WarehouseOrderDAO.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/DAO/WarehouseOrderDAO.java\n+++ src/DAO/WarehouseOrderDAO.java\n@@ -2,7 +2,7 @@\n import java.sql.*;\n import java.util.ArrayList;\n import java.util.List;\n-import model.WarehouseOrder;\n+import src.WarehouseOrder;\n public class WarehouseOrderDAO {\n     public void createWarehouseOrder(int productId, int quantity, String supplier) throws SQLException {\n         String sql = \"INSERT INTO zamowienia_magazynowe (produkt_id, ilosc, dostawca, data_zamowienia, zrealizowano) VALUES (?, ?, ?, NOW(), false)\";",
+                    "refToolCallId": "toolu_01A1x3VzvQfd63iQ9mQuaXLr"
+                },
+                {
+                    "type": "text",
+                    "text": "I've updated the import statement in `WarehouseOrderDAO.java` to correctly import the `WarehouseOrder` class from the `src` package instead of the `model` package.\n\nThe error \"Cannot resolve symbol 'WarehouseOrder'\" should now be fixed. The code will now properly recognize the `WarehouseOrder` class."
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/DAO/WarehouseOrderDAO.java",
+                            "patch": "@@ -91,13 +91,11 @@\n ort \n-model\n+src\n .War\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "515a4657-fb13-4bd5-a923-4332e613932a"
+            },
+            "createdAt": 1748603198317,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false
+}
+}

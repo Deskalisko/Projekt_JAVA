@@ -1,0 +1,295 @@
+{
+    "checksum": "cd583ee62c06303e6d6bbdae695dbe213f84755c72bac81590397ab682dbe369",
+    "data": {
+    "id": "6c35e35b-0869-4172-bc6d-6d35201b8865",
+    "createdAt": 1748711796287,
+    "updatedAt": 1748711876333,
+    "title": "/fix import MainForm; Class 'MainForm' is in th...",
+    "messages": [
+        {
+            "id": "091d4c1f-2b8d-4623-91be-178b8a847dd8",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "import MainForm;",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "Class 'MainForm' is in the default package"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\ShopWholeSaleForm.java",
+                    "fsPath": "C:/Users/Dominik/IdeaProjects/Projekt/src/Shopping/ShopWholeSaleForm.java",
+                    "content": "package Shopping;\n\nimport Customer.AddEditWholeSaleCustomer;\nimport DAO.DatabaseConnection;\nimport DAO.OrderDAO;\nimport DAO.ProductsDAO;\nimport Products.Product;\nimport MainForm;\n\nimport javax.swing.*;\nimport java.awt.*;\nimport java.awt.event.ActionEvent;\nimport java.awt.event.ActionListener;\nimport java.sql.Connection;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.SQLException;\nimport java.util.Date;\nimport java.util.List;\nimport java.util.Map;\n\npublic class ShopWholeSaleForm extends JFrame {\n    private JPanel Panel1;\n    private JPanel baner;\n    private JPanel mainPanel;\n    private JPanel customerDataPanel;\n    private JButton editDataButton;\n    private JButton placeOrderButton;\n    private JButton addToCartButton;\n    private JPanel cartPanel;\n    private JSpinner quantitySpinner;\n    private JPanel productsPanel;\n    private JTable productsTable;\n    private JTable cartTable;\n    private JLabel statusLabel;\n    private JPanel cartButtonsPanel;\n    private Cart koszyk;\n    private KoszykTableModel cartTableModel;\n    private ProductTableModel productsTableModel;\n    private int customerId;\n    private JButton removeFromCartButton;\n    private JButton logoutButton;\n\n    public ShopWholeSaleForm(int customerId) {\n        this.customerId = customerId;\n        this.koszyk = new Cart();\n\n        this.setTitle(\"Panel Klienta Hurtowego\");\n        this.setSize(1200, 1100);\n        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);\n        this.setLocationRelativeTo(null);\n\n        initializeComponents();\n        this.setContentPane(Panel1);\n\n        loadCustomerData();\n        loadProducts();\n        setupTimer();\n\n        this.setVisible(true);\n    }\n\n    private void setupTimer() {\n        new Timer(1000, new ActionListener() {\n            @Override\n            public void actionPerformed(ActionEvent e) {\n                statusLabel.setText(\"Użytkownik: Klient hurtowy | Data: \" + new Date().toString());\n            }\n        }).start();\n    }\n\n    private void loadProducts() {\n        try {\n            ProductsDAO dao = new ProductsDAO();\n            List<Product> products = dao.getAllProductsForWholesale();\n            productsTableModel.setProducts(products);\n        } catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd ładowania produktów: \" + e.getMessage(), \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            e.printStackTrace();\n        }\n    }\n\n    private void initializeComponents() {\n        // Główny panel z gradientowym tłem\n        Panel1 = new JPanel(new BorderLayout()) {\n            @Override\n            protected void paintComponent(Graphics g) {\n                super.paintComponent(g);\n                Graphics2D g2d = (Graphics2D) g;\n                Color color1 = new Color(240, 240, 240);\n                Color color2 = new Color(200, 216, 232);\n                GradientPaint gp = new GradientPaint(0, 0, color1, 0, getHeight(), color2);\n                g2d.setPaint(gp);\n                g2d.fillRect(0, 0, getWidth(), getHeight());\n            }\n        };\n        Panel1.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));\n\n        // Główny panel z podziałem na sekcje\n        mainPanel = new JPanel(new BorderLayout(15, 15));\n        mainPanel.setOpaque(false);\n\n        // Panel danych klienta\n        customerDataPanel = new JPanel(new GridBagLayout());\n        customerDataPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createTitledBorder(\n                        BorderFactory.createLineBorder(new Color(70, 130, 180), 2),\n                        \"Twoje dane\",\n                        javax.swing.border.TitledBorder.LEFT,\n                        javax.swing.border.TitledBorder.TOP,\n                        new Font(\"SansSerif\", Font.BOLD, 14),\n                        new Color(70, 130, 180)\n                ),\n                BorderFactory.createEmptyBorder(15, 15, 15, 15)\n        ));\n        customerDataPanel.setBackground(new Color(240, 248, 255));\n        customerDataPanel.setOpaque(true);\n\n        // Przyciski w panelu danych klienta\n        JPanel customerButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));\n        customerButtonsPanel.setOpaque(false);\n\n        editDataButton = new JButton(\"Edytuj dane\");\n        styleButton(editDataButton, new Color(70, 130, 180));\n        editDataButton.addActionListener(e -> editCustomerData());\n        customerButtonsPanel.add(editDataButton);\n\n        logoutButton = new JButton(\"Wyloguj\");\n        styleButton(logoutButton, new Color(178, 34, 34));\n        logoutButton.addActionListener(e -> {\n            wylouj();\n        });\n        customerButtonsPanel.add(logoutButton);\n\n        GridBagConstraints gbc = new GridBagConstraints();\n        gbc.gridx = 0;\n        gbc.gridy = 0;\n        gbc.gridwidth = 2;\n        gbc.anchor = GridBagConstraints.EAST;\n        gbc.insets = new Insets(0, 0, 15, 0);\n        customerDataPanel.add(customerButtonsPanel, gbc);\n\n        // Panel produktów\n        productsPanel = new JPanel(new BorderLayout(10, 10));\n        productsPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createTitledBorder(\n                        BorderFactory.createLineBorder(new Color(60, 179, 113), 2),\n                        \"Lista produktów\",\n                        javax.swing.border.TitledBorder.LEFT,\n                        javax.swing.border.TitledBorder.TOP,\n                        new Font(\"SansSerif\", Font.BOLD, 14),\n                        new Color(60, 179, 113)\n                ),\n                BorderFactory.createEmptyBorder(15, 15, 15, 15)\n        ));\n        productsPanel.setBackground(new Color(240, 255, 240));\n        productsPanel.setOpaque(true);\n        productsPanel.setPreferredSize(new Dimension(0, 450));\n        productsPanel.setMinimumSize(new Dimension(0, 350));\n\n        productsTableModel = new ProductTableModel();\n        productsTable = new JTable(productsTableModel);\n        styleTable(productsTable);\n        productsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);\n        JScrollPane productsScrollPane = new JScrollPane(productsTable);\n        productsScrollPane.setPreferredSize(new Dimension(0, 250));\n        productsPanel.add(productsScrollPane, BorderLayout.CENTER);\n\n        // Panel kontroli produktów\n        JPanel productsControlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));\n        productsControlPanel.setOpaque(false);\n        quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));\n        ((JSpinner.DefaultEditor) quantitySpinner.getEditor()).getTextField().setColumns(3);\n\n        addToCartButton = new JButton(\"Dodaj do koszyka\");\n        styleButton(addToCartButton, new Color(60, 179, 113));\n        addToCartButton.addActionListener(e -> addToCart());\n\n        productsControlPanel.add(new JLabel(\"Ilość: \"));\n        productsControlPanel.add(quantitySpinner);\n        productsControlPanel.add(Box.createHorizontalStrut(20));\n        productsControlPanel.add(addToCartButton);\n        productsPanel.add(productsControlPanel, BorderLayout.SOUTH);\n\n        // Panel koszyka\n        cartPanel = new JPanel(new BorderLayout(10, 10));\n        cartPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createTitledBorder(\n                        BorderFactory.createLineBorder(new Color(218, 165, 32), 2),\n                        \"Koszyk\",\n                        javax.swing.border.TitledBorder.LEFT,\n                        javax.swing.border.TitledBorder.TOP,\n                        new Font(\"SansSerif\", Font.BOLD, 14),\n                        new Color(218, 165, 32)\n                ),\n                BorderFactory.createEmptyBorder(15, 15, 15, 15)\n        ));\n        cartPanel.setBackground(new Color(255, 248, 220));\n        cartPanel.setOpaque(true);\n        cartPanel.setPreferredSize(new Dimension(0, 300));\n\n        cartTableModel = new KoszykTableModel(koszyk);\n        cartTable = new JTable(cartTableModel);\n        styleTable(cartTable);\n        JScrollPane cartScrollPane = new JScrollPane(cartTable);\n        cartScrollPane.setPreferredSize(new Dimension(0, 200));\n        cartPanel.add(cartScrollPane, BorderLayout.CENTER);\n\n        // Przyciski koszyka\n        cartButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 5));\n        cartButtonsPanel.setOpaque(false);\n\n        removeFromCartButton = new JButton(\"Usuń z koszyka\");\n        styleButton(removeFromCartButton, new Color(205, 92, 92));\n        removeFromCartButton.addActionListener(e -> removeFromCart());\n        cartButtonsPanel.add(removeFromCartButton);\n\n        placeOrderButton = new JButton(\"Złóż zamówienie\");\n        styleButton(placeOrderButton, new Color(218, 165, 32));\n        placeOrderButton.addActionListener(e -> placeOrder());\n        cartButtonsPanel.add(placeOrderButton);\n\n        cartPanel.add(cartButtonsPanel, BorderLayout.SOUTH);\n\n        // Dodanie komponentów do głównego panelu\n        mainPanel.add(customerDataPanel, BorderLayout.NORTH);\n        mainPanel.add(productsPanel, BorderLayout.CENTER);\n        mainPanel.add(cartPanel, BorderLayout.SOUTH);\n\n        Panel1.add(mainPanel, BorderLayout.CENTER);\n\n        // Panel statusu\n        statusLabel = new JLabel(\"Użytkownik: Klient hurtowy | Data: \");\n        statusLabel.setFont(new Font(\"SansSerif\", Font.PLAIN, 12));\n        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));\n        statusPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));\n        statusPanel.setOpaque(false);\n        statusPanel.add(statusLabel);\n        Panel1.add(statusPanel, BorderLayout.SOUTH);\n    }\n\n    private void wylouj() {\n        dispose();\n        MainForm mainform = new MainForm();\n    }\n\n    private void removeFromCart() {\n        int selectedRow = cartTable.getSelectedRow();\n        if (selectedRow >= 0) {\n            Product product = cartTableModel.getProductAt(selectedRow);\n            koszyk.usunProdukt(product);\n            cartTableModel.fireTableDataChanged();\n        } else {\n            JOptionPane.showMessageDialog(this, \"Nie wybrano produktu do usunięcia!\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void styleButton(JButton button, Color color) {\n        button.setBackground(color);\n        button.setForeground(Color.WHITE);\n        button.setFont(new Font(\"SansSerif\", Font.BOLD, 12));\n        button.setFocusPainted(false);\n        button.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createLineBorder(color.darker()),\n                BorderFactory.createEmptyBorder(8, 20, 8, 20)\n        ));\n        button.setCursor(new Cursor(Cursor.HAND_CURSOR));\n    }\n\n    private void styleTable(JTable table) {\n        table.setFont(new Font(\"SansSerif\", Font.PLAIN, 12));\n        table.setRowHeight(30);\n        table.setShowGrid(true);\n        table.setGridColor(new Color(220, 220, 220));\n        table.setSelectionBackground(new Color(200, 200, 255));\n        table.setSelectionForeground(Color.BLACK);\n        table.setIntercellSpacing(new Dimension(0, 0));\n        table.setFillsViewportHeight(true);\n\n        // Lepsze nagłówki tabeli\n        table.getTableHeader().setFont(new Font(\"SansSerif\", Font.BOLD, 12));\n        table.getTableHeader().setBackground(new Color(230, 230, 230));\n        table.getTableHeader().setForeground(Color.BLACK);\n    }\n\n    private void loadCustomerData() {\n        String sql = \"SELECT * FROM klienci_hurtowi WHERE id = ?\";\n        try (Connection conn = DatabaseConnection.getConnection();\n             PreparedStatement stmt = conn.prepareStatement(sql)) {\n            stmt.setInt(1, customerId);\n            ResultSet rs = stmt.executeQuery();\n\n            if (rs.next()) {\n                GridBagConstraints gbc = new GridBagConstraints();\n                gbc.gridx = 0;\n                gbc.gridy = 1;\n                gbc.anchor = GridBagConstraints.WEST;\n                gbc.insets = new Insets(5, 5, 5, 20);\n\n                addCustomerDataRow(\"Imię:\", rs.getString(\"imie\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"Nazwisko:\", rs.getString(\"nazwisko\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"Firma:\", rs.getString(\"nazwa_firmy\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"NIP:\", rs.getString(\"NIP\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"Adres:\", rs.getString(\"adres\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"Telefon:\", rs.getString(\"telefon\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"Email:\", rs.getString(\"email\"), gbc);\n                gbc.gridy++;\n                addCustomerDataRow(\"Suma zakupów:\", String.format(\"%.2f zł\", rs.getDouble(\"suma_zakupow\")), gbc);\n            }\n        } catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd ładowania danych klienta: \" + e.getMessage(),\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void addCustomerDataRow(String label, String value, GridBagConstraints gbc) {\n        gbc.gridx = 0;\n        JLabel lbl = new JLabel(label);\n        lbl.setFont(new Font(\"SansSerif\", Font.BOLD, 12));\n        customerDataPanel.add(lbl, gbc);\n\n        gbc.gridx = 1;\n        JLabel val = new JLabel(value);\n        val.setFont(new Font(\"SansSerif\", Font.PLAIN, 12));\n        customerDataPanel.add(val, gbc);\n    }\n\n    private void addToCart() {\n        int selectedRow = productsTable.getSelectedRow();\n        if (selectedRow >= 0) {\n            Product product = productsTableModel.getProductAt(selectedRow);\n            int quantity = (int) quantitySpinner.getValue();\n            if (quantity > product.getIlosc()) {\n                JOptionPane.showMessageDialog(this, \"Wybrana ilość jest większa niż dostępna w magazynie!\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n                return;\n            }\n            koszyk.dodajProdukt(product, quantity);\n            cartTableModel.fireTableDataChanged();\n        } else {\n            JOptionPane.showMessageDialog(this, \"Nie wybrano produktu!\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void placeOrder() {\n        if (koszyk.getProdukty().isEmpty()) {\n            JOptionPane.showMessageDialog(this, \"Koszyk jest pusty!\",\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            return;\n        }\n\n        double totalAmount = koszyk.obliczCalkowitaSume();\n        if (totalAmount < 50.0) {\n            JOptionPane.showMessageDialog(this, \"Minimalna wartość zamówienia dla klienta hurtowego to 50 zł!\",\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            return;\n        }\n\n        try {\n            saveWholeSaleOrder();\n            updateStoreBalance();\n            showOrderConfirmation();\n            koszyk.getProdukty().clear();\n            cartTableModel.fireTableDataChanged();\n        } catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd podczas składania zamówienia: \" + e.getMessage(),\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void saveWholeSaleOrder() throws SQLException {\n        Connection conn = null;\n        try {\n            conn = DatabaseConnection.getConnection();\n            conn.setAutoCommit(false);\n            double totalAmount = koszyk.obliczCalkowitaSume();\n            int transactionId = insertWholesaleTransaction(conn, totalAmount);\n            insertTransactionItems(conn, transactionId);\n            updateClientPurchaseSum(conn, totalAmount);\n            conn.commit();\n        } catch (SQLException e) {\n            if (conn != null) conn.rollback();\n            throw e;\n        } finally {\n            if (conn != null) conn.setAutoCommit(true);\n        }\n    }\n\n    private int insertWholesaleTransaction(Connection conn, double totalAmount) throws SQLException {\n        String sql = \"INSERT INTO transakcje (klient_hurtowy_id, data, calkowita_kwota, typ, metoda_platnosci) \" +\n                \"VALUES (?, NOW(), ?, 'hurtowy', 'karta')\";\n        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {\n            stmt.setInt(1, customerId);\n            stmt.setDouble(2, totalAmount);\n            stmt.executeUpdate();\n\n            try (var generatedKeys = stmt.getGeneratedKeys()) {\n                if (generatedKeys.next()) {\n                    return generatedKeys.getInt(1);\n                } else {\n                    throw new SQLException(\"Creating transaction failed, no ID obtained.\");\n                }\n            }\n        }\n    }\n\n    private void insertTransactionItems(Connection conn, int transactionId) throws SQLException {\n        String insertSql = \"INSERT INTO pozycje_transakcji (transakcja_id, produkt_id, ilosc, cena_jednostkowa) VALUES (?, ?, ?, ?)\";\n        String updateSql = \"UPDATE produkty SET ilosc = ilosc - ? WHERE id = ?\";\n\n        try (PreparedStatement insertStmt = conn.prepareStatement(insertSql);\n             PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {\n\n            for (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {\n                Product product = entry.getKey();\n                int quantity = entry.getValue();\n\n                // Insert transaction item\n                insertStmt.setInt(1, transactionId);\n                insertStmt.setInt(2, product.getId());\n                insertStmt.setInt(3, quantity);\n                insertStmt.setDouble(4, product.getCena());\n                insertStmt.addBatch();\n\n                // Update product quantity\n                updateStmt.setInt(1, quantity);\n                updateStmt.setInt(2, product.getId());\n                updateStmt.addBatch();\n            }\n\n            insertStmt.executeBatch();\n            updateStmt.executeBatch();\n        }\n    }\n\n    private void updateClientPurchaseSum(Connection conn, double totalAmount) throws SQLException {\n        String sql = \"UPDATE klienci_hurtowi SET suma_zakupow = suma_zakupow + ? WHERE id = ?\";\n        try (PreparedStatement stmt = conn.prepareStatement(sql)) {\n            stmt.setDouble(1, totalAmount);\n            stmt.setInt(2, customerId);\n            stmt.executeUpdate();\n        }\n    }\n\n    private void showOrderConfirmation() {\n        StringBuilder message = new StringBuilder();\n        message.append(\"<html><body style='width: 300px;'><h3 style='color: #4682B4;'>Zamówienie zostało złożone!</h3>\");\n        message.append(\"<p><b>Produkty:</b></p><ul>\");\n\n        for (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {\n            message.append(\"<li>\")\n                    .append(entry.getKey().getNazwa())\n                    .append(\" X \")\n                    .append(entry.getValue())\n                    .append(\" - \")\n                    .append(String.format(\"%.2f zł\", entry.getKey().getCena() * entry.getValue()))\n                    .append(\"</li>\");\n        }\n\n        message.append(\"</ul><p style='font-weight: bold;'>Łączna wartość: \")\n                .append(String.format(\"%.2f zł\", koszyk.obliczCalkowitaSume()))\n                .append(\"</p></body></html>\");\n\n        JOptionPane.showMessageDialog(this, message.toString(), \"Potwierdzenie zamówienia\", JOptionPane.INFORMATION_MESSAGE);\n    }\n\n    private void updateStoreBalance() throws SQLException {\n        double totalAmount = koszyk.obliczCalkowitaSume();\n        String query = \"UPDATE finanse_sklepu SET saldo = saldo + ? WHERE id = 1\";\n        try (Connection conn = DatabaseConnection.getConnection();\n             PreparedStatement stmt = conn.prepareStatement(query)) {\n            stmt.setDouble(1, totalAmount);\n            stmt.executeUpdate();\n        }\n    }\n\n    private void editCustomerData() {\n        AddEditWholeSaleCustomer editDialog = new AddEditWholeSaleCustomer(this, customerId);\n        editDialog.setVisible(true);\n        refreshCustomerData();\n    }\n\n    private void refreshCustomerData() {\n        // Zachowaj komponenty, które nie są danymi klienta (przyciski)\n        Component[] components = customerDataPanel.getComponents();\n        JPanel customerButtonsPanel = null;\n\n        // Znajdź panel z przyciskami\n        for (Component comp : components) {\n            if (comp instanceof JPanel) {\n                customerButtonsPanel = (JPanel) comp;\n                break;\n            }\n        }\n\n        // Usuń tylko dane klienta (etykiety z wartościami)\n        for (Component comp : components) {\n            if (comp instanceof JLabel) {\n                customerDataPanel.remove(comp);\n            }\n        }\n\n        // Załaduj ponownie dane klienta\n        loadCustomerData();\n\n        // Jeśli znaleziono panel z przyciskami, dodaj go ponownie\n        if (customerButtonsPanel != null) {\n            GridBagConstraints gbc = new GridBagConstraints();\n            gbc.gridx = 0;\n            gbc.gridy = 0;\n            gbc.gridwidth = 2;\n            gbc.anchor = GridBagConstraints.EAST;\n            gbc.insets = new Insets(0, 0, 15, 0);\n            customerDataPanel.add(customerButtonsPanel, gbc);\n        }\n\n        customerDataPanel.revalidate();\n        customerDataPanel.repaint();\n    }\n}",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748711796287,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "import MainForm;"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "Class 'MainForm' is in the default package"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "8a2cc2d5-6a0b-414d-bc9a-1ad571dfe3e0",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see the issue in the current file. The import statement `import MainForm;` is trying to import a class from the default package, which is not a good practice and can cause issues. Let me first check the structure of the project to understand how to fix this properly."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01NFD1WSyxH9CkdX7uVQAooa",
+                    "statusText": "Viewed folder",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": ".",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\."
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see that `MainForm.java` is in the `src` directory at the root level (default package). Let me check the MainForm class to understand its current package structure:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01G2ARWxB17rg79uHgZna7J8",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/MainForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\MainForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see that `MainForm` is indeed in the default package (no package declaration at the top). The best solution is to move `MainForm` to a proper package. Let me check what other classes are in the default package to understand the pattern:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01H2gzaFXFg74a9nBT2U6M99",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/AdminForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\AdminForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check a few more files to understand the package structure:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01DDXYmB3gdjtN6tYP9d1D3Y",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/ProductForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\ProductForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see that several main form classes (`MainForm`, `AdminForm`, `ProductForm`) are in the default package. The best approach would be to create a proper package structure. Let me create a `forms` package and move `MainForm` there, then update the import in `ShopWholeSaleForm`.\n\nFirst, let me create the forms package and move MainForm:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012P9oJCd6XLRdnqxZVwPgko",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/forms/MainForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\MainForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/forms/MainForm.java\n+++ src/forms/MainForm.java\n@@ -0,0 +1,104 @@\n+package forms;\n+\n+import DAO.UserDAO;\n+import Shopping.ShopRetailForm;\n+import Shopping.ShopWholeSaleForm;\n+\n+import javax.swing.*;\n+import java.awt.event.ActionEvent;\n+import java.awt.event.ActionListener;\n+import java.sql.SQLException;\n+import java.util.Date;\n+\n+public class MainForm extends JFrame {\n+    private JPanel Panel1;\n+    private JLabel Logo;\n+    private JLabel Napis;\n+    private JLabel LOGIN_STATUS;\n+    private JPanel NAVIGATION;\n+    private JButton PRODUCTSButton;\n+    private JButton BUYButton;\n+    private JButton LOGINButton;\n+    private JLabel loginLabel;\n+    private JLabel buyLabel;\n+    private JLabel productsLabel;\n+    private JTextField textField1;\n+    private JPasswordField passwordField1;\n+    private JButton wyjdźButton;\n+    UserDAO dao = new UserDAO();\n+\n+    public MainForm() {\n+        super(\"Centrum Budowlane\");\n+        this.setContentPane(this.Panel1);\n+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n+        this.pack();\n+        this.setVisible(true);\n+        this.setLocationRelativeTo(null);\n+        ImageIcon icon = new ImageIcon(getClass().getResource(\"../figurs/logo.png\"));\n+        setIconImage(icon.getImage());\n+\n+\n+        new Timer(1000, e -> {\n+            Date date = new Date();\n+            LOGIN_STATUS.setText(\"Użytkownik: Niezalogowany\" + \"  [ \" + date.toString()+\" ]\");\n+        }).start();\n+\n+        LOGINButton.addActionListener(new ActionListener() {\n+            @Override\n+            public void actionPerformed(ActionEvent e) {\n+                String Username = textField1.getText();\n+                String Password = new String(passwordField1.getPassword());\n+                try{\n+                    if(dao.authenticateUser(Username,Password,\"admin\")){\n+                        JOptionPane.showMessageDialog(null, \"Zalogowano jako admin\", \"Admin\", JOptionPane.INFORMATION_MESSAGE);\n+                        dispose();\n+                        AdminForm adminForm = new AdminForm();\n+                    } else if (dao.authenticateUser(Username,Password,\"hurtowy\")) {\n+                        int customerId = dao.getUserIdByWholesaleLogin(Username);\n+                        JOptionPane.showMessageDialog(null, \"Zalogowano jako klient hurtowy\", \"Klient hurtowy\", JOptionPane.INFORMATION_MESSAGE);\n+                        dispose();\n+                        ShopWholeSaleForm shopWholeSaleForm = new ShopWholeSaleForm(customerId);\n+                        //LoadingForm loadingForm = new LoadingForm();\n+                    } else {\n+                        JOptionPane.showMessageDialog(null, \"Niepoprawne dane logowania\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n+                    }\n+                } catch (Exception ex) {\n+                    System.out.println(\"Wystąpił błąd: \"+ ex.getMessage());\n+                    JOptionPane.showMessageDialog(null, \"Wystąpił błąd podczas logowania\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n+                    ex.printStackTrace();\n+                }\n+            }\n+        });\n+\n+        BUYButton.addActionListener(new ActionListener() {\n+            @Override\n+            public void actionPerformed(ActionEvent e) {\n+                int option = JOptionPane.showConfirmDialog(null,\n+                        \"Czy jesteś klientem hurtowym?\",\n+                        \"Potwierdź\",\n+                        JOptionPane.YES_NO_OPTION);\n+                if (option == JOptionPane.YES_OPTION) {\n+                    JOptionPane.showMessageDialog(null, \"Proszę się zalogować, aby kontynuować.\",\"Logowanie\", JOptionPane.INFORMATION_MESSAGE);\n+                }else{\n+                   JOptionPane.showMessageDialog(null, \"Wybrano opcję klienta detalicznego\",\"Informacja\",JOptionPane.INFORMATION_MESSAGE);\n+                   dispose();\n+                   ShopRetailForm zakupy = new ShopRetailForm();\n+                }\n+            }\n+        });\n+        PRODUCTSButton.addActionListener(new ActionListener() {\n+            @Override\n+            public void actionPerformed(ActionEvent e) {\n+                ProductForm product = new ProductForm();\n+                dispose();\n+            }\n+        });\n+        wyjdźButton.addActionListener(new ActionListener() {\n+            @Override\n+            public void actionPerformed(ActionEvent e) {\n+                dispose();\n+            }\n+        });\n+    }\n+\n+}",
+                    "refToolCallId": "toolu_012P9oJCd6XLRdnqxZVwPgko"
+                },
+                {
+                    "type": "text",
+                    "text": "Now I need to update the import in `ShopWholeSaleForm.java` to use the new package:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012pKnSyn6sKZcMUuiJ2cvRo",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/Shopping/ShopWholeSaleForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\ShopWholeSaleForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/Shopping/ShopWholeSaleForm.java\n+++ src/Shopping/ShopWholeSaleForm.java\n@@ -5,7 +5,7 @@\n import DAO.OrderDAO;\n import DAO.ProductsDAO;\n import Products.Product;\n-import MainForm;\n+import forms.MainForm;\n \n import javax.swing.*;\n import java.awt.*;",
+                    "refToolCallId": "toolu_012pKnSyn6sKZcMUuiJ2cvRo"
+                },
+                {
+                    "type": "text",
+                    "text": "However, I notice there are references to other classes that are also in the default package. Let me check what other classes need to be updated. I see `AdminForm` and `ProductForm` are referenced in the MainForm. Let me check if they need to be moved as well:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01CreUgvPC4HVZXaoiCQF8zh",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_012HCuG16EFZdgiw47Q1qRvX",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I need to move `AdminForm` and `ProductForm` to the forms package as well and update all references. Let me do this systematically:\n\n1. First, let me move `AdminForm`:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01PHaqzojv1sztnsw9J8CwvJ",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/AdminForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\AdminForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01Xg7LDf6V82Rmb5kbuzES1d",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/forms/AdminForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\AdminForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/forms/AdminForm.java\n+++ src/forms/AdminForm.java\n@@ -0,0 +1,130 @@\n+package forms;\n+\n+import Customer.CustomerList;\n+import DAO.Transaction;\n+import DAO.TransactionDAO;\n+\n+import javax.swing.*;\n+import javax.swing.table.DefaultTableModel;\n+import java.awt.event.ActionEvent;\n+import java.awt.event.ActionListener;\n+import java.sql.SQLException;\n+import java.text.SimpleDateFormat;\n+import java.util.Date;\n+import java.util.List;\n+\n+public class AdminForm extends JFrame {\n+    private JPanel Panel1;\n+    private JLabel Logo;\n+    private JLabel Napis;\n+    private JLabel LOGIN_STATUS;\n+    private JButton klienciButton;\n+    private JButton magazynButton;\n+    private JButton transakcjeButton;\n+    private JLabel status;\n+    private JButton zamknijButton;\n+    private JLabel transakcje;\n+    private JButton wylogujButton;\n+    private JPanel baner;\n+    private JTable tablicaTable;\n+    private JLabel ostatnieLabel;\n+\n+    public AdminForm() {\n+        super(\"Panel Admina\");\n+        this.setContentPane(this.Panel1);\n+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);\n+        this.setSize(1000, 700);\n+        this.setVisible(true);\n+        this.setLocationRelativeTo(null);\n+        ImageIcon icon = new ImageIcon(getClass().getResource(\"../figurs/logo.png\"));\n+        setIconImage(icon.getImage());\n+\n+        DefaultTableModel model = new DefaultTableModel() {\n+            @Override\n+            public boolean isCellEditable(int row, int column) {\n+                return false; // Wszystkie komórki są nieedytowalne\n+            }\n+        };\n+        model.setColumnIdentifiers(new String[]{\"ID\", \"Data\", \"Typ\", \"Klient\", \"Email\", \"Kwota\", \"Płatność\"});\n+        tablicaTable.setModel(model);\n+\n+        loadTransactions();\n+\n+        new Timer(1000, e -> {\n+            Date date = new Date();\n+            status.setText(\"Użytkownik: ADMINISTRATOR   |   Data:  [ \" + date.toString()+\" ]\");\n+        }).start();\n+\n+\n+        zamknijButton.addActionListener(e -> dispose());\n+        wylogujButton.addActionListener(e ->{\n+            dispose();\n+            MainForm login = new MainForm();\n+        });\n+\n+        transakcjeButton.addActionListener(e -> {\n+            dispose();\n+            ManagementTransactionForm zarzadzanieTransakcjami = new ManagementTransactionForm();\n+        });\n+\n+        klienciButton.addActionListener(new ActionListener() {\n+            @Override\n+            public void actionPerformed(ActionEvent e) {\n+                showClients();\n+            }\n+        });\n+        magazynButton.addActionListener(new ActionListener() {\n+            @Override\n+            public void actionPerformed(ActionEvent e) {\n+                dispose();\n+                WarehouseForm warehouseForm = new WarehouseForm();\n+            }\n+        });\n+    }\n+\n+    private void showClients() {\n+        dispose();\n+        CustomerList customerList = new CustomerList();\n+\n+    }\n+\n+    private void loadTransactions() {\n+        new SwingWorker<Void, Void>() {\n+            @Override\n+            protected Void doInBackground() throws Exception {\n+                try {\n+                    TransactionDAO dao = new TransactionDAO();\n+                    List<Transaction> transactions = dao.getRecentTransactions();\n+                    DefaultTableModel model = (DefaultTableModel) tablicaTable.getModel();\n+\n+                    SwingUtilities.invokeLater(() -> model.setRowCount(0));\n+\n+                    SimpleDateFormat dateFormat = new SimpleDateFormat(\"yyyy-MM-dd HH:mm:ss\");\n+\n+                    for (Transaction transaction : transactions) {\n+                        String klient = transaction.getImieKlienta() + \" \" + transaction.getNazwiskoKlienta();\n+                        Object[] row = new Object[]{\n+                                transaction.getTransakcja_id(),\n+                                dateFormat.format(transaction.getData()),\n+                                transaction.getTyp(),\n+                                klient,\n+                                transaction.getEmailKlienta(),\n+                                String.format(\"%.2f PLN\", transaction.getCalkowita_kwota()),\n+                                transaction.getMetoda_platnosci()\n+                        };\n+\n+                        SwingUtilities.invokeLater(() -> model.addRow(row));\n+                    }\n+                } catch (SQLException e) {\n+                    SwingUtilities.invokeLater(() -> {\n+                        JOptionPane.showMessageDialog(null,\n+                                \"Błąd podczas pobierania danych z bazy danych \" + e.getMessage(),\n+                                \"Błąd\", JOptionPane.ERROR_MESSAGE);\n+                        e.printStackTrace();\n+                    });\n+                }\n+                return null;\n+            }\n+        }.execute();\n+    }\n+}",
+                    "refToolCallId": "toolu_01Xg7LDf6V82Rmb5kbuzES1d"
+                },
+                {
+                    "type": "text",
+                    "text": "2. Now let me move `ProductForm`:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_015sFKHVLkdUxfNdymnq3YFF",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/ProductForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\ProductForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "b993f3ed-914c-4a1c-bd74-998b9fc5333d"
+            },
+            "createdAt": 1748711797345,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isCustomAgent": false
+}
+}

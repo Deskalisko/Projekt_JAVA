@@ -1,0 +1,211 @@
+{
+    "checksum": "33560df67ec429c8d1a68f9cae6bf448243aba67e094f2ae0c2a9b0c6a7b464c",
+    "data": {
+    "id": "d2771069-7980-423c-92f8-6762c3e44582",
+    "createdAt": 1748737699131,
+    "updatedAt": 1748737738297,
+    "title": "Java Import Error Resolution",
+    "messages": [
+        {
+            "id": "d7930c0b-1ff2-4896-9a5e-f741acc10e2c",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "import LGoodDatePicker;",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "Cannot resolve symbol 'LGoodDatePicker'"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\ManagementTransactionForm.java",
+                    "fsPath": "C:/Users/Dominik/IdeaProjects/Projekt/src/forms/ManagementTransactionForm.java",
+                    "content": "package forms;\n\nimport DAO.DatabaseConnection;\nimport com.github.lgooddatepicker.components.DatePicker;\nimport com.github.lgooddatepicker.components.DatePickerSettings;\n\nimport LGoodDatePicker;\n\nimport javax.swing.*;\nimport javax.swing.table.DefaultTableModel;\nimport java.awt.*;\nimport java.awt.event.MouseAdapter;\nimport java.awt.event.MouseEvent;\nimport java.io.File;\nimport java.io.FileWriter;\nimport java.io.IOException;\nimport java.sql.*;\nimport java.text.SimpleDateFormat;\nimport java.time.LocalDate;\nimport java.time.ZoneId;\nimport java.util.Date;\n\npublic class ManagementTransactionForm extends JFrame {\n    private JPanel mainPanel;\n    private JPanel headerPanel;\n    private JPanel contentPanel;\n    private JPanel filterPanel;\n    private JPanel tablePanel;\n    private JPanel statsPanel;\n    private JPanel buttonPanel;\n    private JLabel logoLabel;\n    private JLabel titleLabel;\n    private JLabel statusLabel;\n    private JRadioButton wszystkieRadioButton;\n    private JRadioButton detaliczneRadioButton;\n    private JRadioButton hurtoweRadioButton;\n    private JLabel datefromLabel;\n    private JButton filterButton;\n    private JTable transactionsTable;\n    private JButton addTransactionButton;\n    private JButton generateReportButton;\n    private JButton refreshButton;\n    private JLabel totalTransactionsLabel;\n    private JLabel totalValueLabel;\n    private JLabel averageValueLabel;\n    private JButton backButton;\n    private JList<String> productsList;\n    private JButton showDetailsButton;\n    private JTextPane transactionDetailsPane;\n    private DatePicker fromDatePicker;\n    private DatePicker toDatePicker;\n    private SimpleDateFormat dateFormat = new SimpleDateFormat(\"yyyy-MM-dd\");\n\n    public ManagementTransactionForm() {\n        super(\"Zarządzanie transakcjami\");\n        initializeComponents();\n        setupLayout();\n        setupListeners();\n        setDefaultDates();\n        loadTransactions();\n        updateStatistics();\n\n        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);\n        this.setSize(1200, 1000);\n        this.setLocationRelativeTo(null);\n        this.setVisible(true);\n    }\n\n    private void setDefaultDates() {\n        // Data końcowa - dzisiaj\n        toDatePicker.setDate(LocalDate.now());\n\n        // Data początkowa - miesiąc wstecz\n        LocalDate monthAgo = LocalDate.now().minusMonths(1);\n        fromDatePicker.setDate(monthAgo);\n    }\n\n    private void initializeComponents() {\n        // Główny panel\n        mainPanel = new JPanel(new BorderLayout(10, 10));\n        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));\n        mainPanel.setBackground(new Color(245, 245, 245));\n\n        // Nagłówek\n        headerPanel = new JPanel(new BorderLayout());\n        headerPanel.setBackground(new Color(44, 62, 80));\n        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));\n\n        // Logo\n        ImageIcon logoIcon = new ImageIcon(getClass().getResource(\"/figurs/logo.png\"));\n        Image scaledLogo = logoIcon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);\n        logoLabel = new JLabel(new ImageIcon(scaledLogo));\n        logoLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));\n        headerPanel.add(logoLabel, BorderLayout.WEST);\n\n        // Tytuł\n        titleLabel = new JLabel(\"ZARZĄDZANIE TRANSAKCJAMI\", SwingConstants.CENTER);\n        titleLabel.setFont(new Font(\"Segoe UI\", Font.BOLD, 24));\n        titleLabel.setForeground(Color.WHITE);\n        headerPanel.add(titleLabel, BorderLayout.CENTER);\n\n        // Panel zawartości\n        contentPanel = new JPanel(new BorderLayout(10, 10));\n        contentPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));\n        contentPanel.setBackground(new Color(245, 245, 245));\n\n        // Panel filtrów\n        filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));\n        filterPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createLineBorder(new Color(200, 200, 200)),\n                BorderFactory.createEmptyBorder(15, 15, 15, 15)\n        ));\n        filterPanel.setBackground(Color.WHITE);\n\n        // Radio buttons\n        wszystkieRadioButton = new JRadioButton(\"Wszystkie\");\n        detaliczneRadioButton = new JRadioButton(\"Detaliczne\");\n        hurtoweRadioButton = new JRadioButton(\"Hurtowe\");\n        ButtonGroup transactionTypeGroup = new ButtonGroup();\n        transactionTypeGroup.add(wszystkieRadioButton);\n        transactionTypeGroup.add(detaliczneRadioButton);\n        transactionTypeGroup.add(hurtoweRadioButton);\n        wszystkieRadioButton.setSelected(true);\n\n        // Data od\n        datefromLabel = new JLabel(\"Od:\");\n        fromDatePicker = createDatePicker();\n\n        // Data do\n        JLabel dateToLabel = new JLabel(\"Do:\");\n        toDatePicker = createDatePicker();\n\n        // Przycisk filtrowania\n        filterButton = createStyledButton(\"Filtruj\", new Color(52, 152, 219));\n\n        // Dodanie komponentów do panelu filtrów\n        filterPanel.add(new JLabel(\"Typ transakcji:\"));\n        filterPanel.add(wszystkieRadioButton);\n        filterPanel.add(detaliczneRadioButton);\n        filterPanel.add(hurtoweRadioButton);\n        filterPanel.add(datefromLabel);\n        filterPanel.add(fromDatePicker);\n        filterPanel.add(dateToLabel);\n        filterPanel.add(toDatePicker);\n        filterPanel.add(filterButton);\n\n        // Tabela transakcji\n        String[] columnNames = {\"ID\", \"Data\", \"Typ\", \"Klient\", \"Kwota\", \"Metoda płatności\", \"Liczba produktów\"};\n        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {\n            @Override\n            public boolean isCellEditable(int row, int column) {\n                return false;\n            }\n        };\n        transactionsTable = new JTable(model);\n        styleTable(transactionsTable);\n        transactionsTable.setAutoCreateRowSorter(true);\n\n        transactionsTable.addMouseListener(new MouseAdapter() {\n            @Override\n            public void mouseClicked(MouseEvent e) {\n                if (e.getClickCount() == 2) {\n                    showSelectedTransactionDetails();\n                }\n            }\n        });\n\n        // Panel tabeli\n        tablePanel = new JPanel(new BorderLayout());\n        JScrollPane tableScrollPane = new JScrollPane(transactionsTable);\n        tableScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));\n        tablePanel.add(tableScrollPane, BorderLayout.CENTER);\n\n        // Panel szczegółów transakcji\n        JPanel detailsPanel = new JPanel(new BorderLayout());\n        detailsPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createTitledBorder(\"Szczegóły transakcji\"),\n                BorderFactory.createEmptyBorder(10, 10, 10, 10)\n        ));\n        detailsPanel.setBackground(Color.WHITE);\n\n        transactionDetailsPane = new JTextPane();\n        transactionDetailsPane.setContentType(\"text/html\");\n        transactionDetailsPane.setEditable(false);\n        transactionDetailsPane.setText(\"<html><body style='padding:15px; font-family:Arial; font-size:14px;'><h3 style='color:#2c3e50;'>Wybierz transakcję aby zobaczyć szczegóły</h3></body></html>\");\n        JScrollPane detailsScrollPane = new JScrollPane(transactionDetailsPane);\n\n        productsList = new JList<>();\n        productsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);\n        JScrollPane productsScrollPane = new JScrollPane(productsList);\n\n        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, detailsScrollPane, productsScrollPane);\n        splitPane.setResizeWeight(0.6);\n        detailsPanel.add(splitPane, BorderLayout.CENTER);\n\n        showDetailsButton = createStyledButton(\"Pokaż szczegóły\", new Color(241, 196, 15));\n\n        JPanel detailsButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));\n        detailsButtonPanel.setOpaque(false);\n        detailsButtonPanel.add(showDetailsButton);\n        detailsPanel.add(detailsButtonPanel, BorderLayout.SOUTH);\n\n        // Panel statystyk\n        statsPanel = new JPanel(new GridLayout(1, 3, 10, 0));\n        statsPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createTitledBorder(\"Statystyki\"),\n                BorderFactory.createEmptyBorder(10, 10, 10, 10)\n        ));\n        statsPanel.setBackground(Color.WHITE);\n\n        totalTransactionsLabel = new JLabel(\"Łączna liczba: 0\", SwingConstants.CENTER);\n        totalValueLabel = new JLabel(\"Łączna wartość: 0.00 zł\", SwingConstants.CENTER);\n        averageValueLabel = new JLabel(\"Średnia wartość: 0.00 zł\", SwingConstants.CENTER);\n\n        totalTransactionsLabel.setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n        totalValueLabel.setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n        averageValueLabel.setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n\n        statsPanel.add(totalTransactionsLabel);\n        statsPanel.add(totalValueLabel);\n        statsPanel.add(averageValueLabel);\n\n        // Panel przycisków\n        buttonPanel = new JPanel(new GridLayout(1, 5, 15, 0));\n        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));\n        buttonPanel.setBackground(new Color(245, 245, 245));\n\n        addTransactionButton = createStyledButton(\"Dodaj\", new Color(46, 204, 113));\n        generateReportButton = createStyledButton(\"Raport\", new Color(155, 89, 182));\n        refreshButton = createStyledButton(\"Odśwież\", new Color(26, 188, 156));\n        backButton = createStyledButton(\"Wstecz\", new Color(241, 196, 15));\n        JButton closeButton = createStyledButton(\"Zamknij\", new Color(231, 76, 60));\n        closeButton.addActionListener(e->dispose());\n\n        buttonPanel.add(addTransactionButton);\n        buttonPanel.add(generateReportButton);\n        buttonPanel.add(refreshButton);\n        buttonPanel.add(backButton);\n        buttonPanel.add(closeButton);\n\n        // Panel statusu\n        statusLabel = new JLabel(\"Użytkownik: ADMINISTRATOR | Data: \");\n        statusLabel.setFont(new Font(\"Segoe UI\", Font.PLAIN, 12));\n        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));\n        statusPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));\n        statusPanel.setOpaque(false);\n        statusPanel.add(statusLabel);\n    }\n\n    private DatePicker createDatePicker() {\n        DatePickerSettings settings = new DatePickerSettings();\n        settings.setFormatForDatesCommonEra(\"yyyy-MM-dd\");\n        settings.setAllowEmptyDates(false);\n\n        DatePicker datePicker = new DatePicker(settings);\n        datePicker.setPreferredSize(new Dimension(150, 30));\n        datePicker.setFont(new Font(\"Segoe UI\", Font.PLAIN, 14));\n        return datePicker;\n    }\n\n    private void setupLayout() {\n        // Główny panel zawartości\n        JPanel centerPanel = new JPanel(new BorderLayout());\n        centerPanel.add(filterPanel, BorderLayout.NORTH);\n        centerPanel.add(tablePanel, BorderLayout.CENTER);\n\n        // Panel szczegółów i statystyk\n        JPanel southPanel = new JPanel(new BorderLayout());\n        JPanel detailsStatsPanel = new JPanel(new BorderLayout());\n        detailsStatsPanel.add(statsPanel, BorderLayout.NORTH);\n\n        JPanel detailsWrapper = new JPanel(new BorderLayout());\n        detailsWrapper.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));\n        detailsWrapper.add(new JLabel(\"Szczegóły wybranej transakcji:\"), BorderLayout.NORTH);\n\n        JPanel transactionDetailsPanel = new JPanel(new BorderLayout());\n        transactionDetailsPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createLineBorder(new Color(200, 200, 200)),\n                BorderFactory.createEmptyBorder(10, 10, 10, 10)\n        ));\n        transactionDetailsPanel.setBackground(Color.WHITE);\n\n        transactionDetailsPane.setPreferredSize(new Dimension(400, 150));\n        transactionDetailsPanel.add(new JScrollPane(transactionDetailsPane), BorderLayout.CENTER);\n\n        JPanel productsPanel = new JPanel(new BorderLayout());\n        productsPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createTitledBorder(\"Produkty w transakcji\"),\n                BorderFactory.createEmptyBorder(10, 10, 10, 10)\n        ));\n        productsPanel.add(new JScrollPane(productsList), BorderLayout.CENTER);\n\n        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, transactionDetailsPanel, productsPanel);\n        splitPane.setResizeWeight(0.5);\n        detailsWrapper.add(splitPane, BorderLayout.CENTER);\n\n        detailsStatsPanel.add(detailsWrapper, BorderLayout.CENTER);\n        southPanel.add(detailsStatsPanel, BorderLayout.CENTER);\n\n        // Dodanie komponentów do panelu zawartości\n        contentPanel.add(centerPanel, BorderLayout.CENTER);\n        contentPanel.add(southPanel, BorderLayout.SOUTH);\n\n        // Dodanie komponentów do głównego panelu\n        mainPanel.add(headerPanel, BorderLayout.NORTH);\n        mainPanel.add(contentPanel, BorderLayout.CENTER);\n        mainPanel.add(buttonPanel, BorderLayout.SOUTH);\n\n        this.setContentPane(mainPanel);\n    }\n\n    private void setupListeners() {\n        // Timer aktualizujący status\n        new Timer(1000, e -> {\n            statusLabel.setText(\"Użytkownik: ADMINISTRATOR | Data: \" + new java.util.Date().toString());\n        }).start();\n\n        filterButton.addActionListener(e -> loadTransactions());\n        refreshButton.addActionListener(e -> {\n            loadTransactions();\n            updateStatistics();\n        });\n        showDetailsButton.addActionListener(e -> showSelectedTransactionDetails());\n        backButton.addActionListener(e -> {\n            dispose();\n            new AdminForm();\n        });\n        generateReportButton.addActionListener(e -> generateCSVRaport());\n    }\n\n    private JButton createStyledButton(String text, Color color) {\n        JButton button = new JButton(text);\n        button.setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n        button.setBackground(color);\n        button.setForeground(Color.WHITE);\n        button.setFocusPainted(false);\n        button.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));\n        button.setCursor(new Cursor(Cursor.HAND_CURSOR));\n        return button;\n    }\n\n    private void styleTable(JTable table) {\n        table.setFont(new Font(\"Segoe UI\", Font.PLAIN, 14));\n        table.setRowHeight(30);\n        table.setShowGrid(true);\n        table.setGridColor(new Color(220, 220, 220));\n        table.setSelectionBackground(new Color(200, 200, 255));\n        table.setSelectionForeground(Color.BLACK);\n        table.setIntercellSpacing(new Dimension(0, 0));\n        table.setFillsViewportHeight(true);\n\n        table.getTableHeader().setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n        table.getTableHeader().setBackground(new Color(44, 62, 80));\n        table.getTableHeader().setForeground(Color.WHITE);\n    }\n\n    private void loadTransactions() {\n        DefaultTableModel model = (DefaultTableModel) transactionsTable.getModel();\n        model.setRowCount(0);\n\n        try (Connection conn = DatabaseConnection.getConnection()) {\n            StringBuilder query = new StringBuilder(\n                    \"SELECT t.id, t.data, t.typ, t.calkowita_kwota, t.metoda_platnosci, COUNT(pt.id) as liczba_produktow, \" +\n                            \"CASE WHEN t.typ = 'hurtowy' THEN kh.nazwa_firmy WHEN t.typ = 'detaliczny' THEN CONCAT(kd.imie, ' ', kd.nazwisko) \" +\n                            \"END as klient FROM transakcje t LEFT JOIN pozycje_transakcji pt ON t.id = pt.transakcja_id \" +\n                            \"LEFT JOIN klienci_hurtowi kh ON t.klient_hurtowy_id = kh.id LEFT JOIN klienci_detaliczni kd ON t.klient_detaliczny_id = kd.id WHERE 1=1 \"\n            );\n\n            if (detaliczneRadioButton.isSelected()) {\n                query.append(\" AND t.typ = 'detaliczny'\");\n            } else if (hurtoweRadioButton.isSelected()) {\n                query.append(\" AND t.typ = 'hurtowy'\");\n            }\n\n            // Pobranie dat z DatePickerów\n            LocalDate fromLocalDate = fromDatePicker.getDate();\n            LocalDate toLocalDate = toDatePicker.getDate();\n\n            if (fromLocalDate != null) {\n                Date fromDate = Date.from(fromLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());\n                query.append(\" AND t.data >= '\").append(dateFormat.format(fromDate)).append(\"'\");\n            }\n            if (toLocalDate != null) {\n                Date toDate = Date.from(toLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());\n                query.append(\" AND t.data <= '\").append(dateFormat.format(toDate)).append(\" 23:59:59'\");\n            }\n            query.append(\" GROUP BY t.id ORDER BY t.data DESC\");\n\n            Statement stmt = conn.createStatement();\n            ResultSet rs = stmt.executeQuery(query.toString());\n\n            while (rs.next()) {\n                Object[] row = {\n                        rs.getInt(\"id\"),\n                        rs.getTimestamp(\"data\"),\n                        rs.getString(\"typ\"),\n                        rs.getString(\"klient\"),\n                        rs.getBigDecimal(\"calkowita_kwota\"),\n                        rs.getString(\"metoda_platnosci\"),\n                        rs.getInt(\"liczba_produktow\")\n                };\n                model.addRow(row);\n            }\n        } catch (SQLException e) {\n            showError(\"Błąd podczas ładowania transakcji: \" + e.getMessage());\n        }\n    }\n\n    private void updateStatistics() {\n        try (Connection conn = DatabaseConnection.getConnection()) {\n            String countQuery = \"SELECT COUNT(*) as total_count, SUM(calkowita_kwota) as total_sum FROM transakcje\";\n            PreparedStatement pstmt = conn.prepareStatement(countQuery);\n            ResultSet rs = pstmt.executeQuery();\n\n            if (rs.next()) {\n                int totalCount = rs.getInt(\"total_count\");\n                double totalSum = rs.getDouble(\"total_sum\");\n                double average = totalCount > 0 ? totalSum / totalCount : 0;\n\n                totalTransactionsLabel.setText(\"Łączna liczba: \" + totalCount);\n                totalValueLabel.setText(String.format(\"Łączna wartość: %.2f zł\", totalSum));\n                averageValueLabel.setText(String.format(\"Średnia wartość: %.2f zł\", average));\n            }\n        } catch (SQLException e) {\n            showError(\"Błąd podczas ładowania statystyk: \" + e.getMessage());\n        }\n    }\n\n    private void showSelectedTransactionDetails() {\n        int selectedRow = transactionsTable.getSelectedRow();\n        if (selectedRow >= 0) {\n            String transactionId = transactionsTable.getValueAt(selectedRow, 0).toString();\n            updateTransactionDetails(transactionId);\n        }\n    }\n\n    private void updateTransactionDetails(String transactionId) {\n        try (Connection conn = DatabaseConnection.getConnection()) {\n            // Pobierz szczegóły transakcji\n            String transactionQuery = \"SELECT * FROM transakcje WHERE id = ?\";\n            PreparedStatement transactionStmt = conn.prepareStatement(transactionQuery);\n            transactionStmt.setInt(1, Integer.parseInt(transactionId));\n            ResultSet transactionRs = transactionStmt.executeQuery();\n\n            if (transactionRs.next()) {\n                // Formatowanie szczegółów transakcji\n                StringBuilder details = new StringBuilder();\n                details.append(\"<html><body style='padding:10px'>\");\n                details.append(\"<h3>Szczegóły transakcji #\").append(transactionId).append(\"</h3>\");\n                details.append(\"<p><b>Data:</b> \").append(transactionRs.getTimestamp(\"data\")).append(\"<br>\");\n                details.append(\"<b>Typ:</b> \").append(transactionRs.getString(\"typ\")).append(\"<br>\");\n                details.append(\"<b>Metoda płatności:</b> \").append(transactionRs.getString(\"metoda_platnosci\")).append(\"<br>\");\n                details.append(\"<b>Łączna kwota:</b> \").append(transactionRs.getBigDecimal(\"calkowita_kwota\")).append(\" zł</p>\");\n                details.append(\"</body></html>\");\n\n                transactionDetailsPane.setText(details.toString());\n\n                // Pobierz produkty dla transakcji\n                String productsQuery = \"SELECT p.nazwa, pt.ilosc, pt.cena_jednostkowa \" +\n                        \"FROM pozycje_transakcji pt JOIN produkty p ON pt.produkt_id = p.id WHERE pt.transakcja_id = ?\";\n                PreparedStatement productsStmt = conn.prepareStatement(productsQuery);\n                productsStmt.setInt(1, Integer.parseInt(transactionId));\n                ResultSet productsRs = productsStmt.executeQuery();\n\n                DefaultListModel<String> listModel = new DefaultListModel<>();\n                while (productsRs.next()) {\n                    String productInfo = String.format(\"%s (Ilość: %d, Cena: %.2f zł)\",\n                            productsRs.getString(\"nazwa\"),\n                            productsRs.getInt(\"ilosc\"),\n                            productsRs.getBigDecimal(\"cena_jednostkowa\"));\n                    listModel.addElement(productInfo);\n                }\n                productsList.setModel(listModel);\n            }\n        } catch (SQLException e) {\n            showError(\"Błąd podczas ładowania szczegółów transakcji: \" + e.getMessage());\n        }\n    }\n\n    private void generateCSVRaport() {\n        JFileChooser fileChooser = new JFileChooser();\n        fileChooser.setDialogTitle(\"Zapisz raport CSV\");\n        fileChooser.setSelectedFile(new File(\"raport_transakcji.csv\"));\n\n        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {\n            try (FileWriter writer = new FileWriter(fileChooser.getSelectedFile())) {\n                // Nagłówki kolumn\n                writer.append(\"ID;Data;Typ;Klient;Kwota;Metoda platnosci;Liczba produktow\\n\");\n\n                // Dane transakcji\n                DefaultTableModel model = (DefaultTableModel) transactionsTable.getModel();\n                for (int i = 0; i < model.getRowCount(); i++) {\n                    writer.append(String.valueOf(model.getValueAt(i, 0))).append(\";\");\n                    writer.append(String.valueOf(model.getValueAt(i, 1))).append(\";\");\n                    writer.append(String.valueOf(model.getValueAt(i, 2))).append(\";\");\n                    writer.append(String.valueOf(model.getValueAt(i, 3))).append(\";\");\n                    writer.append(String.valueOf(model.getValueAt(i, 4))).append(\";\");\n                    writer.append(String.valueOf(model.getValueAt(i, 5))).append(\";\");\n                    writer.append(String.valueOf(model.getValueAt(i, 6))).append(\"\\n\");\n                }\n\n                JOptionPane.showMessageDialog(this,\n                        \"Raport został pomyślnie wygenerowany!\",\n                        \"Sukces\",\n                        JOptionPane.INFORMATION_MESSAGE);\n            } catch (IOException e) {\n                showError(\"Błąd podczas zapisywania pliku: \" + e.getMessage());\n            }\n        }\n    }\n\n    private void showError(String message) {\n        JOptionPane.showMessageDialog(this,\n                message,\n                \"Błąd\",\n                JOptionPane.ERROR_MESSAGE);\n    }\n}",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748737699132,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "import LGoodDatePicker;"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "Cannot resolve symbol 'LGoodDatePicker'"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2492230c-517b-4362-8084-2dd87783715b",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see the issue in the ManagementTransactionForm.java file. There's an incorrect import statement on line 7:\n\n```java\nimport LGoodDatePicker;\n```\n\nThis import is malformed and should be removed since you're already correctly importing the specific classes you need from the LGoodDatePicker library on lines 4-5:\n\n```java\nimport com.github.lgooddatepicker.components.DatePicker;\nimport com.github.lgooddatepicker.components.DatePickerSettings;\n```\n\nLet me fix this by removing the incorrect import:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018WeQNw1h8qcLzZ7m59D6hE",
+                    "title": "",
+                    "statusText": "Text to replace not found",
+                    "status": "WARNING",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/forms/ManagementTransactionForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\ManagementTransactionForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me check the exact formatting around that import statement:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_011TGYqBCPpQETSLz3WJa4PW",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/forms/ManagementTransactionForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\ManagementTransactionForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I notice the import statement isn't showing up in this view. Let me search for it specifically:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01EuEKnwUkX4C9PvydcGQhb9",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I see the issue - the import is on line 6, not line 7 as shown in the snippet. Let me view the correct range:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01GbESBpPvfvbw2fVKtZqQmD",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/forms/ManagementTransactionForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\ManagementTransactionForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "It seems the problematic import line isn't showing in the current view. Let me check if there might be a different version of the file or if the line numbers are different. Let me search more specifically:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01G63MkFp3oWaHQcJrG79B9q",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Let me try a broader search:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_013uVMfKHFbE2N7oxJ1Jbxh8",
+                    "title": "Fulltext search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Interesting! It seems the file content might be different than what was shown in the initial snippet. Let me view the current state of the file:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01WoPmakvv2XZ1vPiEwdbe3n",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/forms/ManagementTransactionForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\forms\\ManagementTransactionForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "It appears the file has already been corrected or the problematic import line was removed. The current file shows proper imports for the LGoodDatePicker library:\n\n- Line 4: `import com.github.lgooddatepicker.components.DatePicker;`\n- Line 5: `import com.github.lgooddatepicker.components.DatePickerSettings;`\n\nThese are the correct imports for using the DatePicker components from the LGoodDatePicker library. The malformed `import LGoodDatePicker;` statement that was mentioned in your error is no longer present in the file.\n\nIf you're still seeing the error in your IDE, try:\n\n1. **Refresh/Reload the project** in IntelliJ IDEA\n2. **Clean and rebuild** the project\n3. **Invalidate caches and restart** (File → Invalidate Caches and Restart)\n\nThe current imports in the file are correct and should resolve the DatePicker classes properly. If you continue to have issues, please let me know what specific error you're seeing now."
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "b4d06dbc-5f61-47b8-8844-5c82a0081c5e"
+            },
+            "createdAt": 1748737700073,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false
+}
+}

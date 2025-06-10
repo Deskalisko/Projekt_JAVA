@@ -1,0 +1,133 @@
+{
+    "checksum": "9e9b6908014ac74bb7d154e51f1c4950ecdec844c8955db4395dd5492f3fb571",
+    "data": {
+    "id": "420d076a-8770-4b43-872e-7baf3fea6855",
+    "createdAt": 1748696822979,
+    "updatedAt": 1748696836711,
+    "title": "Java Map Import Issue Fix",
+    "messages": [
+        {
+            "id": "2e8f4ccb-d65f-4d99-b3c8-8a7da5e38784",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "Map.Entry<Product, Integer>",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "Cannot resolve symbol 'Map'"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\ShopWholeSaleForm.java",
+                    "fsPath": "C:/Users/Dominik/IdeaProjects/Projekt/src/Shopping/ShopWholeSaleForm.java",
+                    "content": "package Shopping;\n\nimport Customer.AddEditWholeSaleCustomer;\nimport DAO.DatabaseConnection;\nimport DAO.OrderDAO;\nimport DAO.ProductsDAO;\nimport Products.Product;\n\nimport javax.swing.*;\nimport java.awt.*;\nimport java.awt.event.ActionEvent;\nimport java.awt.event.ActionListener;\nimport java.sql.Connection;\nimport java.sql.PreparedStatement;\nimport java.sql.SQLException;\nimport java.util.Date;\n\npublic class ShopWholeSaleForm extends JFrame {\n    private JPanel Panel1;\n    private JPanel baner;\n    private JLabel Logo;\n    private JLabel Napis;\n    private JPanel bottomPanel;\n    private JPanel mainPanel;\n    private JPanel customerDataPanel;\n    private JButton editDataButton;\n    private JButton placeOrderButton;\n    private JButton addToCartButton;\n    private JPanel cartPanel;\n    private JSpinner quantitySpinner;\n    private JPanel productsPanel;\n    private JTable productsTable;\n    private JTable cartTable;\n    private JLabel statusLabel;\n    private JPanel cartButtonsPanel;\n    private Cart koszyk;\n    private KoszykTableModel cartTableModel;\n    private ProductTableModel productsTableModel;\n    private int customerId;\n\n    public ShopWholeSaleForm(int customerId){\n        this.customerId = customerId;\n        this.koszyk = new Cart();\n        this.setTitle(\"Panel Klienta Hurtowego\");\n        this.setSize(1000,700);\n        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);\n        this.setLocationRelativeTo(null);\n        this.setContentPane(this.Panel1);\n\n        initializeComponents();\n        loadCustomerData();\n        loadProducts();\n        setupTimer();\n\n    }\n\n    private void setupTimer() {\n        new Timer(1000, new ActionListener() {\n            @Override\n            public void actionPerformed(ActionEvent e) {\n                statusLabel.setText(\"Użytkownik: Klient hurtowy | Data: \" + new Date().toString());\n            }\n        }).start();\n    }\n\n    private void loadProducts() {\n        try{\n            ProductsDAO dao = new ProductsDAO();\n            List<Product> products = dao.getAllProducts();\n            productsTableModel.setProducts(products);\n        }catch (SQLException e){\n            JOptionPane.showMessageDialog(this, \"Błąd ładowania produktów: \" + e.getMessage(), \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n\n    }\n\n    private void initializeComponents() {\n        ImageIcon icon = new ImageIcon(getClass().getResource(\"/figurs/logo.png\"));\n        setIconImage(icon.getImage());\n\n        customerDataPanel.setBorder(BorderFactory.createTitledBorder(\"Twoje dane\"));\n        editDataButton = new JButton(\"Edytuj dane\");\n        editDataButton.addActionListener(e->editCustomerData());\n        customerDataPanel.add(editDataButton);\n        \n        cartPanel.setBorder(BorderFactory.createTitledBorder(\"Koszyk\"));\n        cartTableModel = new KoszykTableModel(koszyk);\n        cartTable.setModel(cartTableModel);\n        \n        placeOrderButton = new JButton(\"Złóż zamówienie\");\n        placeOrderButton.addActionListener(e->placeOrder());\n\n        cartButtonsPanel.add(placeOrderButton);\n\n        productsPanel.setBorder(BorderFactory.createTitledBorder(\"Lista produktów\"));\n        productsTableModel = new ProductTableModel();\n        productsTable.setModel(productsTableModel);\n        productsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);\n\n        quantitySpinner = new JSpinner(new SpinnerNumberModel(1,1,100,1));\n        addToCartButton = new JButton(\"Dodaj do koszyka\");\n        addToCartButton.addActionListener(e -> addToCart());\n\n        JPanel productsControlPanel = new JPanel();\n        productsControlPanel.add(new JLabel(\"Ilość: \"));\n        productsControlPanel.add(quantitySpinner);\n        productsControlPanel.add(addToCartButton);\n\n        productsPanel.add(productsControlPanel, BorderLayout.SOUTH);\n\n    }\n\n    private void loadCustomerData() {\n        // Tutaj należy dodać kod pobierający dane klienta z bazy danych\n        // Na potrzeby przykładu używamy danych testowych\n        customerDataPanel.add(new JLabel(\"Imię:\"));\n        customerDataPanel.add(new JLabel(\"Jan\"));\n        customerDataPanel.add(new JLabel(\"Nazwisko:\"));\n        customerDataPanel.add(new JLabel(\"Kowalski\"));\n        customerDataPanel.add(new JLabel(\"Firma:\"));\n        customerDataPanel.add(new JLabel(\"ABC Sp. z o.o\"));\n        customerDataPanel.add(new JLabel(\"NIP:\"));\n        customerDataPanel.add(new JLabel(\"1234567890\"));\n        customerDataPanel.add(new JLabel(\"Adres:\"));\n        customerDataPanel.add(new JLabel(\"ul. Testowa 1, 00-001 Warszawa\"));\n        customerDataPanel.add(new JLabel(\"Telefon:\"));\n        customerDataPanel.add(new JLabel(\"123456789\"));\n        customerDataPanel.add(new JLabel(\"Email:\"));\n        customerDataPanel.add(new JLabel(\"jan@abc.pl\"));\n    }\n\n    private void addToCart() {\n        int selectedRow = productsTable.getSelectedRow();\n        if(selectedRow >=0){\n            Product product = productsTableModel.getProductAt(selectedRow);\n            int quantity = (int)quantitySpinner.getValue();\n            if(quantity>product.getIlosc()){\n                JOptionPane.showMessageDialog(this, \"Wybrana ilość jest większa niż dostępna w magazynie!\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n                return;\n            }\n            koszyk.dodajProdukt(product,quantity);\n            cartTableModel.fireTableDataChanged();\n        }else{\n            JOptionPane.showMessageDialog(this,\"Nie wybrano produktu!\",\"Błąd\",JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void placeOrder() {\n        if (koszyk.getProdukty().isEmpty()) {\n            JOptionPane.showMessageDialog(this, \"Koszyk jest pusty!\",\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            return;\n        }\n\n        try {\n            // Pobierz dane klienta z bazy\n            // String customerEmail = ...;\n\n            // Złóż zamówienie używając danych z bazy\n            OrderDAO.saveOrder(koszyk, customerId);\n\n            // Aktualizuj saldo sklepu\n            updateStoreBalance();\n\n            // Wyświetl potwierdzenie\n            showOrderConfirmation();\n\n            // Wyczyść koszyk\n            koszyk.getProdukty().clear();\n            cartTableModel.fireTableDataChanged();\n        } catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd podczas składania zamówienia: \" + e.getMessage(),\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void showOrderConfirmation() {\n        StringBuilder message = new StringBuilder();\n        message.append(\"Zamówienie zostało złożone!\\n\\n\");\n        message.append(\"Produkty:\\n\");\n\n        for (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {\n            message.append(entry.getKey().getNazwa())\n                    .append(\" X \")\n                    .append(entry.getValue())\n                    .append(\" - \")\n                    .append(String.format(\"%.2f zł\\n\", entry.getKey().getCena() * entry.getValue()));\n        }\n\n    }\n\n    private void updateStoreBalance() throws SQLException{\n        double totalAmount = koszyk.obliczCalkowitaSume();\n        String query = \"UPDATE finanse_sklepu SET saldo = saldo + ? WHERE id = 1\";\n        try(Connection conn = DatabaseConnection.getConnection();\n            PreparedStatement stmt = conn.prepareStatement(query)){\n            stmt.setDouble(1,totalAmount);\n            stmt.executeUpdate();\n        }\n    }\n\n    private void editCustomerData() {\n        AddEditWholeSaleCustomer editDialog = new AddEditWholeSaleCustomer(this,customerId);\n        editDialog.setVisible(true);\n        refreshCustomerData();\n\n    }\n\n    private void refreshCustomerData() {\n        customerDataPanel.removeAll();\n        loadCustomerData();\n        customerDataPanel.revalidate();\n        customerDataPanel.repaint();\n    }\n\n}\n",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748696822989,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "Map.Entry<Product, Integer>"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "Cannot resolve symbol 'Map'"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "2c938d01-1c18-43bb-b1ef-649d8527d7d4",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see the issue in the `ShopWholeSaleForm.java` file. The error occurs because the `Map` class is not imported. Looking at line 182, you're using `Map.Entry<Product, Integer>` but there's no import statement for `java.util.Map`.\n\nLet me fix this by adding the missing import:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01HaZ9WvYfy3n47hVaC3tizW",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/Shopping/ShopWholeSaleForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\ShopWholeSaleForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/Shopping/ShopWholeSaleForm.java\n+++ src/Shopping/ShopWholeSaleForm.java\n@@ -14,6 +14,8 @@\n import java.sql.PreparedStatement;\n import java.sql.SQLException;\n import java.util.Date;\n+import java.util.List;\n+import java.util.Map;\n \n public class ShopWholeSaleForm extends JFrame {\n     private JPanel Panel1;",
+                    "refToolCallId": "toolu_01HaZ9WvYfy3n47hVaC3tizW"
+                },
+                {
+                    "type": "text",
+                    "text": "I've fixed the issue by adding the missing imports:\n- `java.util.Map` - needed for the `Map.Entry<Product, Integer>` usage in line 182\n- `java.util.List` - needed for the `List<Product>` usage in line 69\n\nThe error should now be resolved as the `Map` symbol will be properly recognized."
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/Shopping/ShopWholeSaleForm.java",
+                            "patch": "@@ -401,16 +401,63 @@\n l.Date;%0D\n+%0Aimport java.util.List;%0D%0Aimport java.util.Map;%0D\n %0A%0D%0Apubli\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "80e1950c-7c99-4a54-9dc1-34a7fd3dc70f"
+            },
+            "createdAt": 1748696824326,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false
+}
+}

@@ -1,0 +1,160 @@
+{
+    "checksum": "4db1c231eee15f5ea7a776b4a5e2ed9173213ca8c4348787f8a58726e04ba149",
+    "data": {
+    "id": "bf906e02-b1ba-4408-99c6-f0c984a4222c",
+    "createdAt": 1748698235306,
+    "updatedAt": 1748698260034,
+    "title": "Java Code Error Resolution",
+    "messages": [
+        {
+            "id": "c0ab1950-d350-4b85-8617-6013a466785d",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "koszyk.getProdukty().entrySet()",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "Cannot resolve method 'entrySet' in 'ArrayList'"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\ShopWholeSaleForm.java",
+                    "fsPath": "C:/Users/Dominik/IdeaProjects/Projekt/src/Shopping/ShopWholeSaleForm.java",
+                    "content": "package Shopping;\n\nimport Customer.AddEditWholeSaleCustomer;\nimport DAO.DatabaseConnection;\nimport DAO.OrderDAO;\nimport DAO.ProductsDAO;\nimport Products.Product;\n\nimport javax.swing.*;\nimport java.awt.*;\nimport java.awt.event.ActionEvent;\nimport java.awt.event.ActionListener;\nimport java.sql.Connection;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.SQLException;\nimport java.util.Date;\nimport java.util.List;\nimport java.util.Map;\nimport DAO.OrderDAO;\n\npublic class ShopWholeSaleForm extends JFrame {\n    private JPanel Panel1;\n    private JPanel baner;\n    private JLabel Logo;\n    private JLabel Napis;\n    private JPanel bottomPanel;\n    private JPanel mainPanel;\n    private JPanel customerDataPanel;\n    private JButton editDataButton;\n    private JButton placeOrderButton;\n    private JButton addToCartButton;\n    private JPanel cartPanel;\n    private JSpinner quantitySpinner;\n    private JPanel productsPanel;\n    private JTable productsTable;\n    private JTable cartTable;\n    private JLabel statusLabel;\n    private JPanel cartButtonsPanel;\n    private Cart koszyk;\n    private KoszykTableModel cartTableModel;\n    private ProductTableModel productsTableModel;\n    private int customerId;\n\n    public ShopWholeSaleForm(int customerId){\n        this.customerId = customerId;\n        this.koszyk = new Cart();\n        this.setTitle(\"Panel Klienta Hurtowego\");\n        this.setSize(1000, 700);\n        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);\n        this.setLocationRelativeTo(null);\n        this.setContentPane(this.Panel1);\n\n        initializeComponents();\n        loadCustomerData();\n        loadProducts();\n        setupTimer();\n    }\n\n    private void setupTimer() {\n        new Timer(1000, new ActionListener() {\n            @Override\n            public void actionPerformed(ActionEvent e) {\n                statusLabel.setText(\"Użytkownik: Klient hurtowy | Data: \" + new Date().toString());\n            }\n        }).start();\n    }\n\n    private void loadProducts() {\n        try {\n            ProductsDAO dao = new ProductsDAO();\n            List<Product> products = dao.getAllProducts();\n            productsTableModel.setProducts(products);\n        } catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd ładowania produktów: \" + e.getMessage(), \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            e.printStackTrace();\n        }\n    }\n\n    private void initializeComponents() {\n        ImageIcon icon = new ImageIcon(getClass().getResource(\"/figurs/logo.png\"));\n        setIconImage(icon.getImage());\n\n        customerDataPanel.setBorder(BorderFactory.createTitledBorder(\"Twoje dane\"));\n        editDataButton = new JButton(\"Edytuj dane\");\n        editDataButton.addActionListener(e->editCustomerData());\n        customerDataPanel.add(editDataButton);\n\n        cartPanel.setBorder(BorderFactory.createTitledBorder(\"Koszyk\"));\n        cartTableModel = new KoszykTableModel(koszyk);\n        cartTable.setModel(cartTableModel);\n\n        placeOrderButton = new JButton(\"Złóż zamówienie\");\n        placeOrderButton.addActionListener(e->placeOrder());\n\n        cartButtonsPanel.add(placeOrderButton);\n\n        productsPanel.setBorder(BorderFactory.createTitledBorder(\"Lista produktów\"));\n        productsTableModel = new ProductTableModel();\n        productsTable.setModel(productsTableModel);\n        productsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);\n\n        quantitySpinner = new JSpinner(new SpinnerNumberModel(1,1,100,1));\n        addToCartButton = new JButton(\"Dodaj do koszyka\");\n        addToCartButton.addActionListener(e -> addToCart());\n\n        JPanel productsControlPanel = new JPanel();\n        productsControlPanel.add(new JLabel(\"Ilość: \"));\n        productsControlPanel.add(quantitySpinner);\n        productsControlPanel.add(addToCartButton);\n\n        productsPanel.add(productsControlPanel, BorderLayout.SOUTH);\n    }\n\n    private void loadCustomerData() {\n        String sql = \"SELECT * FROM klienci_hurtowi WHERE id = ?\";\n        try(Connection conn = DatabaseConnection.getConnection();\n            PreparedStatement stmt = conn.prepareStatement(sql)){\n            stmt.setInt(1,customerId);\n            ResultSet rs = stmt.executeQuery();\n\n            if (rs.next()) {\n                customerDataPanel.add(new JLabel(\"Imię:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"imie\")));\n                customerDataPanel.add(new JLabel(\"Nazwisko:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"nazwisko\")));\n                customerDataPanel.add(new JLabel(\"Firma:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"nazwa_firmy\")));\n                customerDataPanel.add(new JLabel(\"NIP:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"NIP\")));\n                customerDataPanel.add(new JLabel(\"Adres:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"adres\")));\n                customerDataPanel.add(new JLabel(\"Telefon:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"telefon\")));\n                customerDataPanel.add(new JLabel(\"Email:\"));\n                customerDataPanel.add(new JLabel(rs.getString(\"email\")));\n                customerDataPanel.add(new JLabel(\"Suma zakupów:\"));\n                customerDataPanel.add(new JLabel(String.format(\"%.2f zł\", rs.getDouble(\"suma_zakupow\"))));\n            }\n        }catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd ładowania danych klienta: \" + e.getMessage(),\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void addToCart() {\n        int selectedRow = productsTable.getSelectedRow();\n        if(selectedRow >=0){\n            Product product = productsTableModel.getProductAt(selectedRow);\n            int quantity = (int)quantitySpinner.getValue();\n            if(quantity>product.getIlosc()){\n                JOptionPane.showMessageDialog(this, \"Wybrana ilość jest większa niż dostępna w magazynie!\", \"Błąd\", JOptionPane.ERROR_MESSAGE);\n                return;\n            }\n            koszyk.dodajProdukt(product,quantity);\n            cartTableModel.fireTableDataChanged();\n        }else{\n            JOptionPane.showMessageDialog(this,\"Nie wybrano produktu!\",\"Błąd\",JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void placeOrder() {\n        if (koszyk.getProdukty().isEmpty()) {\n            JOptionPane.showMessageDialog(this, \"Koszyk jest pusty!\",\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            return;\n        }\n\n        try {\n            saveWholeSaleOrder();\n            updateStoreBalance();\n            showOrderConfirmation();\n            koszyk.getProdukty().clear();\n            cartTableModel.fireTableDataChanged();\n\n        } catch (SQLException e) {\n            JOptionPane.showMessageDialog(this, \"Błąd podczas składania zamówienia: \" + e.getMessage(),\n                    \"Błąd\", JOptionPane.ERROR_MESSAGE);\n        }\n    }\n\n    private void saveWholeSaleOrder() throws SQLException {\n        Connection conn = null;\n        try {\n            conn = DatabaseConnection.getConnection();\n            conn.setAutoCommit(false);\n            double totalAmount = koszyk.obliczCalkowitaSume();\n            int transactionId = insertWholesaleTransaction(conn, totalAmount);\n            insertTransactionItems(conn, transactionId);\n            updateClientPurchaseSum(conn, totalAmount);\n            conn.commit();\n        } catch (SQLException e) {\n            if (conn != null) conn.rollback();\n            throw e;\n        } finally {\n            if (conn != null) conn.setAutoCommit(true);\n        }\n    }\n\n    private int insertWholesaleTransaction(Connection conn, double totalAmount) throws SQLException {\n        String sql = \"INSERT INTO transakcje (klient_hurtowy_id, data, calkowita_kwota, typ, metoda_platnosci) \" +\n                \"VALUES (?, NOW(), ?, 'hurtowy', 'karta')\";\n        try (PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {\n            stmt.setInt(1, customerId);\n            stmt.setDouble(2, totalAmount);\n            stmt.executeUpdate();\n\n            try (var generatedKeys = stmt.getGeneratedKeys()) {\n                if (generatedKeys.next()) {\n                    return generatedKeys.getInt(1);\n                } else {\n                    throw new SQLException(\"Creating transaction failed, no ID obtained.\");\n                }\n            }\n        }\n    }\n\n    private void insertTransactionItems(Connection conn, int transactionId) throws SQLException {\n        String insertSql = \"INSERT INTO pozycje_transakcji (transakcja_id, produkt_id, ilosc, cena_jednostkowa) VALUES (?, ?, ?, ?)\";\n        String updateSql = \"UPDATE produkty SET ilosc = ilosc - ? WHERE id = ?\";\n\n        try (PreparedStatement insertStmt = conn.prepareStatement(insertSql);\n             PreparedStatement updateStmt = conn.prepareStatement(updateSql)) {\n\n            for (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {\n                Product product = entry.getKey();\n                int quantity = entry.getValue();\n\n                // Insert transaction item\n                insertStmt.setInt(1, transactionId);\n                insertStmt.setInt(2, product.getId());\n                insertStmt.setInt(3, quantity);\n                insertStmt.setDouble(4, product.getCena());\n                insertStmt.addBatch();\n\n                // Update product quantity\n                updateStmt.setInt(1, quantity);\n                updateStmt.setInt(2, product.getId());\n                updateStmt.addBatch();\n            }\n\n            insertStmt.executeBatch();\n            updateStmt.executeBatch();\n        }\n    }\n\n    private void updateClientPurchaseSum(Connection conn, double totalAmount) throws SQLException {\n        String sql = \"UPDATE klienci_hurtowi SET suma_zakupow = suma_zakupow + ? WHERE id = ?\";\n        try (PreparedStatement stmt = conn.prepareStatement(sql)) {\n            stmt.setDouble(1, totalAmount);\n            stmt.setInt(2, customerId);\n            stmt.executeUpdate();\n        }\n    }\n\n    private void showOrderConfirmation() {\n        StringBuilder message = new StringBuilder();\n        message.append(\"Zamówienie zostało złożone!\\n\\n\");\n        message.append(\"Produkty:\\n\");\n\n        for (Map.Entry<Product, Integer> entry : koszyk.getProdukty().entrySet()) {\n            message.append(entry.getKey().getNazwa())\n                    .append(\" X \")\n                    .append(entry.getValue())\n                    .append(\" - \")\n                    .append(String.format(\"%.2f zł\\n\", entry.getKey().getCena() * entry.getValue()));\n        }\n\n        message.append(\"\\nŁączna wartość: \").append(String.format(\"%.2f zł\", koszyk.obliczCalkowitaSume()));\n\n        JOptionPane.showMessageDialog(this, message.toString(), \"Potwierdzenie zamówienia\", JOptionPane.INFORMATION_MESSAGE);\n    }\n\n    private void updateStoreBalance() throws SQLException {\n        double totalAmount = koszyk.obliczCalkowitaSume();\n        String query = \"UPDATE finanse_sklepu SET saldo = saldo + ? WHERE id = 1\";\n        try(Connection conn = DatabaseConnection.getConnection();\n            PreparedStatement stmt = conn.prepareStatement(query)){\n            stmt.setDouble(1,totalAmount);\n            stmt.executeUpdate();\n        }\n    }\n\n    private void editCustomerData() {\n        AddEditWholeSaleCustomer editDialog = new AddEditWholeSaleCustomer(this,customerId);\n        editDialog.setVisible(true);\n        refreshCustomerData();\n    }\n\n    private void refreshCustomerData() {\n        customerDataPanel.removeAll();\n        loadCustomerData();\n        customerDataPanel.revalidate();\n        customerDataPanel.repaint();\n    }\n}",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748698235308,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "koszyk.getProdukty().entrySet()"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "Cannot resolve method 'entrySet' in 'ArrayList'"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "b9a29145-cf79-4cc2-9e49-c9120f108c15",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I can see the issue. The error indicates that `koszyk.getProdukty()` returns an `ArrayList`, but the code is trying to call `entrySet()` on it, which is a method for `Map` objects, not `List` objects.\n\nLet me first examine the `Cart` class to understand the current structure:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_017WXBvF3zdGK7pyx8QvNr4p",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01HW9J8WAWBRGbYSznBM1CHr",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/Shopping/Cart.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\Cart.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now I understand the issue. The `Cart` class stores products as an `ArrayList<Map.Entry<Product, Integer>>`, but in the `ShopWholeSaleForm.java` file, the code is trying to call `entrySet()` on this ArrayList, which doesn't have that method.\n\nLooking at the problematic code in `ShopWholeSaleForm.java`, I can see two places where this issue occurs:\n\n1. Line 225: `for (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {`\n2. Line 261: `for (Map.Entry<Product, Integer> entry : koszyk.getProdukty().entrySet()) {`\n\nThe first usage is correct (iterating over the ArrayList directly), but the second one incorrectly calls `entrySet()`. Let me fix this:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01AnDdUDxypyGT4tiGUVLPmZ",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/Shopping/ShopWholeSaleForm.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\Shopping\\ShopWholeSaleForm.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/Shopping/ShopWholeSaleForm.java\n+++ src/Shopping/ShopWholeSaleForm.java\n@@ -258,7 +258,7 @@\n         message.append(\"Zamówienie zostało złożone!\\n\\n\");\n         message.append(\"Produkty:\\n\");\n \n-        for (Map.Entry<Product, Integer> entry : koszyk.getProdukty().entrySet()) {\n+        for (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {\n             message.append(entry.getKey().getNazwa())\n                     .append(\" X \")\n                     .append(entry.getValue())",
+                    "refToolCallId": "toolu_01AnDdUDxypyGT4tiGUVLPmZ"
+                },
+                {
+                    "type": "text",
+                    "text": "Perfect! I've fixed the issue by removing the incorrect `.entrySet()` call on line 261. The code now correctly iterates over the `ArrayList<Map.Entry<Product, Integer>>` returned by `koszyk.getProdukty()` without trying to call `entrySet()` on it.\n\nThe fix changes:\n```java\nfor (Map.Entry<Product, Integer> entry : koszyk.getProdukty().entrySet()) {\n```\n\nto:\n```java\nfor (Map.Entry<Product, Integer> entry : koszyk.getProdukty()) {\n```\n\nThis is consistent with how the same iteration is done correctly elsewhere in the code (like on line 225). The `getProdukty()` method returns an `ArrayList` of `Map.Entry` objects, so we can iterate over it directly without needing to call `entrySet()`."
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/Shopping/ShopWholeSaleForm.java",
+                            "patch": "@@ -10695,19 +10695,8 @@\n ty()\n-.entrySet()\n ) %7B%0D\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "c704d077-cef1-47a2-8134-9f6a380a6bfd"
+            },
+            "createdAt": 1748698237314,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false
+}
+}

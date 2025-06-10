@@ -1,0 +1,164 @@
+{
+    "checksum": "cfa88c52c630bfc534e52baedbe8cea82faa229f7deb940fe1b6a6851ebb1f39",
+    "data": {
+    "id": "c599d94e-dd5d-4790-a5dd-a82c6769c9f2",
+    "createdAt": 1748742865708,
+    "updatedAt": 1748742884848,
+    "title": "Java Method Access Fix",
+    "messages": [
+        {
+            "id": "73b1b68c-6951-4979-8573-65fb805038a9",
+            "role": "user",
+            "content": [
+                {
+                    "type": "command",
+                    "commandName": "fix"
+                },
+                {
+                    "type": "codeSnippet",
+                    "text": "tableModel.loadData()",
+                    "language": "java"
+                },
+                {
+                    "type": "text",
+                    "text": "'loadData()' is not public in 'View.TableModels.CustomerTableModel'. Cannot be accessed from outside package"
+                }
+            ],
+            "context": {
+                "currentFile": {
+                    "path": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\View\\Customer\\CustomerList.java",
+                    "fsPath": "C:/Users/Dominik/IdeaProjects/Projekt/src/View/Customer/CustomerList.java",
+                    "content": "package View.Customer;\n\nimport DAO.DatabaseConnection;\nimport DAO.UserDAO;\nimport View.Main.AdminForm;\nimport View.TableModels.CustomerTableModel;\n\nimport javax.swing.*;\nimport java.awt.*;\nimport java.sql.Connection;\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.sql.SQLException;\n\npublic class CustomerList extends JFrame {\n    private JPanel mainPanel;\n    private JPanel headerPanel;\n    private JPanel contentPanel;\n    private JPanel controlPanel;\n    private JRadioButton Retail;\n    private JRadioButton WholeSale;\n    private JTable table1;\n    private JButton dodajButton;\n    private JButton edytujButton;\n    private JButton usunButton;\n    private JButton showDetails;\n    private JButton menuButton;\n    private CustomerTableModel tableModel;\n    private ButtonGroup customerTypeGroup;\n    private JLabel statusLabel;\n\n    public CustomerList() {\n        super(\"Lista klientów\");\n        initializeComponents();\n        setupLayout();\n        setupListeners();\n        loadCustomers();\n\n        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);\n        this.setSize(1200, 800);\n        this.setLocationRelativeTo(null);\n        this.setVisible(true);\n    }\n\n    private void initializeComponents() {\n        // Główny panel\n        mainPanel = new JPanel(new BorderLayout(10, 10));\n        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));\n        mainPanel.setBackground(new Color(245, 245, 245));\n\n        // Nagłówek\n        headerPanel = new JPanel(new BorderLayout());\n        headerPanel.setBackground(new Color(44, 62, 80));\n        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));\n\n        // Logo\n        ImageIcon logoIcon = new ImageIcon(getClass().getResource(\"/figurs/logo.png\"));\n        Image scaledLogo = logoIcon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);\n        JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));\n        logoLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));\n        headerPanel.add(logoLabel, BorderLayout.WEST);\n\n        // Tytuł\n        JLabel titleLabel = new JLabel(\"LISTA KLIENTÓW\", SwingConstants.CENTER);\n        titleLabel.setFont(new Font(\"Segoe UI\", Font.BOLD, 24));\n        titleLabel.setForeground(Color.WHITE);\n        headerPanel.add(titleLabel, BorderLayout.CENTER);\n\n        // Panel zawartości\n        contentPanel = new JPanel(new BorderLayout(10, 10));\n        contentPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));\n        contentPanel.setBackground(new Color(245, 245, 245));\n\n        // Panel kontrolny\n        controlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));\n        controlPanel.setBorder(BorderFactory.createCompoundBorder(\n                BorderFactory.createLineBorder(new Color(200, 200, 200)),\n                BorderFactory.createEmptyBorder(15, 15, 15, 15)\n        ));\n        controlPanel.setBackground(Color.WHITE);\n\n        // Radio buttons\n        Retail = new JRadioButton(\"Klienci detaliczni\");\n        WholeSale = new JRadioButton(\"Klienci hurtowi\");\n        customerTypeGroup = new ButtonGroup();\n        customerTypeGroup.add(Retail);\n        customerTypeGroup.add(WholeSale);\n        Retail.setSelected(true);\n\n        // Stylizacja radio buttons\n        Retail.setFont(new Font(\"Segoe UI\", Font.PLAIN, 14));\n        WholeSale.setFont(new Font(\"Segoe UI\", Font.PLAIN, 14));\n\n        controlPanel.add(new JLabel(\"Typ klienta:\"));\n        controlPanel.add(Retail);\n        controlPanel.add(WholeSale);\n\n        // Tabela\n        tableModel = new CustomerTableModel();\n        table1 = new JTable(tableModel);\n        styleTable(table1);\n        table1.setAutoCreateRowSorter(true);\n        table1.setFillsViewportHeight(true);\n\n        // Przyciski\n        dodajButton = createStyledButton(\"Dodaj\", new Color(46, 204, 113));\n        edytujButton = createStyledButton(\"Edytuj\", new Color(52, 152, 219));\n        usunButton = createStyledButton(\"Usuń\", new Color(231, 76, 60));\n        showDetails = createStyledButton(\"Szczegóły\", new Color(241, 196, 15));\n        menuButton = createStyledButton(\"Menu\", new Color(155, 89, 182));\n\n        // Panel przycisków\n        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));\n        buttonsPanel.setOpaque(false);\n        buttonsPanel.add(dodajButton);\n        buttonsPanel.add(edytujButton);\n        buttonsPanel.add(usunButton);\n        buttonsPanel.add(showDetails);\n        buttonsPanel.add(menuButton);\n\n        // Panel statusu\n        statusLabel = new JLabel(\"Użytkownik: ADMINISTRATOR | Data: \");\n        statusLabel.setFont(new Font(\"Segoe UI\", Font.PLAIN, 12));\n        JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));\n        statusPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));\n        statusPanel.setOpaque(false);\n        statusPanel.add(statusLabel);\n    }\n\n    private void setupLayout() {\n        // Panel tabeli\n        JPanel tablePanel = new JPanel(new BorderLayout());\n        JScrollPane tableScrollPane = new JScrollPane(table1);\n        tableScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));\n        tablePanel.add(tableScrollPane, BorderLayout.CENTER);\n\n        // Panel dolny z przyciskami\n        JPanel bottomPanel = new JPanel(new BorderLayout());\n        bottomPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));\n        bottomPanel.setBackground(new Color(245, 245, 245));\n\n        JPanel buttonsContainer = new JPanel(new BorderLayout());\n        buttonsContainer.setOpaque(false);\n        buttonsContainer.add(controlPanel, BorderLayout.NORTH);\n\n        JPanel buttonsWrapper = new JPanel(new BorderLayout());\n        buttonsWrapper.setOpaque(false);\n        buttonsWrapper.add(new JPanel(), BorderLayout.CENTER); // Pusty panel do centrowania\n        buttonsWrapper.add(createButtonsPanel(), BorderLayout.EAST);\n\n        buttonsContainer.add(buttonsWrapper, BorderLayout.SOUTH);\n        bottomPanel.add(buttonsContainer, BorderLayout.SOUTH);\n\n        // Dodanie komponentów do panelu zawartości\n        contentPanel.add(controlPanel, BorderLayout.NORTH);\n        contentPanel.add(tablePanel, BorderLayout.CENTER);\n        contentPanel.add(bottomPanel, BorderLayout.SOUTH);\n\n        // Dodanie komponentów do głównego panelu\n        mainPanel.add(headerPanel, BorderLayout.NORTH);\n        mainPanel.add(contentPanel, BorderLayout.CENTER);\n\n        this.setContentPane(mainPanel);\n    }\n\n    private JPanel createButtonsPanel() {\n        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));\n        buttonsPanel.setOpaque(false);\n        buttonsPanel.add(dodajButton);\n        buttonsPanel.add(edytujButton);\n        buttonsPanel.add(usunButton);\n        buttonsPanel.add(showDetails);\n        buttonsPanel.add(menuButton);\n        return buttonsPanel;\n    }\n\n    private void setupListeners() {\n        // Timer aktualizujący status\n        new Timer(1000, e -> {\n            statusLabel.setText(\"Użytkownik: ADMINISTRATOR | Data: \" + new java.util.Date().toString());\n        }).start();\n\n        Retail.addActionListener(e -> loadCustomers());\n        WholeSale.addActionListener(e -> loadCustomers());\n\n        dodajButton.addActionListener(e -> addCustomer());\n        edytujButton.addActionListener(e -> editCustomer());\n        usunButton.addActionListener(e -> deleteCustomer());\n        showDetails.addActionListener(e -> showCustomerDetails());\n\n        menuButton.addActionListener(e -> {\n            dispose();\n            new AdminForm();\n        });\n    }\n\n    private JButton createStyledButton(String text, Color color) {\n        JButton button = new JButton(text);\n        button.setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n        button.setBackground(color);\n        button.setForeground(Color.WHITE);\n        button.setFocusPainted(false);\n        button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));\n        button.setCursor(new Cursor(Cursor.HAND_CURSOR));\n        return button;\n    }\n\n    private void styleTable(JTable table) {\n        table.setFont(new Font(\"Segoe UI\", Font.PLAIN, 14));\n        table.setRowHeight(30);\n        table.setShowGrid(true);\n        table.setGridColor(new Color(220, 220, 220));\n        table.setSelectionBackground(new Color(200, 200, 255));\n        table.setSelectionForeground(Color.BLACK);\n        table.setIntercellSpacing(new Dimension(0, 0));\n        table.setFillsViewportHeight(true);\n\n        table.getTableHeader().setFont(new Font(\"Segoe UI\", Font.BOLD, 14));\n        table.getTableHeader().setBackground(new Color(44, 62, 80));\n        table.getTableHeader().setForeground(Color.WHITE);\n    }\n\n    private void showCustomerDetails() {\n        int selectedRow = table1.getSelectedRow();\n        if (selectedRow < 0) {\n            JOptionPane.showMessageDialog(null, \"Proszę wybrać klienta\", \"Błąd\", JOptionPane.WARNING_MESSAGE);\n            return;\n        }\n        int customerId = (int) tableModel.getValueAt(selectedRow, 0);\n        boolean isRetail = Retail.isSelected();\n\n        new CustomerDetails(this, customerId, isRetail);\n    }\n\n    private void loadCustomers() {\n        boolean isRetail = Retail.isSelected();\n        tableModel.setRetail(isRetail);\n        tableModel.loadData();\n    }\n\n    private void deleteCustomer() {\n        int selectedRow = table1.getSelectedRow();\n        if (selectedRow < 0) {\n            JOptionPane.showMessageDialog(null, \"Proszę wybrać klienta do usunięcia\", \"Błąd\", JOptionPane.WARNING_MESSAGE);\n            return;\n        }\n\n        int customerID = (int) tableModel.getValueAt(selectedRow, 0);\n        boolean isRetail = Retail.isSelected();\n\n        if (hasRelatedTransactions(customerID, isRetail)) {\n            JOptionPane.showMessageDialog(null, \"Nie można usunąć klienta z transakcjami\", \"Błąd\", JOptionPane.WARNING_MESSAGE);\n            return;\n        }\n\n        int confirm = JOptionPane.showConfirmDialog(null,\n                \"Czy na pewno chcesz usunąć tego klienta?\",\n                \"Usuwanie\",\n                JOptionPane.YES_NO_OPTION);\n\n        if (confirm == JOptionPane.YES_OPTION) {\n            try {\n                UserDAO userDAO = new UserDAO();\n\n                if (!isRetail) {\n                    int userId = userDAO.getUserIdByWholesaleId(customerID);\n                    userDAO.deleteUser(userId);\n                }\n\n                String tableName = isRetail ? \"klienci_detaliczni\" : \"klienci_hurtowi\";\n                String sql = \"DELETE FROM \" + tableName + \" WHERE id = ?\";\n\n                try (Connection conn = DatabaseConnection.getConnection();\n                     PreparedStatement stmt = conn.prepareStatement(sql)) {\n                    stmt.setInt(1, customerID);\n                    int affectedRows = stmt.executeUpdate();\n                    if (affectedRows > 0) {\n                        JOptionPane.showMessageDialog(null, \"Usunięto klienta\", \"Sukces\", JOptionPane.INFORMATION_MESSAGE);\n                        loadCustomers();\n                    }\n                }\n            } catch (SQLException e) {\n                e.printStackTrace();\n                JOptionPane.showMessageDialog(null, \"Błąd podczas usuwania klienta: \" + e.getMessage(), \"Błąd\", JOptionPane.ERROR_MESSAGE);\n            }\n        }\n    }\n\n    private boolean hasRelatedTransactions(int customerID, boolean isRetail) {\n        String query = isRetail ? \"SELECT COUNT(*) FROM transakcje WHERE klient_detaliczny_id = ?\" : \"SELECT COUNT(*) FROM transakcje WHERE klient_hurtowy_id = ?\";\n\n        try(Connection conn = DatabaseConnection.getConnection();\n            PreparedStatement stmt = conn.prepareStatement(query)) {\n            stmt.setInt(1, customerID);\n            ResultSet rs = stmt.executeQuery();\n\n            if(rs.next()){\n                return rs.getInt(1) > 0;\n            }\n        }\n        catch(SQLException e){\n            e.printStackTrace();\n        }\n        return false;\n    }\n\n    private void editCustomer() {\n        int selectedRow = table1.getSelectedRow();\n        if (selectedRow < 0) {\n            JOptionPane.showMessageDialog(null, \"Proszę wybrać klienta do edycji\", \"Błąd\", JOptionPane.WARNING_MESSAGE);\n            return;\n        }\n        int customerID = (int) tableModel.getValueAt(selectedRow, 0);\n        boolean isRetail = Retail.isSelected();\n        if(isRetail){\n            new AddEditRetailCustomer(this, customerID).setVisible(true);\n        }else{\n            new AddEditWholeSaleCustomer(this, customerID).setVisible(true);\n        }\n        loadCustomers();\n    }\n\n    private void addCustomer() {\n        boolean isRetail = Retail.isSelected();\n        if(isRetail){\n            JOptionPane.showMessageDialog(this, \"Dodawanie nowych klientów detalicznych jest zablokowane\", \"Informacja\", JOptionPane.INFORMATION_MESSAGE);\n            return;\n        }else{\n            new AddEditWholeSaleCustomer(this, null).setVisible(true);\n        }\n        loadCustomers();\n    }\n}",
+                    "language": "java"
+                },
+                "codebaseEnabled": true
+            },
+            "createdAt": 1748742865708,
+            "isInternal": false,
+            "rawContent": {
+                "type": "doc",
+                "content": [
+                    {
+                        "type": "paragraph",
+                        "content": [
+                            {
+                                "type": "command",
+                                "attrs": {
+                                    "label": "fix"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "/fix"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "codeBlock",
+                                "attrs": {
+                                    "language": "java"
+                                },
+                                "content": [
+                                    {
+                                        "type": "text",
+                                        "text": "tableModel.loadData()"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "text",
+                                "text": "'loadData()' is not public in 'View.TableModels.CustomerTableModel'. Cannot be accessed from outside package"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "6254e023-8014-4de6-b88a-e64c8ce3dbf1",
+            "role": "assistant",
+            "content": [
+                {
+                    "type": "text",
+                    "text": "I need to examine the `CustomerTableModel` class to understand the issue and fix the visibility of the `loadData()` method. Let me search for this file first."
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_01M7ze29aHWwBadH3qNirxiz",
+                    "title": "File search",
+                    "statusText": "Done",
+                    "status": "SUCCESS",
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "Now let me examine the `CustomerTableModel` class to see the current visibility of the `loadData()` method:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_018C3t7brXC2w3hoEtuZUWfL",
+                    "statusText": "Viewed file",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/View/TableModels/CustomerTableModel.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\View\\TableModels\\CustomerTableModel.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "text",
+                    "text": "I can see the issue. The `loadData()` method on line 23 has package-private visibility (no access modifier), which means it can only be accessed from within the same package (`View.TableModels`). However, the `CustomerList` class is in the `View.Customer` package, so it cannot access this method.\n\nThe fix is to change the visibility of the `loadData()` method from package-private to `public`. Here's the fix:"
+                },
+                {
+                    "type": "toolCall",
+                    "toolCallId": "toolu_0197tLTT2foTLWF6RwQxDxvj",
+                    "statusText": "Change generated",
+                    "status": "SUCCESS",
+                    "context": {
+                        "files": [
+                            {
+                                "path": "src/View/TableModels/CustomerTableModel.java",
+                                "fsPath": "C:\\Users\\Dominik\\IdeaProjects\\Projekt\\src\\View\\TableModels\\CustomerTableModel.java"
+                            }
+                        ]
+                    },
+                    "isHidden": false
+                },
+                {
+                    "type": "codeHunk",
+                    "lineBasedDiff": "--- src/View/TableModels/CustomerTableModel.java\n+++ src/View/TableModels/CustomerTableModel.java\n@@ -20,7 +20,7 @@\n         loadData();\n     }\n \n-    void loadData() {\n+    public void loadData() {\n         data.clear();\n         String sql = isRetail ? \"SELECT id, imie, nazwisko, adres, telefon, email, suma_zakupow FROM klienci_detaliczni\" : \"SELECT id, imie, nazwisko, adres, telefon, email, suma_zakupow, NIP, nazwa_firmy FROM klienci_hurtowi\";\n ",
+                    "refToolCallId": "toolu_0197tLTT2foTLWF6RwQxDxvj"
+                },
+                {
+                    "type": "text",
+                    "text": "Perfect! I've fixed the issue by changing the `loadData()` method visibility from package-private to `public`. Now the `CustomerList` class can successfully call `tableModel.loadData()` from the `View.Customer` package.\n\nThe change was simple but essential:\n- **Before**: `void loadData()` (package-private access)\n- **After**: `public void loadData()` (public access)\n\nThis allows the method to be accessed from any class that has a reference to a `CustomerTableModel` instance, which is exactly what the `CustomerList` class needs to do when refreshing the table data."
+                },
+                {
+                    "type": "codePatch",
+                    "diffs": [
+                        {
+                            "path": "src/View/TableModels/CustomerTableModel.java",
+                            "patch": "@@ -673,16 +673,23 @@\n %0D%0A%0D%0A    \n+public \n void loa\n",
+                            "isNew": false,
+                            "isApplied": true
+                        }
+                    ]
+                }
+            ],
+            "context": {
+                "author": "Coding Agent",
+                "operationId": "42899ad2-de19-467f-a62a-f15ee0d12788"
+            },
+            "createdAt": 1748742866660,
+            "isInternal": false
+        }
+    ],
+    "isAgent": true,
+    "isNameGenerated": true,
+    "isCustomAgent": false
+}
+}
