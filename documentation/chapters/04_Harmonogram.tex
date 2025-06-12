@@ -1,0 +1,42 @@
+
+\chapter{Harmonogram i Zarządzanie Projektem}
+\label{chap:harmonogram}
+
+\section{Harmonogram realizacji - Diagram Gantta}
+\label{sec:gantt}
+
+Proces tworzenia aplikacji został podzielony na kilka kluczowych etapów, których realizację w czasie ilustruje diagram Gantta (Rys. \ref{fig:gantt_chart}). Prace nad projektem rozłożono w sposób umożliwiający systematyczny postęp i iteracyjne dostarczanie funkcjonalności.
+
+\begin{itemize}
+    \item \textbf{Faza 1: Analiza i Projektowanie (ok. 15\% czasu pracy)}: Ten początkowy etap obejmował zdefiniowanie wymagań funkcjonalnych i niefunkcjonalnych , zaprojektowanie trójwarstwowej architektury systemu  oraz stworzenie schematu relacyjnej bazy danych w MySQL.
+    
+    \item \textbf{Faza 2: Implementacja Warstwy Danych i Logiki Biznesowej (ok. 30\% czasu pracy)}: Największą część tej fazy zajęło stworzenie warstwy dostępu do danych (DAO)  oraz klas modelu (np. \texttt{Product} , \texttt{Customer} ), które stanowią fundament komunikacji z bazą danych.
+    
+    \item \textbf{Faza 3: Implementacja Interfejsu Graficznego Użytkownika (ok. 40\% czasu pracy)}: Był to najbardziej czasochłonny etap, obejmujący budowę wszystkich okien i paneli aplikacji w technologii Java Swing (np. \texttt{AdminForm} , \texttt{ShopRetailForm} ) , implementację logiki obsługi zdarzeń (np. kliknięcia przycisków)  oraz stylizację komponentów w celu zapewnienia spójnego i intuicyjnego interfejsu.
+    
+    \item \textbf{Faza 4: Testowanie i Dokumentacja (ok. 15\% czasu pracy)}: Ostatni etap poświęcono na manualne testy kluczowych scenariuszy użytkowania, takich jak proces logowania , składanie zamówień  czy zarządzanie danymi przez administratora. Równolegle tworzono niniejszą dokumentację techniczną w systemie \LaTeX.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{figures/fig_0008.eps}
+    \caption{Harmonogram realizacji projektu (Diagram Ganta).}
+    \label{fig:gantt_chart}
+    \small{Źródło: Opracowanie własne na podstawie szablonu Microsoft Gantt Chart Template.}
+\end{figure}
+
+\section{Napotkane wyzwania i rozwiązania}
+W trakcie prac nad projektem nie obyło się bez pewnych trudności, które wymagały kreatywnego podejścia. Jednym z wyzwań była implementacja intuicyjnego mechanizmu wyboru daty w panelu administratora. Początkowe rozwiązanie, oparte na standardowych komponentach biblioteki Swing, takich jak \texttt{JComboBox} dla miesiąca i roku oraz \texttt{JButton} dla dni, okazało się nieestetyczne i mało wygodne dla użytkownika.
+
+W poszukiwaniu lepszej alternatywy przeprowadzono research w internecie, w tym na platformie GitHub, w celu znalezienia gotowej biblioteki z komponentem kalendarza. Ostatecznie wybór padł na bibliotekę \texttt{LGoodDatePicker} \cite{LGoodDatePicker}. Jej integracja z projektem była strzałem w dziesiątkę. Biblioteka dostarczyła atrakcyjny wizualnie i prosty w obsłudze kalendarz, co znacząco poprawiło użyteczność aplikacji w miejscach wymagających operowania na datach, łącząc funkcjonalność z nowoczesnym wyglądem.
+
+\section{System kontroli wersji i repozytorium}
+Zarządzanie kodem źródłowym projektu opierało się na systemie kontroli wersji **Git**, który jest standardem w nowoczesnym wytwarzaniu oprogramowania. Wszystkie operacje, takie jak tworzenie commitów, zarządzanie gałęziami (branching) czy scalanie zmian (merging), były wykonywane przy użyciu zintegrowanego klienta Git w środowisku programistycznym **IntelliJ IDEA**.
+
+Jako centralne, zdalne repozytorium kodu wykorzystano platformę **GitHub**. Cały projekt, wraz z historią zmian, jest publicznie dostępny pod adresem:
+\begin{center}
+    \url{https://github.com/Deskalisko/Projekt_JAVA}
+\end{center}
+Wykorzystanie systemu kontroli wersji pozwoliło na systematyczne śledzenie postępów, bezpieczne eksperymentowanie z nowymi funkcjonalnościami w osobnych gałęziach oraz zapewniło stałą kopię zapasową projektu.
+
+\clearpage

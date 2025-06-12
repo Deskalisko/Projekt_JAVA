@@ -1,0 +1,162 @@
+@startuml
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+hide fields
+
+package "Interfejs Użytkownika (GUI)" {
+    package "Panel Klienta" {
+        class ShopRetailForm {
+            + ShopRetailForm()
+            - loadProducts()
+            - placeOrder()
+            - addToCart()
+        }
+        class CustomerList {
+            + CustomerList()
+            - loadCustomers()
+            - showCustomerDetails()
+        }
+        class CustomerDetails {
+            + CustomerDetails()
+            - loadCustomerData()
+            - createTransactionsPanel()
+        }
+    }
+
+    package "Logowanie" {
+        class MainForm {
+            + MainForm()
+            - initiatePasswordReset()
+        }
+    }
+
+    package "Panel Administratora" {
+        class AdminForm {
+            + AdminForm()
+            - loadTransactions()
+        }
+        class WarehouseForm {
+            + WarehouseForm()
+            - loadProducts()
+            - generateReport()
+            - orderProducts()
+        }
+        class ManagementTransactionForm {
+            + ManagementTransactionForm()
+            - updateStatistics()
+            - generateCSVRaport()
+        }
+    }
+}
+
+package "Dostęp do Danych (DAO)" {
+    package "Obsługa Klienta i Zamówień" {
+        class ProductsDAO {
+            + ProductsDAO()
+            + getProductsSorted()
+            + getProductById()
+        }
+        class OrderDAO {
+            + OrderDAO()
+            + saveOrder()
+        }
+        class RetailCustomerDAO {
+          + RetailCustomerDAO()
+          + getCustomerData()
+        }
+        class TransactionDetailsDAO {
+            + getProductsInTransaction()
+        }
+    }
+
+    package "Obsługa Użytkowników" {
+        class UserDAO {
+            + UserDAO()
+            + authenticateUser()
+            + resetUserPassword()
+        }
+    }
+
+    package "Administracja i Raporty" {
+        class TransactionDAO {
+            + TransactionDAO()
+            - updateStoreBalance()
+        }
+        class ReportsDAO {
+            + ReportsDAO()
+            + generateLowStockReport()
+        }
+        class StatisticsDAO {
+          + StatisticsDAO()
+          + getFilteredTransactionStatistics()
+        }
+    }
+}
+
+package "Model Domeny" {
+    package "Obiekty Biznesowe" {
+        class Product {
+            + Product()
+        }
+        class RetailCustomer {
+            + RetailCustomer()
+        }
+        class Cart {
+            + Cart()
+            + dodajProdukt()
+            + obliczCalkowitaSume()
+        }
+        class User {
+            + User()
+        }
+        class Transaction {
+            + Transaction()
+        }
+        class WarehouseOrder {
+            + WarehouseOrder()
+        }
+    }
+
+    package "Obiekty Statystyk" {
+        class TransactionStats {
+            + getTotalRevenue()
+            + getTransactionCount()
+            + getAverageTransactionValue()
+            + getStartDate()
+            + getEndDate()
+        }
+    }
+}
+
+' Połączenia i zależności między powyższymi elementami:
+'==============================================================
+
+' Opis przepływu dla klienta
+CustomerList ..> CustomerDetails : otwiera
+CustomerDetails ..> RetailCustomerDAO
+CustomerDetails ..> TransactionDetailsDAO
+ShopRetailForm ..> ProductsDAO
+ShopRetailForm ..> OrderDAO
+ShopRetailForm ..> Cart
+Cart "1" -- "0..*" Product : Zawiera
+
+' Opis przepływu logowania
+MainForm ..> UserDAO : uwierzytelnia
+MainForm ..> AdminForm : otwiera (dla admina)
+
+' Opis przepływu dla administratora
+AdminForm ..> ManagementTransactionForm : otwiera
+ManagementTransactionForm ..> StatisticsDAO
+WarehouseForm ..> ProductsDAO
+WarehouseForm ..> ReportsDAO
+WarehouseForm ..> OrderDAO : zamawia towar
+
+' Opis powiązań logiki z modelem danych
+RetailCustomerDAO ..> RetailCustomer
+UserDAO ..> User
+TransactionDAO ..> Transaction
+StatisticsDAO ..> TransactionStats
+OrderDAO ..> WarehouseOrder
+
+@enduml

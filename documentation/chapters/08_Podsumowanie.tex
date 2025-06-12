@@ -1,0 +1,20 @@
+\chapter{Podsumowanie}
+\label{chap:podsumowanie}
+
+\section{Wnioski}
+Zrealizowany projekt zakończył się sukcesem, osiągając główny cel, którym było stworzenie w pełni funkcjonalnej, dwumodułowej aplikacji desktopowej do zarządzania sklepem. System, oparty o technologie Java, Swing oraz bazę danych MySQL, poprawnie realizuje wszystkie kluczowe założenia, oferując zarówno panel przeznaczony dla klienta, jak i rozbudowane centrum zarządcze dla administratora.
+
+Zastosowanie trójwarstwowej architektury z wzorcem projektowym DAO (Data Access Object) okazało się kluczowe dla zapewnienia czystości i skalowalności kodu. Udało się skutecznie oddzielić warstwę prezentacji od logiki biznesowej i dostępu do danych, co ułatwiło implementację, testowanie oraz potencjalny dalszy rozwój poszczególnych komponentów systemu.
+
+Wszystkie zdefiniowane wymagania funkcjonalne, takie jak proces logowania, zarządzanie asortymentem i stanami magazynowymi, obsługa koszyka zakupowego oraz finalizacja transakcji, zostały pomyślnie zaimplementowane i zweryfikowane w testach manualnych. Aplikacja stanowi solidną i kompletną podstawę, która może być w przyszłości rozwijana o nowe, zaawansowane funkcjonalności.
+
+\section{Propozycje dalszego rozwoju}
+Mimo że obecna wersja aplikacji jest w pełni funkcjonalna, istnieje znaczny potencjał do jej dalszej rozbudowy. Poniżej przedstawiono trzy kluczowe kierunki możliwego rozwoju:
+
+\begin{enumerate}
+    \item \textbf{Wdrożenie testów automatycznych:} W celu podniesienia niezawodności i ułatwienia przyszłego utrzymania kodu, kluczowym krokiem byłoby wprowadzenie testów automatycznych. Przy użyciu frameworka \textbf{JUnit} oraz bibliotek takich jak \textbf{Mockito}, można by stworzyć testy jednostkowe dla klas w warstwie DAO, weryfikując poprawność operacji bazodanowych w izolacji. Umożliwiłoby to szybkie wykrywanie regresji po wprowadzeniu nowych zmian.
+
+    \item \textbf{Rozbudowa modułu raportowania i analiz:} Obecny system generuje podstawowe raporty w formacie CSV. Znacznym usprawnieniem byłoby stworzenie zaawansowanego modułu analitycznego, który wizualizowałby dane za pomocą wykresów (np. z wykorzystaniem biblioteki \textbf{JFreeChart}). Moduł ten mógłby generować raporty sprzedaży w ujęciu czasowym, analizować najpopularniejsze produkty czy przedstawiać statystyki dotyczące aktywności poszczególnych klientów.
+
+    \item \textbf{Funkcjonalność resetowania hasła dla użytkowników:} Wdrożenie bezpiecznego mechanizmu resetowania hasła, co zwiększyłoby użyteczność i bezpieczeństwo aplikacji dla użytkowników końcowych. Wymagałoby to m.in. implementacji wysyłki wiadomości e-mail z linkiem do resetowania oraz odpowiedniej obsługi po stronie serwera.
+\end{enumerate}
