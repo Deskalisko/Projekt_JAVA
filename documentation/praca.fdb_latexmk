@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex praca"] 1749819546.44216 "praca.aux" "praca.bbl" "praca" 1749819720.79664 0
+["bibtex praca"] 1749819546.44216 "praca.aux" "praca.bbl" "praca" 1749821006.41512 0
   "./bibliografia.bib" 1749732887 160 6e8515e9892b836667ce26cea7ecc46a ""
   "C:/Program Files/MiKTeX/bibtex/bst/bibtex/plain.bst" 1291864736 20613 bd3fbfa9f64872b81ac57a0dd2ed855f ""
-  "praca.aux" 1749819719 11692 f0104ce76f49f6fe05be4d1b70136570 "pdflatex"
+  "praca.aux" 1749821005 11692 f0104ce76f49f6fe05be4d1b70136570 "pdflatex"
   (generated)
   "praca.bbl"
   "praca.blg"
   (rewritten before read)
-["pdflatex"] 1749819717.50007 "c:/Users/Dominik/Desktop/dokumentacja/praca.tex" "praca.pdf" "praca" 1749819720.79746 0
+["pdflatex"] 1749820998.14723 "c:/Users/Dominik/Desktop/dokumentacja/praca.tex" "praca.pdf" "praca" 1749821006.41595 0
   "C:/Program Files/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/courier/pcrb8r.tfm" 1136765053 1292 3059476c50a24578715759f22652f3d0 ""
   "C:/Program Files/MiKTeX/fonts/tfm/adobe/courier/pcrb8t.tfm" 1136765053 1384 87406e4336af44af883a035f17f319d9 ""
@@ -170,7 +170,7 @@
   "C:/Program Files/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
   "C:/Users/Dominik/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1749544220 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Dominik/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1749544924 24215237 752305d693064bf2faa1b1378ed1e1d3 ""
-  "c:/Users/Dominik/Desktop/dokumentacja/praca.tex" 1749819716 7786 a2499caf28a362005790e3be5bc81f66 ""
+  "c:/Users/Dominik/Desktop/dokumentacja/praca.tex" 1749820996 7786 a2499caf28a362005790e3be5bc81f66 ""
   "chapters/01_Streszczenie.tex" 1749818347 1565 ab3c671b8973f9e00ba7e3a203ea764b ""
   "chapters/02_Zalozenia.tex" 1749818381 2882 9dc05c09f53bb52267c39731ae6116fa ""
   "chapters/03_Struktura.tex" 1749818474 5445 03aa6470ca0bed39747f2d6c82385d5c ""
@@ -184,20 +184,20 @@
   "figures/fig_0004.eps" 1749758643 236758 a96c1b5567406e183f7afa41d6356f07 ""
   "figures/fig_0005.eps" 1749758841 279418 192bbfb1c483d6648bc35754a5f7057f ""
   "figures/fig_0006.eps" 1749580898 2964809 5691eb90b1a3705786c6bcd33d3953f2 ""
-  "figures/fig_0007.eps" 1749819094 7024863 9f40cacc5467782efaf7aee9f1441f69 ""
+  "figures/fig_0007.eps" 1749820967 4655605 b65bace7465a85767140a28282a9d29d ""
   "figures/fig_0008.eps" 1749727286 9157954 3dc4ea3b28be266f3bcbf3ac34d8ba35 ""
   "figures/fig_0009.eps" 1749741540 4360176 3982e329bb9e0755cf2434d914c5741a ""
   "figures/fig_0010.eps" 1749757697 1971537 623a639419012d8e80d6982fa131ef7e ""
   "figures/fig_0011.eps" 1749757923 5625378 6a3189727bfee2fa0b87c5681f946710 ""
   "figures/fig_0012.eps" 1749758183 5067936 419104c6f07ff48ef6f10465610abffc ""
   "figures/ur.jpg" 1726310487 6711 dc179607c281d4bfff252998ed5b4cec ""
-  "praca.aux" 1749819719 11692 f0104ce76f49f6fe05be4d1b70136570 "pdflatex"
+  "praca.aux" 1749821005 11692 f0104ce76f49f6fe05be4d1b70136570 "pdflatex"
   "praca.bbl" 1749819546 192 f498ba22fee3ff79c3b85136895b1e80 "bibtex praca"
-  "praca.lof" 1749819719 1660 427ef90cea412fe472033f12e245efa5 "pdflatex"
-  "praca.lol" 1749819719 349 68aa0501a9afe3da665f63a4e619a0b6 "pdflatex"
-  "praca.out" 1749819719 9341 011f881705dc062d6024754bf81f7931 "pdflatex"
-  "praca.tex" 1749819716 7786 a2499caf28a362005790e3be5bc81f66 ""
-  "praca.toc" 1749819719 4134 c58565d947cefff2aa626f21327c00c3 "pdflatex"
+  "praca.lof" 1749821005 1660 427ef90cea412fe472033f12e245efa5 "pdflatex"
+  "praca.lol" 1749821005 349 68aa0501a9afe3da665f63a4e619a0b6 "pdflatex"
+  "praca.out" 1749821005 9341 011f881705dc062d6024754bf81f7931 "pdflatex"
+  "praca.tex" 1749820996 7786 a2499caf28a362005790e3be5bc81f66 ""
+  "praca.toc" 1749821005 4134 c58565d947cefff2aa626f21327c00c3 "pdflatex"
   "src/CreateDateChooser.java" 1749819687 485 79e8ff9a7d851373a57ee1929000d820 ""
   "src/CreateStyledButton.java" 1749819706 708 b6902c6a436206747e2a2d1d589cdf53 ""
   "src/DatabaseConnection.java" 1749819708 360 bd18d000547c45b34acf2b6d3f3d0ab5 ""

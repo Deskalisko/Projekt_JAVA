@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.6.10)  13 JUN 2025 15:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.6.10)  13 JUN 2025 15:23
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -928,19 +928,23 @@ Package pdftex.def Info: figures/fig_0012-eps-converted-to.pdf  used on input li
 (pdftex.def)             Requested size: 341.43437pt x 371.48976pt.
  [18 <./figures/fig_0012-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <figures/fig_0007.eps>
-(epstopdf)                    date: 2025-06-13 14:51:34
-(epstopdf)                    size: 7024863 bytes
+(epstopdf)                    date: 2025-06-13 15:22:47
+(epstopdf)                    size: 4655605 bytes
 (epstopdf)             Output file: <figures/fig_0007-eps-converted-to.pdf>
 (epstopdf)                    date: 2025-06-13 14:51:56
 (epstopdf)                    size: 359346 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0007-eps-converted-to.pdf figures/fig_0007.eps>
 (epstopdf)             \includegraphics on input line 88.
-Package epstopdf Info: Output file is already uptodate.
-<figures/fig_0007-eps-converted-to.pdf, id=348, 1179.40625pt x 986.68625pt>
+runsystem(miktex-epstopdf --outfile=figures/fig_0007-eps-converted-to.pdf figures/fig_0007.eps)...executed safely (allowed).
+
+Package epstopdf Info: Result file: <figures/fig_0007-eps-converted-to.pdf>
+(epstopdf)                    date: 2025-06-13 15:23:24
+(epstopdf)                    size: 233988 bytes.
+<figures/fig_0007-eps-converted-to.pdf, id=348, 974.64125pt x 790.955pt>
 File: figures/fig_0007-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0007-eps-converted-to.pdf>
 Package pdftex.def Info: figures/fig_0007-eps-converted-to.pdf  used on input line 88.
-(pdftex.def)             Requested size: 362.77525pt x 303.49078pt.
+(pdftex.def)             Requested size: 362.77525pt x 294.39877pt.
  [19
 
  <./figures/fig_0007-eps-converted-to.pdf>]) (chapters/06_Testowanie.tex
@@ -1106,7 +1110,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  88i,13n,94p,887b,1505s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on praca.pdf (27 pages, 1875825 bytes).
+Output written on praca.pdf (27 pages, 1750467 bytes).
 PDF statistics:
  559 PDF objects out of 1000 (max. 8388607)
  137 named destinations out of 1000 (max. 500000)
