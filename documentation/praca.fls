@@ -314,6 +314,8 @@ INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmb8t.vf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmb8r.tfm
 INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr8t.vf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrr8t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8r.tfm
 OUTPUT praca.toc
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmro8t.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmro8t.tfm
@@ -321,8 +323,6 @@ INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmri8t.tfm
 INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmro8t.vf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmro8r.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrr8t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8r.tfm
 INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr8t.vf
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
 INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmri8t.vf
@@ -458,6 +458,8 @@ INPUT .\figures\fig_0007-eps-converted-to.pdf
 INPUT .\figures\fig_0007-eps-converted-to.pdf
 INPUT .\figures\fig_0007-eps-converted-to.pdf
 INPUT .\figures\fig_0007-eps-converted-to.pdf
+INPUT .\figures\fig_0007-eps-converted-to.pdf
+INPUT .\figures\fig_0007-eps-converted-to.pdf
 INPUT .\chapters\06_Testowanie.tex
 INPUT .\chapters\06_Testowanie.tex
 INPUT chapters\06_Testowanie.tex
@@ -500,6 +502,7 @@ INPUT .\figures\fig_0006-eps-converted-to.pdf
 INPUT .\chapters\07_Implementacja_listenery.tex
 INPUT .\chapters\07_Implementacja_listenery.tex
 INPUT chapters\07_Implementacja_listenery.tex
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrb8t.tfm
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
 INPUT C:\Program Files\MiKTeX\tex\latex\listings\lstlang1.sty
@@ -509,25 +512,21 @@ INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8t.tfm
 INPUT src\CreateStyledButton.java
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8t.tfm
 INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8t.tfm
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrro8t.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrb8t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrb8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr8t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
+INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrr8t.vf
+INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8r.tfm
 INPUT .\src\DatabaseConnection.java
 INPUT .\src\DatabaseConnection.java
 INPUT src\DatabaseConnection.java
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrb8t.tfm
 INPUT .\src\CreateDateChooser.java
 INPUT .\src\CreateDateChooser.java
 INPUT src\CreateDateChooser.java
 INPUT .\chapters\08_Podsumowanie.tex
 INPUT .\chapters\08_Podsumowanie.tex
 INPUT chapters\08_Podsumowanie.tex
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\times\ptmr8t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\times\ptmr8r.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrr8t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrr8r.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrro8t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrro8r.tfm
-INPUT C:\Program Files\MiKTeX\fonts\vf\adobe\courier\pcrb8t.vf
-INPUT C:\Program Files\MiKTeX\fonts\tfm\adobe\courier\pcrb8r.tfm
 INPUT .\praca.bbl
 INPUT .\praca.bbl
 INPUT praca.bbl
@@ -550,8 +549,6 @@ INPUT C:\Program Files\MiKTeX\fonts\type1\urw\courier\ucrb8a.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\urw\courier\ucrb8a.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\urw\courier\ucrr8a.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\urw\courier\ucrr8a.pfb
-INPUT C:\Program Files\MiKTeX\fonts\type1\urw\courier\ucrro8a.pfb
-INPUT C:\Program Files\MiKTeX\fonts\type1\urw\courier\ucrro8a.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\urw\helvetic\uhvb8a.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\urw\helvetic\uhvb8a.pfb
 INPUT C:\Program Files\MiKTeX\fonts\type1\urw\helvetic\uhvr8a.pfb

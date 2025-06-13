@@ -2,9 +2,9 @@
 \contentsline {chapter}{\numberline {1}Streszczenie}{7}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Streszczenie w języku polskim}{7}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Summary in English}{7}{section.1.2}%
-\contentsline {chapter}{\numberline {2}Opis założeń projektu}{8}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Wymagania Funkcjonalne}{8}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Wymagania Niefunkcjonalne}{8}{section.2.2}%
+\contentsline {chapter}{\numberline {2}Wizja i cele projektu}{8}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Kluczowe możliwości aplikacji}{8}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Jakość i doświadczenie użytkownika}{8}{section.2.2}%
 \contentsline {chapter}{\numberline {3}Opis struktury projektu}{9}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Wykorzystane technologie i narzędzia}{9}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Architektura i hierarchia klas}{9}{section.3.2}%
@@ -12,7 +12,7 @@
 \contentsline {section}{\numberline {3.3}Zarządzanie danymi i baza danych}{11}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Wymagania systemowe}{12}{section.3.4}%
 \contentsline {chapter}{\numberline {4}Harmonogram i Zarządzanie Projektem}{13}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Harmonogram realizacji - Diagram Gantta}{13}{section.4.1}%
+\contentsline {section}{\numberline {4.1}Harmonogram realizacji - Diagram Ganta}{13}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Napotkane wyzwania i rozwiązania}{14}{section.4.2}%
 \contentsline {section}{\numberline {4.3}System kontroli wersji i repozytorium}{14}{section.4.3}%
 \contentsline {chapter}{\numberline {5}Prezentacja warstwy użytkowej projektu}{15}{chapter.5}%
@@ -32,10 +32,10 @@
 \contentsline {subsection}{\numberline {6.1.4}Testy walidacji pól i zabezpieczeń}{22}{subsection.6.1.4}%
 \contentsline {chapter}{\numberline {7}Implementacja i Kluczowe Fragmenty Kodu}{23}{chapter.7}%
 \contentsline {section}{\numberline {7.1}Wybrane Metody Usprawniające Pracę}{23}{section.7.1}%
-\contentsline {subsection}{\numberline {7.1.1}Metoda `createStyledButton` - Ujednolicenie Wyglądu Przycisków}{23}{subsection.7.1.1}%
-\contentsline {subsection}{\numberline {7.1.2}Metoda `getConnection` - Efektywne Zarządzanie Połączeniami z Bazą Danych}{23}{subsection.7.1.2}%
+\contentsline {subsection}{\numberline {7.1.1}Metoda \texttt {createStyledButton} - Ujednolicenie Wyglądu Przycisków}{23}{subsection.7.1.1}%
+\contentsline {subsection}{\numberline {7.1.2}Metoda \texttt {getConnection} - Efektywne Zarządzanie Połączeniami z Bazą Danych}{24}{subsection.7.1.2}%
 \contentsline {section}{\numberline {7.2}Inne Istotne Fragmenty Kodu}{24}{section.7.2}%
-\contentsline {subsection}{\numberline {7.2.1}Integracja i Użycie Kalendarza \texttt {JDateChooser}}{24}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.1}Integracja i Użycie Kalendarza \texttt {LGoodDatePicker}}{24}{subsection.7.2.1}%
 \contentsline {chapter}{\numberline {8}Podsumowanie}{25}{chapter.8}%
 \contentsline {section}{\numberline {8.1}Wnioski}{25}{section.8.1}%
 \contentsline {section}{\numberline {8.2}Propozycje dalszego rozwoju}{25}{section.8.2}%
