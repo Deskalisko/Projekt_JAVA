@@ -1,16 +1,15 @@
+\chapter{Wizja i cele projektu}
+\label{chap:wizja}
+Celem projektu było stworzenie aplikacji desktopowej, która kompleksowo symuluje działanie sklepu. Wizja zakładała budowę narzędzia, które z jednej strony zapewnia klientom (zarówno detalicznym, jak i hurtowym) \textbf{prostą i wygodną ścieżkę zakupową}, a z drugiej daje administratorowi \textbf{rozbudowane centrum dowodzenia} do zarządzania całym zapleczem sklepu – od produktów i stanów magazynowych, po klientów i historię transakcji. Aplikacja ma stanowić w pełni funkcjonalny ekosystem sprzedażowy.
 
-\chapter{Opis założeń projektu}
-\label{chap:zalozenia}
+\section{Kluczowe możliwości aplikacji}
+Aby zrealizować postawione cele, aplikacja musi oferować szereg przemyślanych funkcji, które razem tworzą spójne doświadczenie dla każdego użytkownika.
+Każdy, nawet bez logowania, będzie mógł swobodnie przeglądać \textbf{katalog produktów}. Gdy użytkownik zdecyduje się na zakupy, system umożliwi mu założenie konta i zalogowanie się lub kontynuację bez zakładania konta. Proces logowania jest kluczowy, ponieważ na jego podstawie aplikacja rozpozna, czy ma do czynienia z klientem, czy z administratorem, i dostosuje dostępne opcje.
+Dla \textbf{klienta} przewidziano intuicyjną ścieżkę zakupową: od dodawania produktów do \textbf{wirtualnego koszyka}, przez jego modyfikację, aż po sfinalizowanie transakcji w prostym formularzu zamówienia.
+Dla \textbf{administratora}, po zalogowaniu, otworzy się dostęp do rozbudowanego \textbf{panelu zarządczego}. Będzie to jego centrum dowodzenia, w którym zyska pełną kontrolę nad asortymentem – będzie mógł dodawać nowe produkty, edytować istniejące i zarządzać stanami magazynowymi. Panel pozwoli również na przeglądanie listy zarejestrowanych klientów oraz monitorowanie wszystkich złożonych zamówień.
 
-Głównym celem projektu jest \textbf{stworzenie w pełni funkcjonalnej aplikacji desktopowej, która realizuje procesy sprzedaży od strony klienta oraz zarządzania sklepem od strony administratora}. Aplikacja została zaprojektowana jako kompletne rozwiązanie symulujące działanie komercyjnego systemu sprzedaży, które z jednej strony oferuje intuicyjny interfejs dla klienta, umożliwiający przeglądanie produktów i realizację zakupów, a z drugiej strony wyposażone jest w rozbudowany panel administracyjny dający pełną kontrolę nad kluczowymi aspektami funkcjonowania sklepu.
-
-\section{Wymagania Funkcjonalne}
-Aplikacja musi realizować następujące kluczowe funkcje, które zostały zdefiniowane w celu zapewnienia pełnej obsługi procesów sprzedażowych i administracyjnych.
-
-\textbf{Uwierzytelnianie użytkowników.} System musi weryfikować tożsamość użytkowników na podstawie loginu i hasła, precyzyjnie rozróżniając role administratora i klienta. 
-\textbf{Przeglądanie produktów.} Wszyscy użytkownicy, zarówno niezalogowani, jak i zalogowani klienci, muszą mieć zapewnioną możliwość swobodnego przeglądania katalogu dostępnych produktów. 
-\textbf{Zarządzanie koszykiem.} Klienci muszą mieć możliwość dodawania produktów do koszyka, przeglądania jego zawartości oraz łatwego usuwania z niego wybranych pozycji. 
-\textbf{Składanie zamówień.} System musi umożliwiać finalizację procesu zakupu poprzez dedykowany formularz, w którym klient podaje swoje dane niezbędne do pomyślnej realizacji transakcji. 
-\textbf{Panel Administracyjny.} Administrator po zalogowaniu otrzymuje dostęp do panelu zarządczego, który umożliwia kompleksowe zarządzanie asortymentem (dodawanie, edycja i usuwanie produktów) , kontrolowanie stanu magazynowego, przeglądanie i zarządzanie danymi zarejestrowanych klientów oraz monitorowanie wszystkich złożonych zamówień i transakcji. 
-\section{Wymagania Niefunkcjonalne}
-Aplikacja musi spełniać kluczowe wymagania niefunkcjonalne, aby zapewnić wysoką jakość działania. Po pierwsze, \textbf{wydajność}, gwarantująca, że aplikacja będzie działać płynnie, a czas odpowiedzi na akcje użytkownika nie przekroczy akceptowalnych norm. Po drugie, \textbf{niezawodność}, oznaczająca odporność systemu na błędy (w szczególności na problemy z połączeniem z bazą danych) i zdolność do klarownego informowania użytkownika o ewentualnych niepowodzeniach operacji. Po trzecie, \textbf{użyteczność}, dzięki której interfejs graficzny jest intuicyjny i prosty w obsłudze zarówno dla klienta, jak i administratora. Na koniec, \textbf{przenośność}, wynikająca z zastosowania języka Java, pozwala na uruchomienie aplikacji na dowolnym systemie operacyjnym z zainstalowaną maszyną wirtualną Javy (JVM).
+\section{Jakość i doświadczenie użytkownika}
+Poza samymi funkcjami, fundamentalne znaczenie ma to, jak aplikacja będzie działać. Założeniem jest, aby korzystanie z niej było efektywne i bezproblemowe.
+Priorytetem jest, aby aplikacja była \textbf{prosta w obsłudze i responsywna}. Zarówno klient przeglądający ofertę, jak i administrator wprowadzający nowy produkt, powinni czuć, że program działa \textbf{płynnie i intuicyjnie}. Każda akcja musi wywoływać natychmiastową, przewidywalną reakcję systemu, bez irytujących opóźnień.
+Równie ważna jest \textbf{stabilność i niezawodność}. Aplikacja musi być przygotowana na nieprzewidziane sytuacje, takie jak chwilowe problemy z dostępem do bazy danych. W takim przypadku system nie może się zawiesić, lecz powinien w \textbf{zrozumiały dla użytkownika sposób poinformować go o problemie} i pozwolić na kontynuację pracy, gdy tylko będzie to możliwe.
+Na koniec, dzięki zastosowaniu technologii Java, aplikacja będzie \textbf{uniwersalna}.
