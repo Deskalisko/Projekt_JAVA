@@ -130,9 +130,9 @@ package "Model Domeny" {
 }
 
 ' Połączenia i zależności między powyższymi elementami:
-'==============================================================
 
-' Opis przepływu dla klienta
+
+
 CustomerList ..> CustomerDetails : otwiera
 CustomerDetails ..> RetailCustomerDAO
 CustomerDetails ..> TransactionDetailsDAO
@@ -141,18 +141,18 @@ ShopRetailForm ..> OrderDAO
 ShopRetailForm ..> Cart
 Cart "1" -- "0..*" Product : Zawiera
 
-' Opis przepływu logowania
+
 MainForm ..> UserDAO : uwierzytelnia
 MainForm ..> AdminForm : otwiera (dla admina)
 
-' Opis przepływu dla administratora
+
 AdminForm ..> ManagementTransactionForm : otwiera
 ManagementTransactionForm ..> StatisticsDAO
 WarehouseForm ..> ProductsDAO
 WarehouseForm ..> ReportsDAO
 WarehouseForm ..> OrderDAO : zamawia towar
 
-' Opis powiązań logiki z modelem danych
+
 RetailCustomerDAO ..> RetailCustomer
 UserDAO ..> User
 TransactionDAO ..> Transaction
