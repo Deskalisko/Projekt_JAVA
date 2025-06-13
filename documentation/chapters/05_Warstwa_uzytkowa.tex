@@ -1,7 +1,7 @@
 
 \chapter{Prezentacja warstwy użytkowej projektu}
 \label{chap:warstwa_uzytkowa}
-W niniejszym rozdziale zaprezentowano warstwę użytkową projektu, czyli graficzny interfejs użytkownika (GUI), z którym wchodził w interakcję użytkownik końcowy. Opisano kluczowe widoki aplikacji, w tym ekran główny, panele zakupowe dla klientów detalicznych i hurtowych oraz moduły panelu administratora.
+W tym rozdziale przyjrzymy się aplikacji od strony użytkownika. Omówię kluczowe widoki i funkcje interfejsu graficznego (GUI) – od ekranu głównego, przez panele zakupowe, aż po moduły administratora.
 
 \section{Ekran Główny i Proces Logowania}
 Punktem startowym aplikacji jest ekran główny (\texttt{MainForm.java}), przedstawiony na Rys. \ref{fig:main_form}, który pełni rolę centrum nawigacyjnego. Z jego poziomu użytkownik może przejść do przeglądania listy produktów, rozpocząć proces zakupowy lub zalogować się do systemu. Panel logowania jest kluczowym elementem, który na podstawie wprowadzonych danych uwierzytelnia użytkownika i kieruje go do odpowiedniego modułu aplikacji. Zaimplementowano również funkcjonalność resetowania hasła, która po weryfikacji tożsamości użytkownika pozwala na ustawienie nowego hasła.

@@ -2,17 +2,17 @@
 \section{Wybrane Metody Usprawniające Pracę}
 
 \begin{minipage}{\linewidth}
-\subsection{Metoda `createStyledButton` - Ujednolicenie Wyglądu Przycisków}
-Metoda `createStyledButton` jest przykładem dobrej praktyki programistycznej, pozwalającej na tworzenie spójnych stylistycznie przycisków w interfejsie użytkownika. Dzięki niej unika się powielania kodu odpowiedzialnego za ustawianie czcionki, kolorów, ramek i innych właściwości wizualnych dla każdego przycisku z osobna. Znacząco przyspieszyło to budowanie interfejsu graficznego. 
+\subsection{Metoda \texttt{createStyledButton} - Ujednolicenie Wyglądu Przycisków}
+Metoda `createStyledButton` jest przykładem dobrej praktyki programistycznej, pozwalającej na tworzenie spójnych stylistycznie przycisków w interfejsie użytkownika. Dzięki niej unika się powielania kodu odpowiedzialnego za ustawianie czcionki, kolorów, ramek i innych właściwości wizualnych dla każdego przycisku z osobna. Znacząco przyspieszyło to budowanie interfejsu graficznego, co widać na przykładzie przedstawionym w \listingname~\ref{lst:createStyledButton}. 
 
 \lstinputlisting[style=javaStyle, language=Java, caption=Metoda createStyledButton, label=lst:createStyledButton]{src/CreateStyledButton.java}
 \end{minipage}
 
-\vspace{1cm}
+\clearpage
 
 \begin{minipage}{\linewidth}
-\subsection{Metoda `getConnection` - Efektywne Zarządzanie Połączeniami z Bazą Danych}
-Zarządzanie połączeniami z bazą danych jest kluczowe dla wydajności i niezawodności aplikacji.  Metoda `getConnection` z klasy `DatabaseConnection` zapewnia scentralizowany i prosty sposób na uzyskanie aktywnego połączenia z bazą danych MySQL.  Jej wykorzystanie znacznie uprościło operacje na danych, minimalizując ryzyko błędów związanych z otwieraniem i zamykaniem połączeń. 
+\subsection{Metoda \texttt{getConnection} - Efektywne Zarządzanie Połączeniami z Bazą Danych}
+Zarządzanie połączeniami z bazą danych jest kluczowe dla wydajności i niezawodności aplikacji. Metoda `getConnection` z klasy `DatabaseConnection` (\listingname~\ref{lst:getConnection}) zapewnia scentralizowany i prosty sposób na uzyskanie aktywnego połączenia z bazą danych MySQL. Jej wykorzystanie znacznie uprościło operacje na danych, minimalizując ryzyko błędów związanych z otwieraniem i zamykaniem połączeń. 
 
 \lstinputlisting[style=javaStyle, language=Java, caption=Metoda getConnection, label=lst:getConnection]{src/DatabaseConnection.java}
 \end{minipage}
@@ -20,10 +20,11 @@ Zarządzanie połączeniami z bazą danych jest kluczowe dla wydajności i nieza
 \section{Inne Istotne Fragmenty Kodu}
 
 \begin{minipage}{\linewidth}
-\subsection{Integracja i Użycie Kalendarza \texttt{JDateChooser}}
-W celu ułatwienia wyboru daty, komponent \texttt{JDateChooser} został zintegrowany z interfejsem użytkownika. Jest to szczególnie przydatne **w panelu zarządzania transakcjami administratora, gdzie umożliwia precyzyjne filtrowanie i wyszukiwanie transakcji według daty**. Komponent ten eliminuje konieczność ręcznego wprowadzania daty i ryzyko błędów formatowania, zapewniając jednocześnie spójny wygląd i format daty w całej aplikacji, a także w innych miejscach, gdzie wybór daty jest istotny. 
-Finalny wygląd panelu z zaimplementowanym komponentem kalendarza przedstawiono na \figurename~\ref{fig:management_transaction}.
+\subsection{Integracja i Użycie Kalendarza \texttt{LGoodDatePicker}}
+Aby ułatwić użytkownikowi wybór dat, w projekcie zintegrowano zewnętrzną bibliotekę \texttt{LGoodDatePicker} \cite{LGoodDatePicker}. Komponent ten jest kluczowy w panelu zarządzania transakcjami, gdzie pozwala administratorowi na intuicyjne filtrowanie wyników według zadanego okresu. Jego konfigurację w projekcie przedstawia \listingname~\ref{lst:createDatePicker}.
 
-\lstinputlisting[style=javaStyle, language=Java, caption=Metoda createDateChooser, label=lst:createDateChooser]{src/CreateDateChooser.java}
+Zastosowanie gotowego kalendarza wyeliminowało konieczność ręcznego wprowadzania dat i ryzyko błędów formatowania, zapewniając spójny wygląd i wygodę obsługi w całej aplikacji. Finalny wygląd panelu z zaimplementowanym kalendarzem przedstawiono na \figurename~\ref{fig:management_transaction}.
+
+\lstinputlisting[style=javaStyle, language=Java, caption=Metoda tworząca i konfigurująca komponent DatePicker., label=lst:createDatePicker]{src/CreateDateChooser.java}
 
 \end{minipage}

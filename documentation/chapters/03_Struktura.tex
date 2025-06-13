@@ -1,28 +1,26 @@
-
-
 \chapter{Opis struktury projektu}
 \label{chap:struktura_projektu}
-W niniejszym rozdziale przedstawiono zaprojektowaną strukturę projektu wraz z jej opisem technicznym. Opisane zostały także wykorzystane technologie, zarządzanie danymi oraz baza danych. Uwzględniono również informacje dotyczące hierarchii klas, najważniejszych metod oraz wymagań systemowych.
+Ten rozdział opisuje techniczną stronę projektu. Skupiam się w nim na użytych technologiach, architekturze oraz sposobie, w jaki zorganizowane są dane. Rozdział zamyka omówienie kluczowych klas i mechanizmów oraz wymagań niezbędnych do uruchomienia aplikacji.
 
 \section{Wykorzystane technologie i narzędzia}
-Do realizacji projektu wykorzystano szereg sprawdzonych technologii. Głównym językiem programowania jest \textbf{Java}, wybrana ze względu na jej obiektowość, przenośność i bogatą bibliotekę standardową. Interfejs graficzny użytkownika (GUI) został zaimplementowany przy użyciu biblioteki \textbf{Java Swing}, która umożliwiła stworzenie interaktywnego interfejsu desktopowego. Za przechowywanie danych odpowiada system zarządzania bazą danych \textbf{MySQL}, a komunikacja między aplikacją a bazą danych odbywa się za pośrednictwem sterownika \textbf{JDBC}. Kod źródłowy projektu był zarządzany przez system kontroli wersji \textbf{Git} przy użyciu klienta zintegrowanego ze środowiskiem \textbf{IntelliJ IDEA}, a centralne repozytorium zostało umieszczone na platformie \textbf{GitHub}. W celu poprawy użyteczności interfejsu, zintegrowano zewnętrzną bibliotekę \textbf{LGoodDatePicker} \cite{LGoodDatePicker}.
+Sercem aplikacji jest język \textbf{Java}. To, co użytkownik widzi na ekranie, czyli interfejs graficzny, to zasługa biblioteki \textbf{Java Swing}. Wszystkie dane – o produktach, klientach czy zamówieniach – trafiają do bazy danych \textbf{MySQL}, a „mostem”, który łączy aplikację z bazą, jest technologia \textbf{JDBC}.
+
+Nad całym kodem i historią jego zmian czuwał system kontroli wersji \textbf{Git}, a jego centralne repozytorium znajdowało się na platformie \textbf{GitHub}. Cały proces programowania odbywał się w środowisku \textbf{IntelliJ IDEA}. Aby ułatwić użytkownikowi wybieranie dat w kalendarzu, skorzystałem też z gotowej, zewnętrznej biblioteki \textbf{LGoodDatePicker} \cite{LGoodDatePicker}.
 
 \section{Architektura i hierarchia klas}
-Aplikacja została zaprojektowana w oparciu o architekturę trójwarstwową, która separuje od siebie poszczególne części systemu, zwiększając jego modularność i ułatwiając rozwój.
+Aplikacja ma przejrzystą budowę, ponieważ jest podzielona na trzy oddzielne warstwy. Każda z nich ma inne zadanie i nie miesza się z pozostałymi. Dzięki temu łatwiej jest zarządzać kodem i rozwijać program bez obawy, że zmiana w jednym miejscu zepsuje coś w innym.
 
 \begin{enumerate}
-    \item \textbf{Warstwa Prezentacji (View):} Jest to warstwa interfejsu graficznego, zaimplementowana w pakiecie `View` przy użyciu biblioteki Java Swing. Obejmuje ona wszystkie klasy odpowiedzialne za wyświetlanie okien i interakcję z użytkownikiem, takie jak \texttt{MainForm.java}, \texttt{AdminForm.java}, \texttt{ShopRetailForm.java} oraz \texttt{ShopWholeSaleForm.java}.
-    
-    \item \textbf{Warstwa Logiki Biznesowej (Model):} Ta warstwa, zlokalizowana w pakiecie `Model`, zawiera logikę działania aplikacji oraz obiekty modelujące dane. Znajdują się tu klasy modelu, takie jak \texttt{Product.java} wraz z jej podklasami (np. \texttt{ProductClothes.java}, \texttt{ProductElectric.java}), \texttt{Cart.java} do zarządzania koszykiem, oraz \texttt{Customer.java} reprezentująca klienta. Do kluczowych metod w tej warstwie należą \texttt{Cart.dodajProdukt()}, pozwalająca na dodawanie produktów do koszyka, oraz \texttt{Cart.obliczCalkowitaSume()}, która dynamicznie oblicza jego wartość.
-    
-    \item \textbf{Warstwa Dostępu do Danych (Data Access Layer):} Warstwa ta odpowiada za całą komunikację z bazą danych i została zaimplementowana w pakiecie `DAO` z wykorzystaniem wzorca projektowego \textbf{Data Access Object}. Dzięki temu operacje na bazie danych (CRUD) są całkowicie odizolowane od reszty aplikacji. Główne komponenty tej warstwy to klasy DAO, takie jak \texttt{ProductsDAO.java}, \texttt{UserDAO.java} oraz \texttt{OrderDAO.java}. Niezwykle istotną metodą jest \texttt{DatabaseConnection.getConnection()}, która w sposób scentralizowany zarządza połączeniem z bazą MySQL. Z kolei metoda \texttt{OrderDAO.saveOrder()} realizuje transakcyjne zapisywanie zamówienia, zapewniając integralność danych poprzez mechanizmy `commit` i `rollback`.
-\end{enumerate}
+    \item \textbf{Warstwa Prezentacji (View):} To po prostu wszystko to, co użytkownik widzi na ekranie i z czym może wejść w interakcję. Są to więc wszystkie okna, formularze i przyciski aplikacji, zdefiniowane w klasach takich jak \texttt{MainForm.java}, \texttt{AdminForm.java} czy \texttt{ShopRetailForm.java}.
 
+    \item \textbf{Warstwa Logiki Biznesowej (Model):} To prawdziwe serce aplikacji – tu znajduje się cała „inteligencja” programu. Klasy w tej warstwie (np. \texttt{Product.java}, \texttt{Cart.java}, \texttt{Customer.java}) odwzorowują obiekty ze świata rzeczywistego i zawierają logikę ich działania, np. jak obliczyć sumę w koszyku czy jak dodać produkt.
+
+\item \textbf{Warstwa Dostępu do Danych (Data Access Layer):} Ta warstwa to pośrednik, który zajmuje się wyłącznie komunikacją z bazą danych. Zastosowałem tu wzorzec \textbf{DAO}, aby zebrać w jednym miejscu cały kod odpowiedzialny za operacje na bazie. Dzięki temu reszta aplikacji nie musi przejmować się tym, jak dane są zapisywane i odczytywane, co upraszcza kod i czyni go bezpieczniejszym. Kluczowe metody, jak \texttt{OrderDAO.saveOrder()}, dbają o to, by operacje na bazie danych były bezpieczne i spójne.
+\end{enumerate}
+\clearpage
 
 \subsection{Diagram klas UML}
-W celu wizualnego przedstawienia statycznej struktury systemu, przygotowano diagram klas UML (Rys. \ref{fig:uml_diagram}). Należy zaznaczyć, że jest to \textbf{model uproszczony}, co podyktowane jest bardzo dużą liczbą klas i wzajemnych powiązań w docelowym projekcie – ich kompletne przedstawienie na jednym diagramie byłoby nieczytelne.
-
-Mimo uproszczeń, diagram skutecznie ilustruje kluczowe elementy architektury: podział na pakiety aplikacyjne (Interfejs Użytkownika, Dostęp do Danych, Model Domeny), najważniejsze klasy w każdej z warstw oraz fundamentalne relacje między nimi. Diagram został wygenerowany przy użyciu narzędzia \textbf{PlantUML} jako wtyczki (plugin) do środowiska programistycznego IntelliJ IDEA.
+Diagram klas (Rys. \ref{fig:uml_diagram}) to wizualna „mapa” projektu. Musiałem ją jednak znacznie uprościć. W aplikacji jest tak wiele klas i powiązań, że pokazanie wszystkich na raz stworzyłoby chaos, a nie czytelny obraz. Mimo to, diagram dobrze pokazuje podział na warstwy i najważniejsze zależności między nimi. Do jego wygenerowania użyłem narzędzia \textbf{PlantUML}, działającego jako wtyczka w IntelliJ IDEA.
 
 \begin{figure}[H]
     \centering
@@ -33,10 +31,10 @@ Mimo uproszczeń, diagram skutecznie ilustruje kluczowe elementy architektury: p
 \end{figure}
 \clearpage
 
-
 \section{Zarządzanie danymi i baza danych}
 \label{sec:baza_danych_nowe}
-Zaprojektowana na potrzeby systemu relacyjna baza danych MySQL stanowi kluczowy element przechowywania i zarządzania informacjami. Jej schemat, przedstawiony na \figurename~\ref{fig:erd_diagram}, obrazuje strukturę tabel, ich główne atrybuty oraz wzajemne relacje. System bazodanowy został zorganizowany wokół kluczowych grup tabel, obejmujących dane użytkowników i klientów (np. \texttt{uzytkownicy}, \texttt{klienci\_detaliczni}, \texttt{klienci\_hurtowi}), szczegółowe informacje o produktach i ich cenach (np. \texttt{produkty}, \texttt{ceny\_produkty}), ewidencję transakcji i zamówień (np. \texttt{transakcje}, \texttt{zamowienia\_magazynowe}), oraz tabelę monitorującą finanse sklepu (\texttt{finanse\_sklepu}).
+Wszystkie informacje, z których korzysta aplikacja – dane o użytkownikach, produktach czy transakcjach – muszą być gdzieś trwale zapisane. Tę rolę pełni baza danych \textbf{MySQL}. Jej schemat (przedstawiony na \figurename~\ref{fig:erd_diagram}) pokazuje, jakie tabele przechowują poszczególne informacje i jak są one ze sobą powiązane. Główne grupy tabel odpowiadają za ewidencję użytkowników, katalog produktów, historię zamówień oraz finanse sklepu.
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=\linewidth]{figures/fig_0001.eps}
@@ -47,7 +45,13 @@ Zaprojektowana na potrzeby systemu relacyjna baza danych MySQL stanowi kluczowy 
 \clearpage
 
 \section{Wymagania systemowe}
-Uruchomienie projektu w środowisku deweloperskim wymaga zainstalowania i skonfigurowania dwóch głównych narzędzi. Do obsługi bazy danych niezbędny jest pakiet \textbf{XAMPP}, który dostarcza serwer Apache oraz MariaDB (kompatybilny z MySQL). Z kolei do kompilacji i uruchomienia kodu źródłowego aplikacji Java wymagane jest środowisko programistyczne \textbf{IntelliJ IDEA}. Aktualne wymagania systemowe dla obu programów dostępne są na ich oficjalnych stronach:
+Aby uruchomić projekt na własnym komputerze i móc go rozwijać, potrzebne jest kilka darmowych narzędzi. Poniższa lista wyjaśnia, co i dlaczego należy zainstalować.
+\begin{itemize}
+    \item \textbf{Pakiet XAMPP:} To gotowy zestaw narzędzi, który w prosty sposób instaluje serwer bazy danych \textbf{MariaDB} (kompatybilny z MySQL). Jest on niezbędny, aby aplikacja miała gdzie przechowywać swoje dane.
+    \item \textbf{Java Development Kit (JDK):} Jest to środowisko niezbędne do kompilowania i uruchamiania aplikacji napisanych w języku Java.
+    \item \textbf{Środowisko IntelliJ IDEA:} To zaawansowany edytor kodu, w którym projekt był tworzony. Ułatwia on pracę z kodem, kompilację i uruchamianie programu.
+\end{itemize}
+Aktualne wymagania sprzętowe dla tych programów można znaleźć na ich oficjalnych stronach:
 \begin{itemize}
     \item \textbf{XAMPP:} \url{https://www.apachefriends.org/download.html}
     \item \textbf{IntelliJ IDEA:} \url{https://www.jetbrains.com/help/idea/installation-guide.html#requirements}

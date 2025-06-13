@@ -1,7 +1,7 @@
 
 \chapter{Testowanie aplikacji}
 
-W niniejszym rozdziale przedstawiono proces testowania aplikacji, zarówno w aspekcie manualnym, jak i z uwzględnieniem podstawowych założeń dla testów automatycznych. Testowanie ma na celu weryfikację poprawności działania wszystkich funkcjonalności systemu, sprawdzenie jego stabilności oraz zapewnienie pozytywnych doświadczeń użytkownika.
+W niniejszym rozdziale przedstawiono proces testowania aplikacji, zarówno w aspekcie manualnym. Testowanie ma na celu weryfikację poprawności działania wszystkich funkcjonalności systemu, sprawdzenie jego stabilności oraz zapewnienie pozytywnych doświadczeń użytkownika.
 
 \section{Testowanie manualne}
 Testowanie manualne stanowi kluczowy etap w zapewnieniu jakości aplikacji, zwłaszcza w przypadku interfejsów graficznych (GUI). Polega ono na interakcji z programem z perspektywy końcowego użytkownika, pozwalając na wykrycie problemów z użytecznością, wizualną spójnością oraz błędów, które mogą być trudne do zidentyfikowania za pomocą testów automatycznych. Poniżej przedstawiono wybrane scenariusze testowe, które zostały przeprowadzone manualnie.
@@ -72,11 +72,12 @@ Dla klienta hurtowego przeprowadzono dodatkowe testy, uwzględniające specyfik�
 \end{minipage}
 
 \subsection{Testy walidacji pól i zabezpieczeń}
-W aplikacji zaimplementowano szereg zabezpieczeń i walidacji, które zostały dokładnie przetestowane manualnie:
+W aplikacji zaimplementowano szereg zabezpieczeń i walidacji, które zostały dokładnie przetestowane manualnie. Szczególną uwagę zwrócono na:
+
 \begin{itemize}
-    \item **Walidacja pól tekstowych:** Sprawdzenie, czy pola wymagające liczby (np. ilość produktów, cena) akceptują tylko cyfry.
-    \item **Walidacja formatu:** Weryfikacja poprawności formatu adresów e-mail i numerów telefonów.
-    \item **Porównywanie haseł:** Podczas zmiany hasła (lub rejestracji, jeśli taka funkcja jest), sprawdzono, czy pola "nowe hasło" i "powtórz nowe hasło" muszą być identyczne. Jeśli nie są, wyświetlany jest odpowiedni komunikat o błędzie.
-    \item **LGoodDatePicker \cite{LGoodDatePicker}:** Dokładne przetestowanie działania komponentu wyboru daty, w tym: otwieranie i zamykanie kalendarza, wybór daty, wprowadzenie daty ręcznie, obsługa błędnych formatów daty.
-    \item **Obsługa błędów połączenia z bazą danych:** Symulacja braku dostępu do bazy danych i weryfikacja, czy aplikacja wyświetla odpowiednie komunikaty, zamiast awarii.
+    \item Sprawdzenie, czy pola przeznaczone na wartości liczbowe (np. ilość produktów, cena) prawidłowo odrzucają próby wprowadzenia tekstu i akceptują tylko cyfry.
+    \item Weryfikację formatu wprowadzanych danych, takich jak adresy e-mail (muszą zawierać znak ‘@’) oraz numery telefonów (muszą składać się z 9 cyfr).
+    \item Przetestowanie mechanizmu zmiany hasła, w którym sprawdzono, czy system wymusza identyczność haseł w polach ``nowe hasło'' i ``powtórz nowe hasło''. W przypadku niezgodności, aplikacja wyświetlała odpowiedni komunikat o błędzie.
+    \item Dokładne przetestowanie komponentu wyboru daty, LGoodDatePicker \cite{LGoodDatePicker}. Weryfikacja objęła otwieranie i zamykanie kalendarza, wybór daty, ręczne wprowadzanie oraz obsługę błędnych formatów.
+    \item Symulację utraty połączenia z bazą danych, aby sprawdzić, czy aplikacja w takiej sytuacji nie ulega awarii, lecz wyświetla użytkownikowi zrozumiały komunikat o problemie.
 \end{itemize}

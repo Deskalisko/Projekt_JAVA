@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.6.10)  12 JUN 2025 22:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.6.10)  13 JUN 2025 15:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -761,7 +761,7 @@ l.157 \titlepages
 
 
 ] (praca.toc
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 38.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 35.
  (C:\Program Files\MiKTeX\tex/latex/psnfss\t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
@@ -784,21 +784,6 @@ Rozdzia\l  2.
 
 ]
 Rozdzia\l  3.
-
-Underfull \hbox (badness 1275) in paragraph at lines 16--17
-[]\T1/ptm/b/n/10 Warstwa Lo-giki Biz-ne-so-wej (Mo-del): \T1/ptm/m/n/10 Ta war-stwa, zlo-ka-li-zo-wana w pa-kie-cie `Mo-del`, za-
- []
-
-
-Underfull \hbox (badness 1867) in paragraph at lines 16--17
-\T1/ptm/m/n/10 wiera lo-gik¦ dzia-ªa-nia apli-ka-cji oraz obiekty mo-de-lu-j¡ce dane. Znaj-duj¡ si¦ tu klasy mo-
- []
-
-
-Underfull \hbox (badness 3354) in paragraph at lines 16--17
-\T1/ptm/m/n/10 delu, ta-kie jak \T1/pcr/m/n/10 Product.java \T1/ptm/m/n/10 wraz z jej pod-kla-sami (np. \T1/pcr/m/n/10 ProductClothes.java\T1/ptm/m/n/10 ,
- []
-
 [9
 
 ]
@@ -809,19 +794,21 @@ Package epstopdf Info: Source file: <figures/fig_0009.eps>
 (epstopdf)                    date: 2025-06-12 17:19:14
 (epstopdf)                    size: 311523 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0009-eps-converted-to.pdf figures/fig_0009.eps>
-(epstopdf)             \includegraphics on input line 29.
+(epstopdf)             \includegraphics on input line 27.
 Package epstopdf Info: Output file is already uptodate.
 <figures/fig_0009-eps-converted-to.pdf, id=267, 1870.99pt x 1156.32pt>
 File: figures/fig_0009-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0009-eps-converted-to.pdf>
-Package pdftex.def Info: figures/fig_0009-eps-converted-to.pdf  used on input line 29.
+Package pdftex.def Info: figures/fig_0009-eps-converted-to.pdf  used on input line 27.
 (pdftex.def)             Requested size: 469.47308pt x 290.13792pt.
 
-Overfull \hbox (42.68173pt too wide) in paragraph at lines 29--30
+Overfull \hbox (42.68173pt too wide) in paragraph at lines 27--28
  [][] 
  []
 
-[10 <./figures/fig_0009-eps-converted-to.pdf>]
+[10
+
+ <./figures/fig_0009-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <figures/fig_0001.eps>
 (epstopdf)                    date: 2025-06-10 16:38:51
 (epstopdf)                    size: 3058857 bytes
@@ -829,37 +816,17 @@ Package epstopdf Info: Source file: <figures/fig_0001.eps>
 (epstopdf)                    date: 2025-06-10 16:39:08
 (epstopdf)                    size: 85440 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0001-eps-converted-to.pdf figures/fig_0001.eps>
-(epstopdf)             \includegraphics on input line 42.
+(epstopdf)             \includegraphics on input line 40.
 Package epstopdf Info: Output file is already uptodate.
 <figures/fig_0001-eps-converted-to.pdf, id=277, 728.7225pt x 694.595pt>
 File: figures/fig_0001-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0001-eps-converted-to.pdf>
-Package pdftex.def Info: figures/fig_0001-eps-converted-to.pdf  used on input line 42.
+Package pdftex.def Info: figures/fig_0001-eps-converted-to.pdf  used on input line 40.
 (pdftex.def)             Requested size: 426.79135pt x 406.79749pt.
-
-Underfull \hbox (badness 1092) in paragraph at lines 39--46
-\T1/ptm/m/n/10 tur¦ ta-bel, ich gªówne atry-buty oraz wza-jemne re-la-cje. Sys-tem ba-zo-da-nowy zo-staª zor-ga-ni-zo-wany
- []
-
-
-Underfull \hbox (badness 1014) in paragraph at lines 39--46
-\T1/ptm/m/n/10 wo-kóª klu-czo-wych grup ta-bel, obej-mu-j¡-cych dane u»yt-kow-ni-ków i klien-tów (np. \T1/pcr/m/n/10 uzytkownicy\T1/ptm/m/n/10 ,
- []
-
-
-Underfull \hbox (badness 1442) in paragraph at lines 39--46
-\T1/pcr/m/n/10 klienci_detaliczni\T1/ptm/m/n/10 , \T1/pcr/m/n/10 klienci_hurtowi\T1/ptm/m/n/10 ), szcze-gó-ªowe in-for-ma-cje o pro-duk-tach i ich ce-
- []
-
-
-Underfull \hbox (badness 1571) in paragraph at lines 39--46
-\T1/ptm/m/n/10 nach (np. \T1/pcr/m/n/10 produkty\T1/ptm/m/n/10 , \T1/pcr/m/n/10 ceny_produkty\T1/ptm/m/n/10 ), ewi-den-cj¦ trans-ak-cji i za-mó-wie« (np. \T1/pcr/m/n/10 transakcje\T1/ptm/m/n/10 ,
- []
-
-[11
+ [11
 
  <./figures/fig_0001-eps-converted-to.pdf>]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 52.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 50.
  (C:\Program Files\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )) (chapters/04_Harmonogram.tex [12
@@ -961,19 +928,19 @@ Package pdftex.def Info: figures/fig_0012-eps-converted-to.pdf  used on input li
 (pdftex.def)             Requested size: 341.43437pt x 371.48976pt.
  [18 <./figures/fig_0012-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <figures/fig_0007.eps>
-(epstopdf)                    date: 2025-06-10 20:41:43
-(epstopdf)                    size: 7113403 bytes
+(epstopdf)                    date: 2025-06-13 14:51:34
+(epstopdf)                    size: 7024863 bytes
 (epstopdf)             Output file: <figures/fig_0007-eps-converted-to.pdf>
-(epstopdf)                    date: 2025-06-10 20:46:04
-(epstopdf)                    size: 261019 bytes
+(epstopdf)                    date: 2025-06-13 14:51:56
+(epstopdf)                    size: 359346 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0007-eps-converted-to.pdf figures/fig_0007.eps>
 (epstopdf)             \includegraphics on input line 88.
 Package epstopdf Info: Output file is already uptodate.
-<figures/fig_0007-eps-converted-to.pdf, id=348, 1189.44376pt x 990.70125pt>
+<figures/fig_0007-eps-converted-to.pdf, id=348, 1179.40625pt x 986.68625pt>
 File: figures/fig_0007-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0007-eps-converted-to.pdf>
 Package pdftex.def Info: figures/fig_0007-eps-converted-to.pdf  used on input line 88.
-(pdftex.def)             Requested size: 362.77525pt x 302.15588pt.
+(pdftex.def)             Requested size: 362.77525pt x 303.49078pt.
  [19
 
  <./figures/fig_0007-eps-converted-to.pdf>]) (chapters/06_Testowanie.tex
@@ -1055,17 +1022,21 @@ Rozdzia\l  7.
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 8.
- (src/CreateStyledButton.java
-LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <8> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 4.
-)
+ (src/CreateStyledButton.java)
 Overfull \hbox (15.0pt too wide) in paragraph at lines 4--10
 []$[]$ 
  []
 
-(src/DatabaseConnection.java)
+[23
+
+] (src/DatabaseConnection.java)
 Overfull \hbox (15.0pt too wide) in paragraph at lines 13--19
 []$[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+[]\T1/ptm/m/n/10 Aby uªa-twi¢ u»yt-kow-ni-kowi wy-bór dat, w pro-jek-cie zin-te-gro-wano ze-wn¦trzn¡ bi-blio-tek¦
  []
 
 (src/CreateDateChooser.java)) (chapters/08_Podsumowanie.tex
@@ -1078,9 +1049,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 22--1
 
  []
 
-[23
+[24
 
-] [24]
+]
 Rozdzia\l  8.
 ) (praca.bbl [25
 
@@ -1124,20 +1095,20 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `praca.out' has not changed.
-(rerunfilecheck)             Checksum: CE612B4132162F7FFFF185320CA0C392;9250.
+(rerunfilecheck)             Checksum: 011F881705DC062D6024754BF81F7931;9341.
  ) 
 Here is how much of TeX's memory you used:
- 23506 strings out of 474486
- 440371 string characters out of 5753564
- 2178542 words of memory out of 5000000
- 45259 multiletter control sequences out of 15000+600000
- 626741 words of font info for 97 fonts, out of 8000000 for 9000
+ 23495 strings out of 474486
+ 440224 string characters out of 5753564
+ 2065542 words of memory out of 5000000
+ 45250 multiletter control sequences out of 15000+600000
+ 626004 words of font info for 95 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 88i,13n,94p,1062b,1511s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrro8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on praca.pdf (27 pages, 1784014 bytes).
+ 88i,13n,94p,887b,1505s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on praca.pdf (27 pages, 1875825 bytes).
 PDF statistics:
- 560 PDF objects out of 1000 (max. 8388607)
+ 559 PDF objects out of 1000 (max. 8388607)
  137 named destinations out of 1000 (max. 500000)
  413 words of extra memory for PDF output out of 10000 (max. 10000000)
 
