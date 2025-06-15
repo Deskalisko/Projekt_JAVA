@@ -200,7 +200,6 @@ public class CustomerList extends JFrame {
     }
 
     private void setupListeners() {
-        // Timer aktualizujący status
         new Timer(1000, e -> {
             statusLabel.setText("Użytkownik: ADMINISTRATOR | Data: " + new java.util.Date().toString());
         }).start();

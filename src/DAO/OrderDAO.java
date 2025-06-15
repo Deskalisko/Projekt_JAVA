@@ -46,7 +46,7 @@ public class OrderDAO {
                 if (generatedKeys.next()) { //sprawdzamy czy istnieją generowane klucze
                     return generatedKeys.getInt(1);  //zwracamy id nowego klienta
                 } else {
-                    throw new SQLException("Creating client failed, no ID obtained.");
+                    throw new SQLException("Tworzenie nowego klienta detalicznego nie powiodło się.");
                 }
             }
         }
@@ -65,7 +65,7 @@ public class OrderDAO {
                 if (generatedKeys.next()) {
                     return generatedKeys.getInt(1);
                 } else {
-                    throw new SQLException("Creating transaction failed, no ID obtained.");
+                    throw new SQLException("Tworzenie nowej transakcji nie powiodło się.");
                 }
             }
         }

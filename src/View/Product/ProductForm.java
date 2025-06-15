@@ -317,12 +317,12 @@ public class ProductForm extends JFrame {
                     null  // Materiał - zostanie uzupełnione poniżej
             };
 
-            if(product instanceof ProductClothes) {
+            if(product instanceof ProductClothes) { // Sprawdzamy czy obiekt jest instancją
                 ProductClothes clothes = (ProductClothes) product;
                 rowData[6] = "-";
                 rowData[7] = "-";
                 rowData[8] = clothes.getMaterial();
-            } else if (product instanceof ProductElectric) {
+            } else if (product instanceof ProductElectric) { //lub instancją innej klasy
                 ProductElectric electric = (ProductElectric) product;
                 rowData[6] = electric.getWaga() + " kg";
                 rowData[7] = electric.getGwarancja() > 0 ? electric.getGwarancja() + " mies." : "Brak";
@@ -337,8 +337,7 @@ public class ProductForm extends JFrame {
                 rowData[6] = equipment.getWaga() + " kg";
                 rowData[7] = equipment.getGwarancja() > 0 ? equipment.getGwarancja() + " mies." : "Brak";
                 rowData[8] = equipment.getMaterial();
-            } else {
-                // For generic Product objects
+            } else { // Jeśli nie pasuje żadna z powyższych klas
                 rowData[6] = "-";
                 rowData[7] = "-";
                 rowData[8] = "-";

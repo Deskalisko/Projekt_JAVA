@@ -84,8 +84,8 @@ public class WarehouseOrderDAO {
             while (rs.next()) {
                 WarehouseOrder order = new WarehouseOrder(
                         rs.getInt("id"),
-                        0, // productId - will be set from items
-                        0, // quantity - will be set from items
+                        0, // productId  - będzie ustawione z pozycji zamówienia
+                        0, // quantity  - ustawione po pobraniu pozycji zamówienia
                         rs.getTimestamp("data_zamowienia"),
                         rs.getString("dostawca"),
                         rs.getDouble("calkowita_kwota")

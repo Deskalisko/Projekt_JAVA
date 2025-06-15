@@ -44,7 +44,7 @@ public class CustomerDetails extends JFrame {
     }
 
     private void configureWindow(JFrame parent) {
-        this.setContentPane(JPanel1); // Upewnij się, że główny panel jest ustawiony
+        this.setContentPane(JPanel1);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(1000, 700);
         this.setLocationRelativeTo(parent);

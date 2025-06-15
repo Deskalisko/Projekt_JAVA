@@ -115,7 +115,7 @@ public class ManagementTransactionForm extends JFrame {
         ));
         filterPanel.setBackground(Color.WHITE);
 
-        // Radio buttons
+        // Radio buttony
         wszystkieRadioButton = new JRadioButton("Wszystkie");
         detaliczneRadioButton = new JRadioButton("Detaliczne");
         hurtoweRadioButton = new JRadioButton("Hurtowe");
@@ -203,7 +203,6 @@ public class ManagementTransactionForm extends JFrame {
         detailsButtonPanel.add(showDetailsButton);
         detailsPanel.add(detailsButtonPanel, BorderLayout.SOUTH);
 
-        // Panel statystyk
         statsPanel = new JPanel(new GridLayout(1, 3, 10, 0));
         statsPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createTitledBorder("Statystyki"),
@@ -223,7 +222,6 @@ public class ManagementTransactionForm extends JFrame {
         statsPanel.add(totalValueLabel);
         statsPanel.add(averageValueLabel);
 
-        // Panel przycisków
         buttonPanel = new JPanel(new GridLayout(1, 5, 15, 0));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
         buttonPanel.setBackground(new Color(245, 245, 245));
@@ -237,7 +235,6 @@ public class ManagementTransactionForm extends JFrame {
         buttonPanel.add(refreshButton);
         buttonPanel.add(backButton);
 
-        // Panel statusu
         statusLabel = new JLabel("Użytkownik: ADMINISTRATOR | Data: ");
         statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -258,12 +255,10 @@ public class ManagementTransactionForm extends JFrame {
     }
 
     private void setupLayout() {
-        // Główny panel zawartości
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(filterPanel, BorderLayout.NORTH);
         centerPanel.add(tablePanel, BorderLayout.CENTER);
 
-        // Panel szczegółów i statystyk
         JPanel southPanel = new JPanel(new BorderLayout());
         JPanel detailsStatsPanel = new JPanel(new BorderLayout());
         detailsStatsPanel.add(statsPanel, BorderLayout.NORTH);
@@ -296,11 +291,9 @@ public class ManagementTransactionForm extends JFrame {
         detailsStatsPanel.add(detailsWrapper, BorderLayout.CENTER);
         southPanel.add(detailsStatsPanel, BorderLayout.CENTER);
 
-        // Dodanie komponentów do panelu zawartości
         contentPanel.add(centerPanel, BorderLayout.CENTER);
         contentPanel.add(southPanel, BorderLayout.SOUTH);
 
-        // Dodanie komponentów do głównego panelu
         JPanel1.add(headerPanel, BorderLayout.NORTH);
         JPanel1.add(contentPanel, BorderLayout.CENTER);
         JPanel1.add(buttonPanel, BorderLayout.SOUTH);
@@ -309,7 +302,6 @@ public class ManagementTransactionForm extends JFrame {
     }
 
     private void setupListeners() {
-        // Timer aktualizujący status
         new Timer(1000, e -> statusLabel.setText("Użytkownik: ADMINISTRATOR | Data: " + new Date().toString())).start();
 
         filterButton.addActionListener(e -> {
@@ -349,7 +341,7 @@ public class ManagementTransactionForm extends JFrame {
 
             if (iconPath != null) {
                 ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
-                // Scale the icon to appropriate size
+                // skaluje ikonę do odpowiedniej wielkości
                 Image scaledIcon = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
                 button.setIcon(new ImageIcon(scaledIcon));
                 button.setHorizontalTextPosition(SwingConstants.LEFT);

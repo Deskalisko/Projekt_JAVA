@@ -244,8 +244,8 @@ public class WarehouseForm extends JFrame {
         WarehouseOrderDAO dao = new WarehouseOrderDAO();
         double balance = dao.getCurrentBalance();
 
-        // Find the saldoValueLabel in the panel
-        Component[] components = controlPanel.getComponents();
+        // znajdź element JLabel w panelu i zmień jego tekst
+        Component[] components = controlPanel.getComponents(); // Pobierz wszystkie komponenty w panelu
         for (Component comp : components) {
             if (comp instanceof JPanel) {
                 JPanel panel = (JPanel) comp;
@@ -254,7 +254,7 @@ public class WarehouseForm extends JFrame {
                         JLabel valueLabel = (JLabel) panelComp;
                         valueLabel.setText(String.format("%.2f zł", balance));
 
-                        // Change color based on balance
+                        // zmien kolor tekstu na czerwony jeśli saldo jest ujemne
                         if (balance < 0) {
                             valueLabel.setForeground(Color.RED);
                         } else {
@@ -300,7 +300,7 @@ public class WarehouseForm extends JFrame {
 
         Product selectedProduct = tableModel.getProductAt(productsTable.convertRowIndexToModel(selectedRow));
 
-        // Create dialog components
+        //tworzenie okna dialogowego
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         JTextField quantityField = new JTextField(10);
         quantityField.setText(String.valueOf(selectedProduct.getIlosc()));
@@ -311,7 +311,7 @@ public class WarehouseForm extends JFrame {
         
         panel.add(inputPanel, BorderLayout.CENTER);
         
-        // Show dialog
+        //wyswietlenie dialogu
         int result = JOptionPane.showConfirmDialog(this, panel, 
                 "Edytuj stan magazynowy - " + selectedProduct.getNazwa(),
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -348,7 +348,7 @@ public class WarehouseForm extends JFrame {
 
         Product selectedProduct = tableModel.getProductAt(productsTable.convertRowIndexToModel(selectedRow));
         
-        // Create dialog components
+        //komponenty dialogu
         JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
         JTextField iloscField = new JTextField(10);
         JTextField dostawcaField = new JTextField(20);
@@ -362,7 +362,7 @@ public class WarehouseForm extends JFrame {
         panel.add(new JLabel("Uwagi:"));
         panel.add(new JScrollPane(uwagiArea));
         
-        // Show dialog
+        //show
         int result = JOptionPane.showConfirmDialog(this, panel, 
                 "Zamów produkt - " + selectedProduct.getNazwa(),
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);

@@ -211,19 +211,16 @@ public class MainForm extends JFrame {
         JPanel1.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25)); //ustawienia marginesow. Pozwala na lepsze rozmieszczenie elementow wewnatrz panelu.
         JPanel1.setBackground(new Color(245, 245, 245)); // ustawienie koloru tla
 
-        // Panel nagłówka
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(44, 62, 80)); // ustawienie koloru tla naglowka
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20)); //marginesy
 
-        // Logo
         ImageIcon logoIcon = new ImageIcon(getClass().getResource("/figurs/icons8-crane-100.png")); // pobranie ikony logo
         Image scaledLogo = logoIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);//skalowanie ikony do odpowiedniej wielkosci
         JLabel logoLabel = new JLabel(new ImageIcon(scaledLogo));
         logoLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         headerPanel.add(logoLabel, BorderLayout.WEST); //dodanie ikony do na glowka po lewnej stronie
 
-        // Tytuł
         titleLabel = new JLabel("CENTRUM BUDOWLANE", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28)); //ustawienie czcionki: pogrubionej i rozmiar 28
         titleLabel.setForeground(Color.WHITE); // ustawienie koloru tekstu
@@ -231,12 +228,10 @@ public class MainForm extends JFrame {
 
         JPanel1.add(headerPanel, BorderLayout.NORTH); //dodanie naglowka do panelu głównego
 
-        // Panel przycisków
         JPanel buttonsPanel = new JPanel(new GridLayout(1, 2, 20, 0)); // ustawienie układu gridlayout z dwoma przyciskami
         buttonsPanel.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40)); //marginesy
         buttonsPanel.setBackground(new Color(245, 245, 245)); // ustawienie koloru tla przyciskow
 
-        // Przyciski z ikonami
         productsButton = createStyledButton("Produkty", "/figurs/icons8-products-50.png");
         buyButton = createStyledButton("Zakupy", "/figurs/icons8-shopping-bag-50.png");
 
@@ -244,7 +239,6 @@ public class MainForm extends JFrame {
         buttonsPanel.add(buyButton);
         JPanel1.add(buttonsPanel, BorderLayout.CENTER);
 
-        // Panel logowania
         JPanel loginPanel = new JPanel(new GridBagLayout()); // ustawienie gridbaglayout(bardziej elastyczny - rozne rozmiary komorek) do umieszczania elementow w panelu
         loginPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(200, 200, 200)),

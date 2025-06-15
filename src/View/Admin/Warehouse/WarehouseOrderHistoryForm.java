@@ -34,7 +34,6 @@ public class WarehouseOrderHistoryForm extends JFrame {
         this.setSize(1000, 600);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        // Ustawienie ikony aplikacji
         ImageIcon icon = new ImageIcon(getClass().getResource("/figurs/logo.png"));
         setIconImage(icon.getImage());
     }
@@ -45,25 +44,21 @@ public class WarehouseOrderHistoryForm extends JFrame {
         JPanel1.setBackground(new Color(245, 245, 245));
         JPanel1.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // Header panel
         headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(44, 62, 80));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        // Logo
         ImageIcon logoIcon = new ImageIcon(getClass().getResource("/figurs/logo.png"));
         Image scaledLogo = logoIcon.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         logoLabel = new JLabel(new ImageIcon(scaledLogo));
         logoLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         headerPanel.add(logoLabel, BorderLayout.WEST);
 
-        // Title label
         titleLabel = new JLabel("HISTORIA ZAMÓWIEŃ MAGAZYNU", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        // Status label
         statusLabel = new JLabel("Data: ");
         statusLabel.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         JPanel statusPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -71,11 +66,11 @@ public class WarehouseOrderHistoryForm extends JFrame {
         statusPanel.add(statusLabel);
         headerPanel.add(statusPanel, BorderLayout.SOUTH);
 
-        // Content panel
+
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(new Color(245, 245, 245));
 
-        // Table setup
+
         DefaultTableModel model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -91,7 +86,7 @@ public class WarehouseOrderHistoryForm extends JFrame {
         tableScrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         contentPanel.add(tableScrollPane, BorderLayout.CENTER);
 
-        // Button panel
+
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.setBackground(new Color(245, 245, 245));
 
@@ -110,7 +105,6 @@ public class WarehouseOrderHistoryForm extends JFrame {
     private void setupListeners() {
         closeButton.addActionListener(e -> dispose());
 
-        // Timer for status label update
         new Timer(1000, e -> {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             statusLabel.setText("Data: " + dateFormat.format(new java.util.Date()));
@@ -135,7 +129,7 @@ public class WarehouseOrderHistoryForm extends JFrame {
             }
 
             for (WarehouseOrder order : orders) {
-                // Get items for each order
+                // weź tylko pierwsze zamówienie dla każdego produktu
                 for (WarehouseOrderItem item : order.getItems()) {
                     Object[] row = new Object[] {
                             order.getId(),

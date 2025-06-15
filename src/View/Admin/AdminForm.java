@@ -183,7 +183,6 @@ public class AdminForm extends JFrame {
         button.setBorder(BorderFactory.createEmptyBorder(10, 15, 10, 15));
         button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // Efekt hover
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setBackground(color.darker());

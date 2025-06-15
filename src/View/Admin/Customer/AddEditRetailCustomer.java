@@ -55,12 +55,12 @@ public class AddEditRetailCustomer extends JDialog {
     }
 
     private void initializeComponents() {
-        // Main panel with border layout
+        //panel główny
         JPanel1 = new JPanel(new BorderLayout(10, 10));
         JPanel1.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         JPanel1.setBackground(new Color(245, 245, 245));
 
-        // Header panel
+        //panel nagłówka
         headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(44, 62, 80));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -72,13 +72,13 @@ public class AddEditRetailCustomer extends JDialog {
         logoLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         headerPanel.add(logoLabel, BorderLayout.WEST);
 
-        // Title
+        // tytul
         titleLabel = new JLabel(customerId == null ? "DODAJ KLIENTA DETALICZNEGO" : "EDYTUJ KLIENTA DETALICZNEGO", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        // Form panel
+        //panel formularza
         formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(200, 200, 200)),
@@ -91,7 +91,7 @@ public class AddEditRetailCustomer extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Form fields
+        // pola formularza
         imieField = createFormField("Imię:", gbc, 0);
         nazwiskoField = createFormField("Nazwisko:", gbc, 1);
         adresField = createFormField("Adres:", gbc, 2);
@@ -100,7 +100,7 @@ public class AddEditRetailCustomer extends JDialog {
         sumaField = createFormField("Suma zakupów:", gbc, 5);
         sumaField.setEditable(false);
 
-        // Button panel
+        //pabel przycisków
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
         buttonPanel.setOpaque(false);
@@ -115,7 +115,7 @@ public class AddEditRetailCustomer extends JDialog {
         buttonPanel.add(cancelButton);
     }
 
-    private JTextField createFormField(String label, GridBagConstraints gbc, int row) {
+    private JTextField createFormField(String label, GridBagConstraints gbc, int row) { //tworzenie pól formularza
         gbc.gridx = 0;
         gbc.gridy = row;
         JLabel lbl = new JLabel(label);
@@ -133,7 +133,7 @@ public class AddEditRetailCustomer extends JDialog {
         return field;
     }
 
-    private JButton createStyledButton(String text, Color color) {
+    private JButton createStyledButton(String text, Color color) {//stylowanie przycisków
         JButton button = new JButton(text);
         button.setFont(new Font("Segoe UI", Font.BOLD, 14));
         button.setBackground(color);
@@ -144,7 +144,7 @@ public class AddEditRetailCustomer extends JDialog {
         return button;
     }
 
-    private void setupLayout() {
+    private void setupLayout() { // ustawianie układu okna
         JPanel contentPanel = new JPanel(new BorderLayout(10, 10));
         contentPanel.add(formPanel, BorderLayout.CENTER);
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -176,12 +176,12 @@ public class AddEditRetailCustomer extends JDialog {
         }
     }
 
-    private void saveCustomer() {
+    private void saveCustomer() { //zapisywanie danych klienta
         if (!validateFields()) {
             return;
         }
 
-        String email = emailField.getText().trim();
+        String email = emailField.getText().trim();// trim - usuwa białe znaki na początku i końcu tekstu, getText - pobranie wartości z pola tekstowego
 
         // Najpierw sprawdź, czy email już istnieje w bazie (tylko dla nowego klienta)
         if (customerId == null) {

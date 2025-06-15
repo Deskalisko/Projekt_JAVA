@@ -155,10 +155,8 @@ public class ShopRetailForm extends JFrame {
         gbc.gridy = 0;
         gbc.gridwidth = 2;
 
-        // Najpierw dodajemy przyciski
         setupCustomerButtons();
 
-        // Następnie dane klienta (gridy zaczynają się od 1)
         loadCustomerData();
     }
     private void setupCustomerButtons() {
@@ -243,7 +241,6 @@ public class ShopRetailForm extends JFrame {
         JPanel productsControlPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 10));
         productsControlPanel.setOpaque(false);
 
-        // Add quantity spinner here
         quantitySpinner = new JSpinner(new SpinnerNumberModel(1, 1, 100, 1));
         ((JSpinner.DefaultEditor) quantitySpinner.getEditor()).getTextField().setColumns(3);
 
@@ -279,7 +276,6 @@ public class ShopRetailForm extends JFrame {
         removeFromCartButton = createStyledButton("Usuń z koszyka", new Color(231, 76, 60));
         removeFromCartButton.addActionListener(e -> removeFromCart());
 
-        // Add payment method combo box here
         JPanel paymentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         paymentPanel.setOpaque(false);
         paymentPanel.add(new JLabel("Metoda płatności:"));
@@ -367,7 +363,7 @@ public class ShopRetailForm extends JFrame {
         }
     }
 
-    private void removeFromCart() {
+    private void removeFromCart() {// Usunięcie produktu z koszyka
         int selectedRow = cartTable.getSelectedRow();
         if (selectedRow >= 0) {
             Product product = cartTableModel.getProductAt(selectedRow);
@@ -378,24 +374,24 @@ public class ShopRetailForm extends JFrame {
         }
     }
 
-    private void placeOrder() {
-        if (koszyk.getProdukty().isEmpty()) {
+    private void placeOrder() { // Złóż zamówienie
+        if (koszyk.getProdukty().isEmpty()) { // Sprawdzanie czy koszyk jest pusty
             JOptionPane.showMessageDialog(this, "Koszyk jest pusty!", "Błąd", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (customerId == null) {
+        if (customerId == null) { // Sprawdzanie czy klient ma ustawiony id
             JOptionPane.showMessageDialog(this, "Proszę najpierw wprowadzić dane klienta (Edytuj dane)", "Błąd", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        try {
+        try { // Składanie zamówienia i aktualizowanie stanu magazynowego
             saveRetailOrder();
             updateStoreBalance();
             showOrderConfirmation();
             koszyk.getProdukty().clear();
             cartTableModel.fireTableDataChanged();
-            loadProducts(); // Add this line to refresh the product list
+            loadProducts();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Błąd podczas składania zamówienia: " + e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
         }
@@ -470,7 +466,7 @@ public class ShopRetailForm extends JFrame {
         }
     }
 
-    private void updateClientPurchaseSum(Connection conn) throws SQLException {
+    private void updateClientPurchaseSum(Connection conn) throws SQLException { // Aktualizacja sumy zakupów klienta
         String sql = "UPDATE klienci_detaliczni SET suma_zakupow = suma_zakupow + ? WHERE id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setDouble(1, koszyk.obliczCalkowitaSume());
@@ -483,7 +479,7 @@ public class ShopRetailForm extends JFrame {
         TransactionDAO.updateStoreBalance(koszyk.obliczCalkowitaSume());
     }
 
-    private void showOrderConfirmation() {
+    private void showOrderConfirmation() { // Pokazywanie potwierdzenia zamówienia
         String paymentMethod = (String) paymentMethodComboBox.getSelectedItem();
         double deliveryCost = paymentMethod.equals("karta") ? 15.0 : 25.0;
         double totalAmount = koszyk.obliczCalkowitaSume();
@@ -513,7 +509,7 @@ public class ShopRetailForm extends JFrame {
         JOptionPane.showMessageDialog(this, message.toString(), "Potwierdzenie zamówienia", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private void editCustomerData() {
+    private void editCustomerData() { // Edycja danych klienta
         AddEditRetailCustomer editDialog = new AddEditRetailCustomer(this, customerId);
         editDialog.setVisible(true);
 
@@ -523,7 +519,7 @@ public class ShopRetailForm extends JFrame {
         }
     }
 
-    private void refreshCustomerData() {
+    private void refreshCustomerData() { // Odświeżenie danych klienta
         Component[] components = customerDataPanel.getComponents();
         JPanel customerButtonsPanel = null;
 
@@ -556,7 +552,7 @@ public class ShopRetailForm extends JFrame {
         customerDataPanel.repaint();
     }
 
-    private void loadCustomerData() {
+    private void loadCustomerData() { // Ładowanie danych klienta
         clearCustomerData();
 
         if (customerId == null) {
@@ -597,7 +593,7 @@ public class ShopRetailForm extends JFrame {
         }
     }
 
-    private void addCustomerDataRow(String label, String value, GridBagConstraints gbc) {
+    private void addCustomerDataRow(String label, String value, GridBagConstraints gbc) { //wiersz danych klienta
         gbc.gridx = 0;
         JLabel lbl = new JLabel(label);
         lbl.setFont(new Font("Segoe UI", Font.BOLD, 12));

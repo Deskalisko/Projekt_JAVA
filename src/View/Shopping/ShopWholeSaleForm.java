@@ -123,19 +123,19 @@ public class ShopWholeSaleForm extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
 
-        // Customer data panel (15% wysokości)
+        // wysokość panelu zawierającego dane klienta oraz przyciski (15%)
         gbc.weighty = 0.15;
         gbc.gridy = 0;
         setupCustomerDataPanel();
         contentPanel.add(customerDataPanel, gbc);
 
-        // Products panel (60% wysokości)
+        // Produkty panel (60% )
         gbc.weighty = 0.6;
         gbc.gridy = 1;
         setupProductsPanel();
         contentPanel.add(productsPanel, gbc);
 
-        // Cart panel (25% wysokości)
+        // Cart panel (25% )
         gbc.weighty = 0.25;
         gbc.gridy = 2;
         setupCartPanel();
@@ -150,17 +150,15 @@ public class ShopWholeSaleForm extends JFrame {
         ));
         customerDataPanel.setBackground(Color.WHITE);
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();// gridbagconstraints by lepiej skonfigurować rozkład panelu
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 5, 5, 20);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
 
-        // Najpierw dodajemy przyciski
         setupCustomerButtons();
 
-        // Następnie dane klienta (gridy zaczynają się od 1)
         loadCustomerData();
     }
 
@@ -168,7 +166,7 @@ public class ShopWholeSaleForm extends JFrame {
         JPanel customerButtonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         customerButtonsPanel.setOpaque(false);
 
-        // Dodaj checkbox do pokazywania/ukrywania danych (nowy element)
+         // checkbox czy wyświetlać dane klienta
         showDataCheckBox = new JCheckBox("Pokaż dane", true);
         showDataCheckBox.setFont(new Font("Segoe UI", Font.BOLD, 14));
         showDataCheckBox.setBackground(Color.WHITE);
@@ -352,7 +350,7 @@ public class ShopWholeSaleForm extends JFrame {
         removeFromCartButton = createStyledButton("Usuń z koszyka", new Color(231, 76, 60));
         removeFromCartButton.addActionListener(e -> removeFromCart());
 
-        // Add payment method combo box here
+        // metoda platnosci
         JPanel paymentPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         paymentPanel.setOpaque(false);
         paymentPanel.add(new JLabel("Metoda płatności:"));
@@ -398,7 +396,7 @@ public class ShopWholeSaleForm extends JFrame {
         return button;
     }
 
-    private void styleTable(JTable table) {
+    private void styleTable(JTable table) { // stylowanie tabeli
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         table.setRowHeight(30);
         table.setShowGrid(true);
@@ -413,7 +411,7 @@ public class ShopWholeSaleForm extends JFrame {
         table.getTableHeader().setForeground(Color.WHITE);
     }
 
-    private void addToCart() {
+    private void addToCart() { //dodaj do koszyka
         int selectedRow = productsTable.getSelectedRow();
         if (selectedRow >= 0) {
             Product product = productsTableModel.getProductAt(selectedRow);
@@ -457,7 +455,7 @@ public class ShopWholeSaleForm extends JFrame {
             return;
         }
 
-        // Check total quantity in cart
+        // sprawdź minimalną ilość produktów i minimalną wartość zamówienia
         int totalQuantity = koszyk.getProdukty().stream()
                 .mapToInt(Map.Entry::getValue)
                 .sum();
@@ -479,7 +477,7 @@ public class ShopWholeSaleForm extends JFrame {
             showOrderConfirmation();
             koszyk.getProdukty().clear();
             cartTableModel.fireTableDataChanged();
-            loadProducts(); // This line is already present
+            loadProducts();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Błąd podczas składania zamówienia: " + e.getMessage(), "Błąd", JOptionPane.ERROR_MESSAGE);
         }
@@ -521,7 +519,7 @@ public class ShopWholeSaleForm extends JFrame {
                 if (generatedKeys.next()) {
                     return generatedKeys.getInt(1);
                 } else {
-                    throw new SQLException("Creating transaction failed, no ID obtained.");
+                    throw new SQLException("Tworzenie transakcji nie powiodło się!");
                 }
             }
         }

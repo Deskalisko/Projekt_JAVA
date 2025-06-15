@@ -60,30 +60,25 @@ public class AddEditWholeSaleCustomer extends JDialog {
     }
 
     private void initializeComponents() {
-        // Main panel with border layout
         JPanel1 = new JPanel(new BorderLayout(10, 10));
         JPanel1.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         JPanel1.setBackground(new Color(245, 245, 245));
 
-        // Header panel
         headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBackground(new Color(44, 62, 80));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
 
-        // Logo
         ImageIcon logoIcon = new ImageIcon(getClass().getResource("/figurs/logo.png"));
         Image scaledLogo = logoIcon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         logoLabel = new JLabel(new ImageIcon(scaledLogo));
         logoLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
         headerPanel.add(logoLabel, BorderLayout.WEST);
 
-        // Title
         titleLabel = new JLabel(customerId == null ? "DODAJ KLIENTA HURTOWEGO" : "EDYTUJ KLIENTA HURTOWEGO", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
         titleLabel.setForeground(Color.WHITE);
         headerPanel.add(titleLabel, BorderLayout.CENTER);
 
-        // Form panel
         formPanel = new JPanel(new GridBagLayout());
         formPanel.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(200, 200, 200)),
@@ -96,7 +91,6 @@ public class AddEditWholeSaleCustomer extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Form fields
         imieField = createFormField("Imię:", gbc, 0);
         nazwiskoField = createFormField("Nazwisko:", gbc, 1);
         adresField = createFormField("Adres:", gbc, 2);
@@ -107,7 +101,6 @@ public class AddEditWholeSaleCustomer extends JDialog {
         sumaField = createFormField("Suma zakupów:", gbc, 7);
         sumaField.setEditable(false);
 
-        // Button panel
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 0));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
         buttonPanel.setOpaque(false);
@@ -210,7 +203,7 @@ public class AddEditWholeSaleCustomer extends JDialog {
                     stmt.setInt(9, userId);
                     stmt.executeUpdate();
 
-                    // Create success message with login details
+                    // tworzenie wiadomości z danymi logowania
                     String successMessage = "<html><b>Klient został dodany pomyślnie!</b><br><br>" +
                             "Dane logowania:<br>" +
                             "Login: " + login + "<br>" +
@@ -247,7 +240,7 @@ public class AddEditWholeSaleCustomer extends JDialog {
 
     private String generateDefaultPassword() {
         return "pass" + (int)(Math.random() * 10000);
-    }
+    } // generowanie domyślnego hasła dla nowych klientów
 
     private boolean validateFields() {
         StringBuilder errors = new StringBuilder();
@@ -289,7 +282,7 @@ public class AddEditWholeSaleCustomer extends JDialog {
         return true;
     }
 
-    private void setStatementValues(PreparedStatement stmt) throws SQLException {
+    private void setStatementValues(PreparedStatement stmt) throws SQLException { // metoda pomocnicza do ustawienia wartości parametrów w instrukcji SQL
         stmt.setString(1, imieField.getText());
         stmt.setString(2, nazwiskoField.getText());
         stmt.setString(3, adresField.getText());
@@ -298,13 +291,12 @@ public class AddEditWholeSaleCustomer extends JDialog {
         stmt.setString(6, nipField.getText());
         stmt.setString(7, nazwaFirmyField.getText());
 
-        // Check if sumaField is empty and handle it
-        String sumaText = sumaField.getText().replace(',', '.');
-        if (sumaText.isEmpty()) {
-            // Handle the empty case, e.g., set to 0.0 or show an error
-            stmt.setDouble(8, 0.0); // or throw an exception
+        String sumaText = sumaField.getText().replace(',', '.');//replace - przecinek na kropkę
+        if (sumaText.isEmpty()) {//zabezpieczenie przed wprowadzeniem pustej sumy zakupów
+            // pustych danych nie można zapisać do bazy danych, więc ustalamy wartość domyślną
+            stmt.setDouble(8, 0.0);
         } else {
-            stmt.setDouble(8, Double.parseDouble(sumaText));
+            stmt.setDouble(8, Double.parseDouble(sumaText)); //parsujemy jesli wartość jest pobrana jako tekst
         }
     }
 
