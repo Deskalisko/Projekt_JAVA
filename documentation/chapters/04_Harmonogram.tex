@@ -19,16 +19,17 @@ Proces tworzenia aplikacji został podzielony na kilka kluczowych etapów, któr
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{figures/fig_0008.eps}
+    \includegraphics[width=0.9\linewidth]{figures/fig_0008.eps}
     \caption{Harmonogram realizacji projektu (Diagram Ganta).}
     \label{fig:gantt_chart}
     \small{Źródło: Opracowanie własne na podstawie szablonu Microsoft Gantt Chart Template.}
 \end{figure}
+\clearpage
 
 \section{Napotkane wyzwania i rozwiązania}
 W trakcie prac nad projektem nie obyło się bez pewnych trudności, które wymagały kreatywnego podejścia. Jednym z wyzwań była implementacja intuicyjnego mechanizmu wyboru daty w panelu administratora. Początkowe rozwiązanie, oparte na standardowych komponentach biblioteki Swing, takich jak \texttt{JComboBox} dla miesiąca i roku oraz \texttt{JButton} dla dni, okazało się nieestetyczne i mało wygodne dla użytkownika.
 
-W poszukiwaniu lepszej alternatywy przeprowadzono research w internecie, w tym na platformie GitHub, w celu znalezienia gotowej biblioteki z komponentem kalendarza. Ostatecznie wybór padł na bibliotekę \texttt{LGoodDatePicker} \cite{LGoodDatePicker}. Jej integracja z projektem była strzałem w dziesiątkę. Biblioteka dostarczyła atrakcyjny wizualnie i prosty w obsłudze kalendarz, co znacząco poprawiło użyteczność aplikacji w miejscach wymagających operowania na datach, łącząc funkcjonalność z nowoczesnym wyglądem.
+W poszukiwaniu lepszej alternatywy przeprowadzono analizę dostępnych rozwiązań, w tym bibliotek udostępnianych na platformie GitHub, aby znaleźć gotowy komponent kalendarza. Ostatecznie wybór padł na bibliotekę \texttt{LGoodDatePicker} \cite{LGoodDatePicker}. Jej integracja z projektem była strzałem w dziesiątkę. Biblioteka dostarczyła atrakcyjny wizualnie i prosty w obsłudze kalendarz, co znacząco poprawiło użyteczność aplikacji w miejscach wymagających operowania na datach, łącząc funkcjonalność z nowoczesnym wyglądem.
 
 \section{System kontroli wersji i repozytorium}
 Zarządzanie kodem źródłowym projektu opierało się na systemie kontroli wersji **Git**, który jest standardem w nowoczesnym wytwarzaniu oprogramowania. Wszystkie operacje, takie jak tworzenie commitów, zarządzanie gałęziami (branching) czy scalanie zmian (merging), były wykonywane przy użyciu zintegrowanego klienta Git w środowisku programistycznym **IntelliJ IDEA**.

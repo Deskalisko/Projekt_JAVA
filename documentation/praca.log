@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.6.10)  13 JUN 2025 15:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.6.10)  13 JUN 2025 16:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -834,22 +834,24 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ]
 Rozdzia\l  4.
 Package epstopdf Info: Source file: <figures/fig_0008.eps>
-(epstopdf)                    date: 2025-06-12 13:21:26
-(epstopdf)                    size: 9157954 bytes
+(epstopdf)                    date: 2025-06-13 15:29:47
+(epstopdf)                    size: 4164722 bytes
 (epstopdf)             Output file: <figures/fig_0008-eps-converted-to.pdf>
-(epstopdf)                    date: 2025-06-12 13:22:21
-(epstopdf)                    size: 206263 bytes
+(epstopdf)                    date: 2025-06-13 15:59:32
+(epstopdf)                    size: 105788 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0008-eps-converted-to.pdf figures/fig_0008.eps>
 (epstopdf)             \includegraphics on input line 22.
 Package epstopdf Info: Output file is already uptodate.
-<figures/fig_0008-eps-converted-to.pdf, id=293, 1643.13875pt x 923.45pt>
+<figures/fig_0008-eps-converted-to.pdf, id=293, 1075.01625pt x 641.39626pt>
 File: figures/fig_0008-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0008-eps-converted-to.pdf>
 Package pdftex.def Info: figures/fig_0008-eps-converted-to.pdf  used on input line 22.
-(pdftex.def)             Requested size: 426.79135pt x 239.85179pt.
+(pdftex.def)             Requested size: 384.1096pt x 229.17018pt.
 [13
 
- <./figures/fig_0008-eps-converted-to.pdf>] [14]) (chapters/05_Warstwa_uzytkowa.tex
+ <./figures/fig_0008-eps-converted-to.pdf>] [14
+
+]) (chapters/05_Warstwa_uzytkowa.tex
 Rozdzia\l  5.
 Package epstopdf Info: Source file: <figures/fig_0010.eps>
 (epstopdf)                    date: 2025-06-12 21:48:17
@@ -879,19 +881,19 @@ Underfull \hbox (badness 2096) in paragraph at lines 19--20
  []
 
 Package epstopdf Info: Source file: <figures/fig_0002.eps>
-(epstopdf)                    date: 2025-06-10 20:41:43
-(epstopdf)                    size: 7280967 bytes
+(epstopdf)                    date: 2025-06-13 15:29:47
+(epstopdf)                    size: 4508981 bytes
 (epstopdf)             Output file: <figures/fig_0002-eps-converted-to.pdf>
-(epstopdf)                    date: 2025-06-10 20:45:39
-(epstopdf)                    size: 280249 bytes
+(epstopdf)                    date: 2025-06-13 15:59:37
+(epstopdf)                    size: 171423 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0002-eps-converted-to.pdf figures/fig_0002.eps>
 (epstopdf)             \includegraphics on input line 26.
 Package epstopdf Info: Output file is already uptodate.
-<figures/fig_0002-eps-converted-to.pdf, id=320, 1180.41pt x 1021.8175pt>
+<figures/fig_0002-eps-converted-to.pdf, id=320, 941.5175pt x 792.9625pt>
 File: figures/fig_0002-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0002-eps-converted-to.pdf>
 Package pdftex.def Info: figures/fig_0002-eps-converted-to.pdf  used on input line 26.
-(pdftex.def)             Requested size: 362.77525pt x 314.03162pt.
+(pdftex.def)             Requested size: 362.77525pt x 305.53954pt.
 [16
 
  <./figures/fig_0002-eps-converted-to.pdf>]
@@ -931,15 +933,11 @@ Package epstopdf Info: Source file: <figures/fig_0007.eps>
 (epstopdf)                    date: 2025-06-13 15:22:47
 (epstopdf)                    size: 4655605 bytes
 (epstopdf)             Output file: <figures/fig_0007-eps-converted-to.pdf>
-(epstopdf)                    date: 2025-06-13 14:51:56
-(epstopdf)                    size: 359346 bytes
+(epstopdf)                    date: 2025-06-13 15:23:24
+(epstopdf)                    size: 233988 bytes
 (epstopdf)             Command: <miktex-epstopdf --outfile=figures/fig_0007-eps-converted-to.pdf figures/fig_0007.eps>
 (epstopdf)             \includegraphics on input line 88.
-runsystem(miktex-epstopdf --outfile=figures/fig_0007-eps-converted-to.pdf figures/fig_0007.eps)...executed safely (allowed).
-
-Package epstopdf Info: Result file: <figures/fig_0007-eps-converted-to.pdf>
-(epstopdf)                    date: 2025-06-13 15:23:24
-(epstopdf)                    size: 233988 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <figures/fig_0007-eps-converted-to.pdf, id=348, 974.64125pt x 790.955pt>
 File: figures/fig_0007-eps-converted-to.pdf Graphic file (type pdf)
 <use figures/fig_0007-eps-converted-to.pdf>
@@ -1110,7 +1108,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  88i,13n,94p,887b,1505s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/helvetic/uhvro8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on praca.pdf (27 pages, 1750467 bytes).
+Output written on praca.pdf (27 pages, 1541209 bytes).
 PDF statistics:
  559 PDF objects out of 1000 (max. 8388607)
  137 named destinations out of 1000 (max. 500000)
